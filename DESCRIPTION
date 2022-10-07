@@ -1,0 +1,13 @@
+Package: alphaN
+Title: Set Alpha Based On Sample Size Using Bayes Factors
+Version: 0.0.0.9000
+Authors@R: 
+    person("Jesper", "Wulff", , "jespernydamwulff@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7976-0939"))
+Description: Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Bayes factors.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: 
+    BFpack
