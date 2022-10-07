@@ -11,3 +11,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports: 
     BFpack
+URL: https://github.com/jespernwulff/alphaN
+BugReports: https://github.com/jespernwulff/alphaN/issues
