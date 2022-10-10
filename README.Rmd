@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# alphaN
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of alphaN is to ...
+
+## Installation
+
+You can install the development version of alphaN from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jespernwulff/alphaN")
+```
+
+## Example
+
+This is a basic example which shows you how to set the alpha level as a function of sample size. Here, we imagine we have 200 observations and want to run a linear regression with 5 variables in total. Specifically, we want to set the alpha level such that we avoid Lindley's Paradox:
+
+```{r example}
+library(alphaN)
+set_alpha(200, p = 5)
+```

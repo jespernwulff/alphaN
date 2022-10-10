@@ -23,3 +23,21 @@ fake.cov.matrix <- function(p){
   S <- E%*%L%*%t(E)
   return(S)
 }
+
+alpha_solve <- function(x, n, p, evidence, SE, estimates, corM){
+  (evidence - z_bf(x, p, n, SE, estimates, corM))^2
+}
+
+z_bf <- function(z, p, n, SE, estimates, corM){
+  beta <- SE*z
+
+  estimates["X1"] <- beta
+
+  bfs <- BFpack::BF(estimates, Sigma = corM, n = n,
+                    hypothesis = "X1=0")
+
+
+  bf <- 1/bfs$BFtu_exploratory[,1][2]
+
+  return(bf)
+}
