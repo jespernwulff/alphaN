@@ -5,7 +5,6 @@
 #' @param evidence Desired level of evidence: 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.
 #' @param tstat Should the t-statistic or the z-statistic be used? Set as TRUE in the case of linear regression.
 #' @param plotprint If true prints a plot relating Bayes factors and p-values.
-#' @param seed Set the seed for generating the random variance-covariance matrix. Only relevant for testing.
 #'
 #' @return numeric alpha level required achieve the desired level of evidence.
 #' @export
@@ -28,7 +27,11 @@
 #' @importFrom grDevices recordPlot
 #' @importFrom graphics abline axis points
 #' @importFrom stats dt pnorm rnorm optim
-set_alpha <- function(n, p=1, evidence=1, tstat = TRUE, plotprint=FALSE, seed = 100){
+set_alpha <- function(n,
+                      p=1,
+                      evidence=1,
+                      tstat = TRUE,
+                      plotprint=FALSE){
 
   # Find the alpha level that corresponds to to the Bayes factor
   # specified by the parameter 'evidence'
@@ -37,7 +40,6 @@ set_alpha <- function(n, p=1, evidence=1, tstat = TRUE, plotprint=FALSE, seed = 
             n >= 30, p > 0, evidence >= 1)
 
   ## First, generate a valid variance-covariance matrix
-  set.seed(seed)
   corM <- fake.cov.matrix(p+1)
   colnames(corM) <- paste0("X", 0:p)
   rownames(corM) <- paste0("X", 0:p)

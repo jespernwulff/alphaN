@@ -4,7 +4,7 @@
 \alias{set_alpha}
 \title{Set the alpha level based on sample size for coefficients in a  regression models.}
 \usage{
-set_alpha(n, p = 1, evidence = 1, tstat = TRUE, plotprint = FALSE, seed = 100)
+set_alpha(n, p = 1, evidence = 1, tstat = TRUE, plotprint = FALSE)
 }
 \arguments{
 \item{n}{The sample size.}
@@ -16,8 +16,6 @@ set_alpha(n, p = 1, evidence = 1, tstat = TRUE, plotprint = FALSE, seed = 100)
 \item{tstat}{Should the t-statistic or the z-statistic be used? Set as TRUE in the case of linear regression.}
 
 \item{plotprint}{If true prints a plot relating Bayes factors and p-values.}
-
-\item{seed}{Set the seed for generating the random variance-covariance matrix. Only relevant for testing.}
 }
 \value{
 numeric alpha level required achieve the desired level of evidence.
