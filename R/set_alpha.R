@@ -112,7 +112,7 @@ set_alpha <- function(n,
     }
 
     plot(ps, bf, type="l", lty=1, lwd=2, log = "y",
-         xlab = "p-value", ylab = "Bayes factor",
+         xlab = bquote(italic("p")*"-value"), ylab = "Bayes factor",
          ylim = c(0.1, 10), xlim = c(0, max(c(0.05, lindley))),
          axes=FALSE)
 
@@ -134,9 +134,11 @@ set_alpha <- function(n,
 
   if(plotprint){
 
-    return(list(alpha = alpha,
+    invisible(list(alpha = alpha,
                 evidence = evidence,
-                plot = plot))
+                plot = plot,
+                pvals = ps,
+                bfs = bf))
 
   } else {
 
