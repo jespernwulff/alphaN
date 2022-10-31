@@ -58,7 +58,7 @@ set_alpha <- function(n,
 
   ### Compute p-value for a t or z test
   if(tstat) {
-    alpha <- dt(ts, df= n-1-p) # for linear regression
+    alpha <- pt(-abs(ts), df= n-1-p)*2 # for linear regression
   } else{
     alpha <- pnorm(-abs(ts))*2 # for everything else
   }
