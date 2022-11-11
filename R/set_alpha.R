@@ -78,9 +78,9 @@ set_alpha <- function(n,
 
     ### Compute p-value for a t or z test
     if(tstat) {
-      lindley  <- dt(lindley , df= n-1-p)
-      moderate  <- dt(moderate , df= n-1-p)
-      strong  <- dt(strong , df= n-1-p)
+      lindley  <- pt(-abs(lindley), df= n-1-p)*2
+      moderate  <- pt(-abs(moderate), df= n-1-p)*2
+      strong  <- pt(-abs(strong), df= n-1-p)*2
     } else{
       lindley <- pnorm(-abs(lindley))*2
       moderate <- pnorm(-abs(moderate))*2
@@ -92,7 +92,7 @@ set_alpha <- function(n,
     ts <- beta / SE
 
     if(tstat) {
-      ps <- dt(ts, df= n-1-p) # for linear regression
+      ps <- pt(-abs(ts), df= n-1-p)*2 # for linear regression
     } else{
       ps <- pnorm(-abs(ts))*2 # for everything else
     }
