@@ -1,10 +1,15 @@
 Package: alphaN
 Title: Set Alpha Based On Sample Size Using Bayes Factors
 Version: 0.0.0.9000
-Authors@R: 
-    person("Jesper", "Wulff", , "jespernydamwulff@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-7976-0939"))
-Description: Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Bayes factors.
+Authors@R: c(
+    person("Jesper", "Wulff", , "jwulff@econ.au.dk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7976-0939")),
+    person("Luke", "Taylor", , "lntaylor@econ.au.dk", role = c("aut")))
+Description: Sets the alpha level for coefficients in a regression model 
+    as a decreasing function of the sample size through the use of 
+    Jeffreys' Approximate Bayes factor. You tell 'alphaN' your sample size, 
+    and it tells you to which value you must lower alpha to avoid Lindley's 
+    Paradox.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
