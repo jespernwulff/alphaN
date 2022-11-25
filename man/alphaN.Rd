@@ -2,7 +2,7 @@
 % Please edit documentation in R/alphaN.R
 \name{alphaN}
 \alias{alphaN}
-\title{Title}
+\title{Set the alpha level based on sample size for coefficients in a regression models.}
 \usage{
 alphaN(n, BF = 1, method = "JAB", p = NULL)
 }
@@ -11,15 +11,15 @@ alphaN(n, BF = 1, method = "JAB", p = NULL)
 
 \item{BF}{Bayes factor you would like to match. 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.}
 
-\item{method}{used for the choice of 'b', currently one of "JAB" or "JAB adj"}
+\item{method}{Used for the choice of 'b', currently one of "JAB" or "JAB adj"}
 
-\item{p}{number of parameters in the model, only required if method="JAB adj"}
+\item{p}{Number of parameters in the model, only required if method="JAB adj"}
 }
 \value{
-numeric alpha level required to achieve the desired level of evidence.
+Numeric alpha level required to achieve the desired level of evidence.
 }
 \description{
-Title
+Set the alpha level based on sample size for coefficients in a regression models.
 }
 \section{References}{
 

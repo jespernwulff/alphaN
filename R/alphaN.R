@@ -1,11 +1,11 @@
-#' Title
+#' Set the alpha level based on sample size for coefficients in a regression models.
 #'
 #' @param n Sample size
 #' @param BF Bayes factor you would like to match. 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.
-#' @param method used for the choice of 'b', currently one of "JAB" or "JAB adj"
-#' @param p number of parameters in the model, only required if method="JAB adj"
+#' @param method Used for the choice of 'b', currently one of "JAB" or "JAB adj"
+#' @param p Number of parameters in the model, only required if method="JAB adj"
 #'
-#' @return numeric alpha level required to achieve the desired level of evidence.
+#' @return Numeric alpha level required to achieve the desired level of evidence.
 #' @export
 #'
 #' @examples
