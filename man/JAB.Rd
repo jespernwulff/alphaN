@@ -7,14 +7,14 @@
 JAB(glm_obj, covariate, method = "JAB")
 }
 \arguments{
-\item{glm_obj}{a glm or lm object}
+\item{glm_obj}{a glm or lm object.}
 
-\item{covariate}{the name of the covariate that you want a BF for as a string}
+\item{covariate}{the name of the covariate that you want a BF for as a string.}
 
-\item{method}{used for the choice of 'b', currently one of "JAB" or "JAB adj"}
+\item{method}{used for the choice of 'b', currently one of "JAB" or "JAB adj".}
 }
 \value{
-A numeric value for the BF in favour of H1
+A numeric value for the BF in favour of H1.
 }
 \description{
 Transforms a t-statistic from a glm or lm object into Jeffreys' approximate Bayes factor

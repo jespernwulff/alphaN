@@ -7,16 +7,16 @@
 JABt(n, t, method = "JAB", p = NULL)
 }
 \arguments{
-\item{n}{Sample size}
+\item{n}{Sample size.}
 
-\item{t}{The t-statistic}
+\item{t}{The t-statistic.}
 
-\item{method}{Used for the choice of 'b', currently one of "JAB" or "JAB adj"}
+\item{method}{Used for the choice of 'b', currently one of "JAB" or "JAB adj".}
 
-\item{p}{Number of parameters in the model, only required if method="JAB adj"}
+\item{p}{Number of parameters in the model, only required if method="JAB adj".}
 }
 \value{
-A numeric value for the BF in favour of H1
+A numeric value for the BF in favour of H1.
 }
 \description{
 Transforms a t-statistic into Jeffreys' approximate Bayes factor

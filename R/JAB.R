@@ -44,7 +44,7 @@ JAB <- function(glm_obj, covariate, method="JAB"){
   p <- glm_obj_sum$df[1]
   t <- as.numeric(glm_obj_sum$coefficients[covariate,][3])
 
-  JABt(n = n, t = t, method = method, p = p)
+  BF <- JABt(n = n, t = t, method = method, p = p)
 
   return(BF)
 }
