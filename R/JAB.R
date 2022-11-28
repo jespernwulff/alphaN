@@ -2,7 +2,13 @@
 #'
 #' @param glm_obj a glm or lm object.
 #' @param covariate the name of the covariate that you want a BF for as a string.
-#' @param method used for the choice of 'b', currently one of "JAB" or "JAB adj".
+#' @param method Used for the choice of 'b'. Currently one of:
+#' \itemize{
+#'   \item "JAB": this choice of b produces Jeffery's approximate BF
+#'   \item "min": uses the minimal training sample for the prior (Gu et al., '17)
+#'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, '95)
+#'   \item "balanced: this choice of b balances the type I and type II errors
+#' }
 #'
 #' @return A numeric value for the BF in favour of H1.
 #' @export
@@ -33,18 +39,14 @@
 #' JAB(LM, "X")
 #'
 #' # Compute JAB adj
-#' JAB(LM, "X", method = "JAB adj")
+#' JAB(LM, "X", method = "min")
 JAB <- function(glm_obj, covariate, method="JAB"){
-  # glm_obj: a glm or lm object
-  # covariate: the name of the covariate that you want a BF for
-  # method: used for the choice of 'b', currently one of "JAB" or "JAB adj"
-
   glm_obj_sum <- summary(glm_obj)
   n <- glm_obj_sum$df[1] + glm_obj_sum$df[2]
-  p <- glm_obj_sum$df[1]
+  #p <- glm_obj_sum$df[1]
   t <- as.numeric(glm_obj_sum$coefficients[covariate,][3])
 
-  BF <- JABt(n = n, t = t, method = method, p = p)
+  BF <- JABt(n = n, t = t, method = method)
 
   return(BF)
 }

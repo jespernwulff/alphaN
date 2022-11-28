@@ -4,16 +4,20 @@
 \alias{JABt}
 \title{Transforms a t-statistic into Jeffreys' approximate Bayes factor}
 \usage{
-JABt(n, t, method = "JAB", p = NULL)
+JABt(n, t, method = "JAB")
 }
 \arguments{
 \item{n}{Sample size.}
 
 \item{t}{The t-statistic.}
 
-\item{method}{Used for the choice of 'b', currently one of "JAB" or "JAB adj".}
-
-\item{p}{Number of parameters in the model, only required if method="JAB adj".}
+\item{method}{Used for the choice of 'b'. Currently one of:
+\itemize{
+\item "JAB": this choice of b produces Jeffery's approximate BF
+\item "min": uses the minimal training sample for the prior (Gu et al., '17)
+\item "robust": a robust version of "min" that prevents too small b (O'Hagan, '95)
+\item "balanced: this choice of b balances the type I and type II errors
+}}
 }
 \value{
 A numeric value for the BF in favour of H1.

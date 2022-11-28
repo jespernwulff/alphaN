@@ -11,7 +11,13 @@ JAB(glm_obj, covariate, method = "JAB")
 
 \item{covariate}{the name of the covariate that you want a BF for as a string.}
 
-\item{method}{used for the choice of 'b', currently one of "JAB" or "JAB adj".}
+\item{method}{Used for the choice of 'b'. Currently one of:
+\itemize{
+\item "JAB": this choice of b produces Jeffery's approximate BF
+\item "min": uses the minimal training sample for the prior (Gu et al., '17)
+\item "robust": a robust version of "min" that prevents too small b (O'Hagan, '95)
+\item "balanced: this choice of b balances the type I and type II errors
+}}
 }
 \value{
 A numeric value for the BF in favour of H1.
@@ -45,5 +51,5 @@ LM <- glm(Y ~ X + Z1 + Z2 + Z3 + Z4)
 JAB(LM, "X")
 
 # Compute JAB adj
-JAB(LM, "X", method = "JAB adj")
+JAB(LM, "X", method = "min")
 }

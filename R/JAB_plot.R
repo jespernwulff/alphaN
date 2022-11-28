@@ -3,7 +3,6 @@
 #' @param n Sample size
 #' @param BF Bayes factor you would like to match. 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.
 #' @param method Used for the choice of 'b', currently one of "JAB" or "JAB adj".
-#' @param p Number of parameters in the model, only required if method="JAB adj".
 #'
 #' @return Prints a plot.
 #' @export
@@ -12,14 +11,14 @@
 #' # Plot JAB as function of the p-value for a sample size of 2000
 #' JAB_plot(2000)
 #' @importFrom graphics abline axis points
-JAB_plot <- function(n, BF=1, method="JAB", p = NULL){
+JAB_plot <- function(n, BF=1, method="JAB"){
 
-  alpha <- alphaN(n = n, BF = BF, method = method, p = p)
+  alpha <- alphaN(n = n, BF = BF, method = method)
 
   indicated <- alpha
-  lindley <- alphaN(n = n, BF = 1, method = method, p = p)
-  moderate <- alphaN(n = n, BF = 3, method = method, p = p)
-  strong <- alphaN(n = n, BF = 10, method = method, p = p)
+  lindley <- alphaN(n = n, BF = 1, method = method)
+  moderate <- alphaN(n = n, BF = 3, method = method)
+  strong <- alphaN(n = n, BF = 10, method = method)
 
   ### and make a sequence of t-stats to get p-values
   ts <- seq(1.2, 5, length.out=150)
@@ -31,7 +30,7 @@ JAB_plot <- function(n, BF=1, method="JAB", p = NULL){
 
   for(t in ts){
     i <- i+1
-    bf[i] <- JABt(n = n, t = t, method = method, p = p)
+    bf[i] <- JABt(n = n, t = t, method = method)
   }
 
   plot(ps, bf, type="l", lty=1, lwd=2, log = "y",
