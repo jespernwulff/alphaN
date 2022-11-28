@@ -11,6 +11,7 @@
 #' @examples
 #' # Plot JAB as function of the p-value for a sample size of 2000
 #' JAB_plot(2000)
+#' @importFrom graphics abline axis points
 JAB_plot <- function(n, BF=1, method="JAB", p = NULL){
 
   alpha <- alphaN(n = n, BF = BF, method = method, p = p)

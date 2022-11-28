@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of alphaN is to …
+The goal of alphaN is to help the user set their significance level as a
+function of the sample size.
 
 ## Installation
 
@@ -20,21 +21,18 @@ devtools::install_github("jespernwulff/alphaN")
 
 ## Example
 
-This is a basic example which shows you how to set the alpha level as a
-function of sample size. Here, we imagine we have 200 observations and
-want to run a linear regression with 5 variables in total. Specifically,
-we want to set the alpha level such that we avoid Lindley’s Paradox:
+Here is an example: We are planning to run a linear regression model
+with 1000 observations. We thus set `n = 1000`. The default `BF` is 1
+meaning that we want to avoid Lindley’s paradox, i.e. we just want the
+null and the alternative to be at least equally likely when we reject
+the null.
 
 ``` r
 library(alphaN)
-set_alpha(200, p = 5)
-#> Registered S3 methods overwritten by 'BFpack':
-#>   method               from
-#>   get_estimates.lm     bain
-#>   get_estimates.t_test bain
-#> $alpha
-#> [1] 0.02880158
-#> 
-#> $evidence
-#> [1] 1
+alpha <- alphaN(n = 1000, BF = 1)
+alpha
+#> [1] 0.008582267
 ```
+
+Therefore, to obtain evidence of at least 1, we should set our alpha to
+0.0086.
