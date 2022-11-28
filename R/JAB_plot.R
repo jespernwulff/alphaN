@@ -2,7 +2,13 @@
 #'
 #' @param n Sample size
 #' @param BF Bayes factor you would like to match. 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.
-#' @param method Used for the choice of 'b', currently one of "JAB" or "JAB adj".
+#' @param method Used for the choice of 'b'. Currently one of:
+#' \itemize{
+#'   \item "JAB": this choice of b produces Jeffery's approximate BF
+#'   \item "min": uses the minimal training sample for the prior (Gu et al., '17)
+#'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, '95)
+#'   \item "balanced": this choice of b balances the type I and type II errors
+#' }
 #'
 #' @return Prints a plot.
 #' @export
