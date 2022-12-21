@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#' #' # Transform a p-value of 0.007038863 from a z-test into JAB
+#' # Transform a p-value of 0.007038863 from a z-test into JAB
 #' # using a sample size of 200.
 #' JABt(200, 2.695)
 #' @importFrom stats qnorm qt

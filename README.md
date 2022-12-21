@@ -1,3 +1,4 @@
+Jesper N. Wulff
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -7,7 +8,12 @@
 <!-- badges: end -->
 
 The goal of alphaN is to help the user set their significance level as a
-function of the sample size.
+function of the sample size. The function `alphaN` allows users to set
+the significance level as function of the sample size based on the
+evidence and the prior features they desire. The function `JABt` and
+`JABp` converts test statistics and $p$-values into sample size
+dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function
+of the $p$-value.
 
 ## Installation
 
@@ -29,6 +35,7 @@ the null.
 
 ``` r
 library(alphaN)
+
 alpha <- alphaN(n = 1000, BF = 1)
 alpha
 #> [1] 0.008582267

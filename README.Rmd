@@ -1,5 +1,6 @@
 ---
 output: github_document
+author: Jesper N. Wulff
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -18,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of alphaN is to help the user set their significance level as a function of the sample size. 
+The goal of alphaN is to help the user set their significance level as a function of the sample size. The function `alphaN` allows users to set the significance level as function of the sample size based on the evidence and the prior features they desire. The function `JABt` and `JABp` converts test statistics and $p$-values into sample size dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function of the $p$-value. 
 
 ## Installation
 
@@ -35,10 +36,9 @@ Here is an example: We are planning to run a linear regression model with 1000 o
 
 ```{r}
 library(alphaN)
+
 alpha <- alphaN(n = 1000, BF = 1)
 alpha
 ```
 
 Therefore, to obtain evidence of at least 1, we should set our alpha to `r round(alpha,4)`. 
-
-
