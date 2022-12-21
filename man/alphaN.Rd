@@ -16,7 +16,7 @@ alphaN(n, BF = 1, method = "JAB")
 \item "JAB": this choice of b produces Jeffery's approximate BF
 \item "min": uses the minimal training sample for the prior (Gu et al., '17)
 \item "robust": a robust version of "min" that prevents too small b (O'Hagan, '95)
-\item "balanced: this choice of b balances the type I and type II errors
+\item "balanced": this choice of b balances the type I and type II errors
 }}
 }
 \value{

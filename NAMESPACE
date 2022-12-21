@@ -2,6 +2,7 @@
 
 export(JAB)
 export(JAB_plot)
+export(JABp)
 export(JABt)
 export(alphaN)
 importFrom(graphics,abline)
@@ -10,3 +11,5 @@ importFrom(graphics,points)
 importFrom(stats,integrate)
 importFrom(stats,pchisq)
 importFrom(stats,pt)
+importFrom(stats,qnorm)
+importFrom(stats,qt)
