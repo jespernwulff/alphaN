@@ -1,0 +1,142 @@
+---
+title: "Intro to alphaN"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro to alphaN}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(alphaN)
+```
+
+We wish to determine which alpha level is equivalent to a Bayes factor of 1. I.e. only reject the null if the data is at least at likely under the null and under the alternative. To do this, we need a way to connect the $p$-value to the Bayes factor. The **alphaN** package does this. 
+
+# Installation
+
+You can install the development version of alphaN from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jespernwulff/alphaN")
+```
+
+# Basic functionality
+
+This vignette provides an introduction to the basic functionality of **alphaN**. For full details on methodology, please refer to Wulff & Taylor (2023).
+
+## Setting the alpha level
+
+Using the `alphaN` function, we can get the alpha level we need to use to obtain a desired level of evidence when testing a regression coefficient in regression model.
+
+Here is an example: We are planning to run a linear regression model with 1000 observations. We thus set `n = 1000`. The default `BF` is 1 meaning that we want to avoid Lindley's paradox, i.e. we just want the null and the alternative to be at least equally likely when we reject the null. 
+
+```{r}
+alpha <- alphaN(n = 1000, BF = 1)
+alpha
+```
+
+Therefore, to obtain evidence of at least 1, we should set our alpha to `r round(alpha,4)`.
+
+## Plotting the relationship between the Bayes factor and *p*-value
+
+The `alphaN` function works by mapping the *p*-value to the Bayes factor. This relationship can be shown using the `JAB_plot`. For instance:
+
+```{r}
+JAB_plot(n = 1000, BF = 1)
+```
+
+The alpha level needed to achieve a Bayes factor of 1 is shown with a red triangle in the plot. Lines for achieving Bayes factors of 3 (moderate evidence) and 10 (strong evidence) are also shown by default. As it is evident a lower alpha level is needed to achieve higher evidence.
+
+## Alpha as a decreasing function of N
+
+An important point of the procedure is that alpha will be set as a function of sample size. The larger the sample size, the lower the alpha needed such that a significant result can be interpreted as evidence for the alternative. 
+
+The graph below illustrates this relationship for previous example:
+
+```{r}
+seqN <- seq(50, 1000, 1)
+plot(seqN, alphaN(seqN), type = "l",
+     xlab = "n", ylab = "Alpha")
+```
+
+## Setting the prior
+
+To set the alpha level as a function of sample size, we need to choose the prior carefully. **alphaN** allows the user to choose from four sensible prior options based on suggestions from the previous literature: Jeffreys' approximate BF (`method = "JAB"`), the minimal training sample (`method = "min"`), the robust minimal training sample (`method = "robust"`), and balanced Type-I and Type-II errors (`method = "balanced"`). `method = "JAB"` is a good choice for users who want to be conservative against small effects, `method = "min"` is for when the MLE is misspecified, `method = "robust"` is for when the MLE is misspecified and the sample size is small, and `method = "balanced"` is for when Type-II errors are costly.  
+
+For instance, to achieve evidence of 3 for 1,000 observations while we ensure balanced error rates, we run
+
+```{r}
+alphaN(1000, BF = 3, method = "balanced")
+```
+The package contains the convenience function `alphaN_plot` that allows a quick comparison of alpha as a function of sample size for the four different methods: 
+
+```{r}
+alphaN_plot(BF = 3)
+```
+
+# Example 
+
+In this section, we illustrate how the package may be used on a dataset. In this case, we use a dataset on getting into graduate school from [UCLA](https://stats.oarc.ucla.edu/r/dae/logit-regression/).
+
+```{r}
+df <-  read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+```
+
+The dataset contains four variables with 400 observations. The variables are Graduate Record Exam scores (`gre`), grade point average (`gpa`) and the rank the undergraduate institution (`rank``).
+
+```{r}
+str(df)
+```
+
+We imagine we are interested in testing the coefficient on `gre` and we want to estimate the model `admit ~ gre + gpa + rank` where we are interested in testing the coefficient on `hp`. We set `n = 400` because we have 400 observations.
+
+Let us also say that we would like it to be just as likely that the alternative is true compared to the null if we reject the null. This means that we want to know which alpha corresponds to a Bayes factor of 1 (If we instead would want it to be 3 times more likely that the alternative is true than the null if we reject the null, we would find the alpha corresponding to a Bayes factor of 3). Thus, we set `BF = 1`. Because we wish to remain skeptical of trivial effects, we use the default `method = "JAB`:
+
+```{r}
+alpha_gre <- alphaN(n = 400, BF = 1, method = "JAB")
+alpha_gre
+```
+
+The *p*-value that corresponds to a Bayes factor of 1 for this particular model and sample size is `r round(alpha_gre,4)`. We therefore set alpha to `r round(alpha_gre,4)` and estimate our model.
+
+
+```{r}
+glm1 <- glm(admit ~ gpa + factor(rank) + gre, data = df, family = "binomial")
+summary(glm1)
+```
+
+The *p*-value for the coefficient on `gre` is about 0.0385. Because this is larger than `r round(alpha_gre,4)`, we cannot reject the null of no relationship and conclude that the null is more likely to be true conditional on this data. 
+
+### Quantifying the evidence based on the data
+
+Next, we can compute the actual Bayes factor for `gre`. We can do this using the `JAB` function. It takes as an argument the `glm` object. We specify that we are interest in the `gre` variable and set `method = JAB adj` to adjust for the number of parameters. The function automatically counts the number of parameters based on the `glm` object:
+
+```{r}
+JAB_gre <- JAB(glm1, covariate = "gre", method = "JAB")
+JAB_gre
+```
+We can see that the Bayes factor is `r round(JAB_gre,4)`, which indeed does indicate that it is more likely that the null is true. The Bayes factor directly quantifies the evidence and suggests that it is `r 1/round(JAB_gre,4)` times more likely that the null is true compared to the compared, which is just anecdotal evidence.
+
+We could also have computed the Bayes factor manually using the `JABt` function by plugging in the sample size and the z-statistic from the regression:
+
+```{r}
+JABt(400, 2.070, method = "JAB")
+```
+or by plugging in the $p$-value in the `JABp` function while making sure to tell the function that the $p$-value is based on a z-test:
+
+```{r}
+JABp(400, 0.038465, z = TRUE, method = "JAB")
+```
+
+The difference to the result from `JAB` is solely due to rounding errors because `JAB` uses the exact values from the `glm` object instead of the rounded values that we supplied to the functions. The functions `JABt` and `JABp` are useful in situations where the dataset may not avaliable, for instance when for results printed in a journal article.
+
+
