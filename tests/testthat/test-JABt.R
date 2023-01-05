@@ -1,3 +1,19 @@
+test_that("JABt is consistent with alphaN", {
+  # calculate the p-value for a z-score of 1.96
+  z <- 1.96
+  p <- 2*pnorm(q=z, lower.tail=FALSE)
+
+  # compute BF for z-score assuming a sample size of 100
+  n <- 100
+  BF <- JABt(n, z)
+
+  # compute alpha for that BF and sample size
+  alpha <- alphaN(n, BF = BF)
+
+  # check that the result from alphaN matches the p-value
+  expect_equal(alpha, p)
+})
+
 test_that("larger sample size decreases BF for constant t-score", {
   expect_gt(JABt(100, 1), JABt(101, 1))
   expect_gt(JABt(200, 1), JABt(201, 1))
@@ -26,3 +42,4 @@ test_that("method = robust has a higher BF than method = min", {
   expect_gt(JABt(200, 1, method = "robust"), JABt(200, 1, method = "min"))
   expect_gt(JABt(300, 1, method = "robust"), JABt(300, 1, method = "min"))
 })
+
