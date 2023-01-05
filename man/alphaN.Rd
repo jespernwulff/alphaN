@@ -29,7 +29,6 @@ Set the alpha level based on sample size for coefficients in a regression models
 
 Gu et al. (2018). Approximated adjusted fractional Bayes factors: A general method for testing informative hypotheses. The British Journal of Mathematical and Statistical Psychology, 71(2). \cr
 O’Hagan, A. (1995). Fractional Bayes Factors for Model Comparison. Journal of the Royal Statistical Society. Series B (Methodological), 57(1), 99–138. \cr
-Taylor, L. & Wulff, J.N. (2022). Let alpha depend on n: A Bayesian-frequentist compromise by using lower alpha levels in larger sample size. \cr
 }
 
 \examples{
