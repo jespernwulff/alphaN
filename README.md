@@ -13,7 +13,8 @@ the significance level as function of the sample size based on the
 evidence and the prior features they desire. The function `JABt` and
 `JABp` converts test statistics and $p$-values into sample size
 dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function
-of the $p$-value.
+of the $p$-value, and `alphaN_plot()` plots the alpha level as a
+function of sample size for a given Bayes factor.
 
 ## Installation
 
