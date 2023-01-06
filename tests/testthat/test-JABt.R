@@ -12,6 +12,23 @@ test_that("JABt is consistent with alphaN", {
 
   # check that the result from alphaN matches the p-value
   expect_equal(alpha, p)
+
+  # repeat for other methods
+  ## min
+  BF <- JABt(n, z, method = "min")
+  alpha <- alphaN(n, BF = BF, method = "min")
+  expect_equal(alpha, p)
+
+  ## robust
+  BF <- JABt(n, z, method = "robust")
+  alpha <- alphaN(n, BF = BF, method = "robust")
+  expect_equal(alpha, p)
+
+  ## balanced
+  BF <- JABt(n, z, method = "balanced")
+  alpha <- alphaN(n, BF = BF, method = "balanced")
+  expect_equal(alpha, p)
+
 })
 
 test_that("larger sample size decreases BF for constant t-score", {
