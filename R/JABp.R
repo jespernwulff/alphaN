@@ -11,7 +11,7 @@
 #'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, 1995)
 #'   \item "balanced": this choice of b balances the type I and type II errors (Gu et al, 2016)
 #' }
-#' @param upper The upper limit for the range of realistic effect sizes. Only relevant when "method=balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
+#' @param upper The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
 #'
 #' @return A numeric value for the BF in favour of H1.
 #' @export
