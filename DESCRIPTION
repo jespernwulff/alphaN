@@ -9,7 +9,7 @@ Description: Sets the alpha level for coefficients in a regression model
     as a decreasing function of the sample size through the use of 
     Jeffreys' Approximate Bayes factor. You tell 'alphaN' your sample size, 
     and it tells you to which value you must lower alpha to avoid Lindley's 
-    Paradox. The package provides four different prior specifications and
+    Paradox. You may choose between four different prior specifications and
     also allows you to convert t-statistics and p-values into Bayes factors.
 License: MIT + file LICENSE
 Encoding: UTF-8
