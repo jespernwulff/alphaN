@@ -4,11 +4,12 @@
 #' @param covariate the name of the covariate that you want a BF for as a string.
 #' @param method Used for the choice of 'b'. Currently one of:
 #' \itemize{
-#'   \item "JAB": this choice of b produces Jeffery's approximate BF
-#'   \item "min": uses the minimal training sample for the prior (Gu et al., '17)
-#'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, '95)
-#'   \item "balanced": this choice of b balances the type I and type II errors
+#'   \item "JAB": this choice of b produces Jeffery's approximate BF (Wagenmakers, 2022)
+#'   \item "min": uses the minimal training sample for the prior (Gu et al., 2018)
+#'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, 1995)
+#'   \item "balanced": this choice of b balances the type I and type II errors (Gu et al, 2016)
 #' }
+#' @param upper The upper limit for the range of realistic effect sizes. Only relevant when "method=balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
 #'
 #' @return A numeric value for the BF in favour of H1.
 #' @export
@@ -40,13 +41,12 @@
 #'
 #' # Compute JAB using the minimum prior
 #' JAB(LM, "X", method = "min")
-JAB <- function(glm_obj, covariate, method="JAB"){
+JAB <- function(glm_obj, covariate, method="JAB", upper = 1){
   glm_obj_sum <- summary(glm_obj)
   n <- glm_obj_sum$df[1] + glm_obj_sum$df[2]
-  #p <- glm_obj_sum$df[1]
   t <- as.numeric(glm_obj_sum$coefficients[covariate,][3])
 
-  BF <- JABt(n = n, t = t, method = method)
+  BF <- JABt(n = n, t = t, method = method, upper = upper)
 
   return(BF)
 }
