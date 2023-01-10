@@ -28,14 +28,14 @@ Set the alpha level based on sample size for coefficients in a regression models
 \section{References}{
 
 Gu et al. (2018). Approximated adjusted fractional Bayes factors: A general method for testing informative hypotheses. The British Journal of Mathematical and Statistical Psychology, 71(2). \cr
+\cr
 O’Hagan, A. (1995). Fractional Bayes Factors for Model Comparison. Journal of the Royal Statistical Society. Series B (Methodological), 57(1), 99–138. \cr
+\cr
+Wulff & Taylor (2023). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. PsyArXiv. 10.31234/osf.io/3cbh7
 }
 
 \examples{
-
 # Plot of alpha level as a function of n
 seqN <- seq(50, 1000, 1)
 plot(seqN, alphaN(seqN), type = "l")
-
-
 }

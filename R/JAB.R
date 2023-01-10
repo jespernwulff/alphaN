@@ -38,7 +38,7 @@
 #' # Compute JAB for "X" based on the regression results
 #' JAB(LM, "X")
 #'
-#' # Compute JAB adj
+#' # Compute JAB using the minimum prior
 #' JAB(LM, "X", method = "min")
 JAB <- function(glm_obj, covariate, method="JAB"){
   glm_obj_sum <- summary(glm_obj)

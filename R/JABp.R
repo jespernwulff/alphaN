@@ -18,7 +18,12 @@
 #' @examples
 #' # Transform a p-value of 0.007038863 from a z-test into JAB
 #' # using a sample size of 200.
-#' JABt(200, 2.695)
+#' JABp(200, 0.007038863)
+#'
+#' # Transform a p-value of 0.007038863 from a t-test with 190
+#' # degrees of freedom into JAB using a sample size of 200.
+#' JABp(200, 0.007038863, z=FALSE, df=190)
+#'
 #' @importFrom stats qnorm qt
 JABp <- function(n, p, z = TRUE, df = NULL, method = "JAB"){
   # Find the corresponding z- or t-statistic

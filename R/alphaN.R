@@ -13,15 +13,15 @@
 #' @export
 #'
 #' @examples
-#'
-#' # Plot of alpha level as a function of n
+#'# Plot of alpha level as a function of n
 #'seqN <- seq(50, 1000, 1)
 #'plot(seqN, alphaN(seqN), type = "l")
-#'
-#'
 #' @section References:
 #' Gu et al. (2018). Approximated adjusted fractional Bayes factors: A general method for testing informative hypotheses. The British Journal of Mathematical and Statistical Psychology, 71(2). \cr
+#' \cr
 #' O’Hagan, A. (1995). Fractional Bayes Factors for Model Comparison. Journal of the Royal Statistical Society. Series B (Methodological), 57(1), 99–138. \cr
+#' \cr
+#' Wulff & Taylor (2023). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. PsyArXiv. 10.31234/osf.io/3cbh7
 #' @importFrom stats pchisq pt integrate
 alphaN <- function(n, BF=1, method="JAB") {
   if(method=="JAB") {b <- 1/n}

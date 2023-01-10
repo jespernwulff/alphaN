@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(alphaN)
 ```
 
-We wish to determine which alpha level is equivalent to a Bayes factor of 1. I.e. only reject the null if the data is at least at likely under the null and under the alternative. To do this, we need a way to connect the $p$-value to the Bayes factor. The **alphaN** package does this. 
+We wish to determine which alpha level is equivalent to a Bayes factor of 1. I.e. only reject the null if the data is at least at likely under the null and under the alternative. To do this, we need a way to connect the $p$-value to the Bayes factor. The **alphaN** package does this for tests of coefficients in regression models. 
 
 # Installation
 

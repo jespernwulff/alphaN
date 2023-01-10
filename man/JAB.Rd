@@ -50,6 +50,6 @@ LM <- glm(Y ~ X + Z1 + Z2 + Z3 + Z4)
 # Compute JAB for "X" based on the regression results
 JAB(LM, "X")
 
-# Compute JAB adj
+# Compute JAB using the minimum prior
 JAB(LM, "X", method = "min")
 }
