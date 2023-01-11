@@ -19,7 +19,7 @@ JAB(glm_obj, covariate, method = "JAB", upper = 1)
 \item "balanced": this choice of b balances the type I and type II errors (Gu et al, 2016)
 }}
 
-\item{upper}{The upper limit for the range of realistic effect sizes. Only relevant when "method=balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).}
+\item{upper}{The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).}
 }
 \value{
 A numeric value for the BF in favour of H1.
