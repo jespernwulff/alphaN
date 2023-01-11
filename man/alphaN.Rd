@@ -29,15 +29,15 @@ Set the alpha level based on sample size for coefficients in a regression models
 }
 \section{References}{
 
-Gu et al. (2016). Error probabilities in default Bayesian hypothesis testing. Journal of Mathematical Psychology, 72, 130–143. \doi{10.1016/j.jmp.2015.09.001} \cr
+Gu et al. (2016). Error probabilities in default Bayesian hypothesis testing. Journal of Mathematical Psychology, 72, 130–143. \cr
 \cr
-Gu et al. (2018). Approximated adjusted fractional Bayes factors: A general method for testing informative hypotheses. The British Journal of Mathematical and Statistical Psychology, 71(2). \doi{{10.1111/bmsp.12110} \cr
+Gu et al. (2018). Approximated adjusted fractional Bayes factors: A general method for testing informative hypotheses. The British Journal of Mathematical and Statistical Psychology, 71(2). \cr
 \cr
 O’Hagan, A. (1995). Fractional Bayes Factors for Model Comparison. Journal of the Royal Statistical Society. Series B (Methodological), 57(1), 99–138. \cr
 \cr
-Wagenmakers (2002). Approximate Objective Bayes Factors From PValues and Sample Size: The 3pn Rule. psyarxiv. \doi{10.31234/osf.io/egydq} \cr
+Wagenmakers (2002). Approximate Objective Bayes Factors From PValues and Sample Size: The 3pn Rule. psyarxiv. \cr
 \cr
-Wulff & Taylor (2023). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. PsyArXiv. \doi{10.31234/osf.io/3cbh7}
+Wulff & Taylor (2023). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. PsyArXiv.
 }
 
 \examples{
