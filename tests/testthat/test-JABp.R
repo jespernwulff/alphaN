@@ -18,3 +18,11 @@ test_that("JABp is consistent with alphaN", {
   alpha <- alphaN(n, BF = BF, method = "balanced")
   expect_equal(JABp(n, alpha, method = "balanced"), BF)
 })
+
+test_that("JAB increases when df decrease for the t-stat", {
+  n <- 100
+  p <- 0.05
+  expect_gt(JABp(n, p, z = FALSE, df = 99), JABp(n, p, z = FALSE, df = 100))
+  expect_gt(JABp(n, p, z = FALSE, df = 98), JABp(n, p, z = FALSE, df = 99))
+  expect_gt(JABp(n, p, z = FALSE, df = 97), JABp(n, p, z = FALSE, df = 98))
+})
