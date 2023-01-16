@@ -23,6 +23,12 @@ The goal of alphaN is to help the user set their significance level as a functio
 
 ## Installation
 
+To install the latest release version from CRAN use
+
+``` r
+install.packages("alphaN")
+```
+
 You can install the development version of alphaN from [GitHub](https://github.com/) with:
 
 ``` r

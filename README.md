@@ -18,6 +18,12 @@ function of sample size for a given Bayes factor.
 
 ## Installation
 
+To install the latest release version from CRAN use
+
+``` r
+install.packages("alphaN")
+```
+
 You can install the development version of alphaN from
 [GitHub](https://github.com/) with:
 
