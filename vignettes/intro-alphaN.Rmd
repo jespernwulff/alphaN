@@ -99,7 +99,7 @@ str(df)
 
 We imagine we are interested in testing the coefficient on `gre` and we want to estimate the model `admit ~ gre + gpa + rank` where we are interested in testing the coefficient on `hp`. We set `n = 400` because we have 400 observations.
 
-Let us also say that we would like it to be just as likely that the alternative is true compared to the null if we reject the null. This means that we want to know which alpha corresponds to a Bayes factor of 1 (If we instead would want it to be 3 times more likely that the alternative is true than the null if we reject the null, we would find the alpha corresponding to a Bayes factor of 3). Thus, we set `BF = 1`. Because we wish to remain skeptical of trivial effects, we use the default `method = "JAB`:
+Let us also say that we would like it to be just as likely that the alternative is true compared to the null if we reject the null. This means that we want to know which alpha corresponds to a Bayes factor of 1 (If we instead would want it to be 3 times more likely that the alternative is true than the null if we reject the null, we would find the alpha corresponding to a Bayes factor of 3). Thus, we set `BF = 1`. Because we wish to remain skeptical of trivial effects, we use the default `method = "JAB"`:
 
 ```{r}
 alpha_gre <- alphaN(n = 400, BF = 1, method = "JAB")
@@ -118,7 +118,7 @@ The *p*-value for the coefficient on `gre` is about 0.0385. Because this is larg
 
 ### Quantifying the evidence based on the data
 
-Next, we can compute the actual Bayes factor for `gre`. We can do this using the `JAB` function. It takes as an argument the `glm` object. We specify that we are interest in the `gre` variable and set `method = JAB adj` to adjust for the number of parameters. The function automatically counts the number of parameters based on the `glm` object:
+Next, we can compute the actual Bayes factor for `gre`. We can do this using the `JAB` function. It takes as an argument the `glm` object. We specify that we are interest in the `gre` variable and set `method = "JAB"`:
 
 ```{r}
 JAB_gre <- JAB(glm1, covariate = "gre", method = "JAB")
@@ -137,6 +137,4 @@ or by plugging in the $p$-value in the `JABp` function while making sure to tell
 JABp(400, 0.038465, z = TRUE, method = "JAB")
 ```
 
-The difference to the result from `JAB` is solely due to rounding errors because `JAB` uses the exact values from the `glm` object instead of the rounded values that we supplied to the functions. The functions `JABt` and `JABp` are useful in situations where the dataset may not avaliable, for instance when for results printed in a journal article.
-
-
+The difference to the result from `JAB` is solely due to rounding errors because `JAB` uses the exact values from the `glm` object instead of the rounded values that we supplied to the functions. The functions `JABt` and `JABp` are useful in situations where the dataset may not be available, for instance for results printed in a journal article.
