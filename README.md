@@ -6,7 +6,10 @@ Jesper N. Wulff
 
 <!-- badges: start -->
 
-/badges\[/{grand-total}\]/{alphaN}\[?color={blue}\] <!-- badges: end -->
+[![CRAN
+Version](https://www.r-pkg.org/badges/version/alphaN)](https://cran.r-project.org/package=alphaN)
+[![Downloads](https://cranlogs.r-pkg.org/badges/alphaN?color=brightgreen)](https://CRAN.R-project.org/package=alphaN)
+<!-- badges: end -->
 
 The goal of alphaN is to help the user set their significance level as a
 function of the sample size. The function `alphaN` allows users to set
