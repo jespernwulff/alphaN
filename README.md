@@ -5,7 +5,8 @@ Jesper N. Wulff
 # alphaN
 
 <!-- badges: start -->
-<!-- badges: end -->
+
+/badges\[/{grand-total}\]/{alphaN}\[?color={blue}\] <!-- badges: end -->
 
 The goal of alphaN is to help the user set their significance level as a
 function of the sample size. The function `alphaN` allows users to set
