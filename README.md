@@ -7,6 +7,7 @@
 
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/alphaN)](https://cran.r-project.org/package=alphaN)
+[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/alphaN?color=brightgreen)](https://CRAN.R-project.org/package=alphaN)
 [![Downloads](https://cranlogs.r-pkg.org/badges/alphaN?color=brightgreen)](https://CRAN.R-project.org/package=alphaN)
 <!-- badges: end -->
 
