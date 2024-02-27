@@ -53,7 +53,6 @@ the null.
 
 ``` r
 library(alphaN)
-#> Warning: pakke 'alphaN' blev bygget under R version 4.2.3
 
 alpha <- alphaN(n = 1000, BF = 1)
 alpha
