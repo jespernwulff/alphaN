@@ -20,6 +20,13 @@ dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function
 of the $p$-value, and `alphaN_plot` plots the alpha level as a function
 of sample size for a given Bayes factor.
 
+Calculations are based on [Wulff & Taylor
+(2024)](https://journals.sagepub.com/doi/10.1177/14761270231214429). If
+you enjoy the package, please consider citing the paper.
+
+If you’re not an R user, you may also be interested in the associated
+[Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
+
 ## Installation
 
 To install the latest release version from CRAN use
@@ -46,6 +53,7 @@ the null.
 
 ``` r
 library(alphaN)
+#> Warning: pakke 'alphaN' blev bygget under R version 4.2.3
 
 alpha <- alphaN(n = 1000, BF = 1)
 alpha
