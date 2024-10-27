@@ -8,6 +8,7 @@
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/alphaN)](https://cran.r-project.org/package=alphaN)
 [![Downloads](https://cranlogs.r-pkg.org/badges/alphaN?color=brightgreen)](https://CRAN.R-project.org/package=alphaN)
+[![R-CMD-check](https://github.com/jespernwulff/alphaN/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jespernwulff/alphaN/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of alphaN is to help the user set their significance level as a
