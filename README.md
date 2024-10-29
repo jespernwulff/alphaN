@@ -47,7 +47,7 @@ devtools::install_github("jespernwulff/alphaN")
 
 Here is an example: We are planning to run a linear regression model
 with 1000 observations. We thus set `n = 1000`. The default `BF` is 1
-meaning that we want to avoid Lindley’s paradox, i.e. we just want the
+meaning that we want to avoid Lindley’s paradox, i.e., we just want the
 null and the alternative to be at least equally likely when we reject
 the null.
 
