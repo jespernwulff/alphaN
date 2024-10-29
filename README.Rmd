@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# alphaN
+# alphaN <img src="man/figures/logo.png" align="right" height="120" />
 
 <!-- badges: start -->
 [![CRAN Version](https://www.r-pkg.org/badges/version/alphaN)](https://cran.r-project.org/package=alphaN)
