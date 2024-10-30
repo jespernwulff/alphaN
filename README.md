@@ -29,7 +29,7 @@ If you’re not an R user, you may also be interested in the associated
 
 ## Installation
 
-To install the latest release version from CRAN use
+To install the latest release version from CRAN use:
 
 ``` r
 install.packages("alphaN")
