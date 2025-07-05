@@ -21,8 +21,8 @@ of the $p$-value, and `alphaN_plot` plots the alpha level as a function
 of sample size for a given Bayes factor.
 
 Calculations are based on [Wulff & Taylor
-(2024)](https://journals.sagepub.com/doi/10.1177/14761270231214429). If
-you enjoy the package, please consider citing the paper.
+(2024)](https://doi.org/10.31234/osf.io/3cbh7). If you enjoy the
+package, please consider citing the paper.
 
 If you’re not an R user, you may also be interested in the associated
 [Shiny app](https://crossvalidated.shinyapps.io/alphaN/).

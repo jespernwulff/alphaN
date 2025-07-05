@@ -23,7 +23,9 @@ knitr::opts_chunk$set(
 
 The goal of alphaN is to help the user set their significance level as a function of the sample size. The function `alphaN` allows users to set the significance level as function of the sample size based on the evidence and the prior features they desire. The function `JABt` and `JABp` converts test statistics and $p$-values into sample size dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function of the $p$-value, and `alphaN_plot` plots the alpha level as a function of sample size for a given Bayes factor.
 
-Calculations are based on [Wulff & Taylor (2024)](https://journals.sagepub.com/doi/10.1177/14761270231214429). If you enjoy the package, please consider citing the paper.
+
+Calculations are based on [Wulff & Taylor (2024)](https://doi.org/10.31234/osf.io/3cbh7). If you enjoy the package, please consider citing the paper.
+
 
 If you’re not an R user, you may also be interested in the associated [Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
 
