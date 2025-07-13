@@ -26,5 +26,5 @@ The 2 NOTES are:
 0 errors ✔ | 0 warnings ✔ | 1 note ✖
 
 1. **Package CITATION file contains call(s) to old-style citEntry().  Please use bibentry() instead.**
-    - I have removed the CITATION file completely, but still get this note. 
+  - I have removed the CITATION file completely, but still get this note. 
 
