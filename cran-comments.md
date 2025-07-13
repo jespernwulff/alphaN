@@ -6,7 +6,7 @@ This is a resubmission of alphaN, a package for setting significance levels as a
 
 ## Test environments
 - local windows-x86_64, R version 4.2.1, Intel(R) Xeon(R) W-2223 CPU 
-- win-builder (devel and release). Full build log [here](https://win-builder.r-project.org/o6kqVVxft4S7/)
+- win-builder (devel and release). Full build log [here](https://win-builder.r-project.org/w1T42QsZTysx/)
 - R-hub linux (r-devel). Full build log [here](https://github.com/jespernwulff/alphaN/actions/runs/16252758236)
 - R-hub m1-san (R-devel). Full build log [here](https://github.com/jespernwulff/alphaN/actions/runs/16252758236)
 - R-hub windows (R-devel). Full build log [here](https://github.com/jespernwulff/alphaN/actions/runs/16252758236)
@@ -21,3 +21,10 @@ The 2 NOTES are:
 
 2. **Unable to verify current time**
    - This is a system-specific NOTE from the checking environment and does not affect package functionality.
+   
+## win-builder (devel and release)
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+1. **Package CITATION file contains call(s) to old-style citEntry().  Please use bibentry() instead.**
+    - I have removed the CITATION file completely, but still get this note. 
+
