@@ -1,6 +1,6 @@
 Package: alphaN
 Title: Set Alpha Based on Sample Size Using Bayes Factors
-Version: 0.1.2
+Version: 0.1.2.9000
 Authors@R: c(
     person("Jesper", "Wulff", , "jwulff@econ.au.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7976-0939")),
