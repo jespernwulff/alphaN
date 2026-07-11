@@ -19,4 +19,8 @@ This release adds one feature and several fixes:
 
 ## R CMD check results
 
-0 errors ✔ | 0 warnings ✔ | 0 notes ✖
+0 errors ✔ | 0 warnings ✔ | 0 notes ✖ (local); win-builder reports 1 NOTE:
+
+* "Possibly misspelled words in DESCRIPTION: Kellen, Klauer" — these are the
+  surnames of the authors of the cited methods paper (Klauer, Meyer-Grant,
+  and Kellen, 2024, <doi:10.3758/s13423-024-02612-2>).
