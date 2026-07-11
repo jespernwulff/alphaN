@@ -1,0 +1,82 @@
+# alphaN
+
+The goal of alphaN is to help the user set their significance level as a
+function of the sample size. The function `alphaN` allows users to set
+the significance level as function of the sample size based on the
+evidence and the prior features they desire. The function `JABt` and
+`JABp` converts test statistics and $`p`$-values into sample size
+dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function
+of the $`p`$-value, and `alphaN_plot` plots the alpha level as a
+function of sample size for a given Bayes factor.
+
+Calculations are based on [Wulff & Taylor
+(2024)](https://doi.org/10.1177/14761270231214429). If you enjoy the
+package, please consider citing the paper (see `citation("alphaN")`).
+
+If you’re not an R user, you may also be interested in the associated
+[Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
+
+## Installation
+
+To install the latest release version from CRAN use:
+
+``` r
+
+install.packages("alphaN")
+```
+
+You can install the development version of alphaN from
+[GitHub](https://github.com/) with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("jespernwulff/alphaN")
+```
+
+## Example
+
+Here is an example: We are planning to run a linear regression model
+with 1000 observations. We thus set `n = 1000`. The default `BF` is 1
+meaning that we want to avoid Lindley’s paradox, i.e., we just want the
+null and the alternative to be at least equally likely when we reject
+the null.
+
+``` r
+
+library(alphaN)
+
+alpha <- alphaN(n = 1000, BF = 1)
+alpha
+#> [1] 0.008582267
+```
+
+Therefore, to obtain evidence of at least 1, we should set our alpha to
+0.0086.
+
+# Package index
+
+## All functions
+
+- [`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md) :
+  Transforms a t-statistic from a glm or lm object into Jeffreys'
+  approximate Bayes factor
+- [`JAB_plot()`](https://jespernwulff.github.io/alphaN/reference/JAB_plot.md)
+  : Plots JAB as a function of the p-value
+- [`JABp()`](https://jespernwulff.github.io/alphaN/reference/JABp.md) :
+  Transforms a p-value into Jeffreys' approximate Bayes factor
+- [`JABt()`](https://jespernwulff.github.io/alphaN/reference/JABt.md) :
+  Transforms a t-statistic into Jeffreys' approximate Bayes factor
+- [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+  : Set the alpha level based on sample size for coefficients in a
+  regression model
+- [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
+  : Creates a plot of alpha as function of sample size for each of the
+  four prior options
+
+# Articles
+
+### All vignettes
+
+- [Intro to
+  alphaN](https://jespernwulff.github.io/alphaN/articles/intro-alphaN.md):

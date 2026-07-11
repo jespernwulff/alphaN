@@ -1,0 +1,129 @@
+# Intro to alphaN
+
+``` r
+
+library(alphaN)
+```
+
+We wish to determine which alpha level is equivalent to a Bayes factor
+of 1. I.e. only reject the null if the data is at least as likely under
+the alternative as under the null. To do this, we need a way to connect
+the $`p`$-value to the Bayes factor. The **alphaN** package does this
+for tests of coefficients in regression models.
+
+## Installation
+
+To install the latest release version from CRAN use:
+
+``` r
+
+install.packages("alphaN")
+```
+
+You can install the development version of alphaN from
+[GitHub](https://github.com/) with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("jespernwulff/alphaN")
+```
+
+## Basic functionality
+
+This vignette provides an introduction to the basic functionality of
+**alphaN**. For full details on methodology, please refer to [Wulff &
+Taylor (2024)](https://doi.org/10.1177/14761270231214429).
+
+### Setting the alpha level
+
+Using the `alphaN` function, we can get the alpha level we need to use
+to obtain a desired level of evidence when testing a regression
+coefficient in a regression model.
+
+Here is an example: We are planning to run a linear regression model
+with 1000 observations. We thus set `n = 1000`. The default `BF` is 1
+meaning that we want to avoid Lindley’s paradox, i.e. we just want the
+null and the alternative to be at least equally likely when we reject
+the null.
+
+``` r
+
+alpha <- alphaN(n = 1000, BF = 1)
+alpha
+#> [1] 0.008582267
+```
+
+Therefore, to obtain evidence of at least 1, we should set our alpha to
+0.0086.
+
+### Plotting the relationship between the Bayes factor and *p*-value
+
+The `alphaN` function works by mapping the *p*-value to the Bayes
+factor. This relationship can be shown using the `JAB_plot`. For
+instance:
+
+``` r
+
+JAB_plot(n = 1000, BF = 1)
+```
+
+![](intro-alphaN_files/figure-html/unnamed-chunk-3-1.png)
+
+The alpha level needed to achieve a Bayes factor of 1 is shown with a
+red triangle in the plot. Lines for achieving Bayes factors of 3
+(moderate evidence) and 10 (strong evidence) are also shown by default.
+As it is evident a lower alpha level is needed to achieve higher
+evidence.
+
+### Alpha as a decreasing function of N
+
+An important point of the procedure is that alpha will be set as a
+function of sample size. The larger the sample size, the lower the alpha
+needed such that a significant result can be interpreted as evidence for
+the alternative.
+
+The graph below illustrates this relationship for the previous example:
+
+``` r
+
+seqN <- seq(50, 1000, 1)
+plot(seqN, alphaN(seqN), type = "l",
+     xlab = "n", ylab = "Alpha")
+```
+
+![](intro-alphaN_files/figure-html/unnamed-chunk-4-1.png)
+
+### Setting the prior
+
+To set the alpha level as a function of sample size, we need to choose
+the prior carefully. **alphaN** allows the user to choose from four
+sensible prior options based on suggestions from the previous
+literature: Jeffreys’ approximate BF (`method = "JAB"`), the minimal
+training sample (`method = "min"`), the robust minimal training sample
+(`method = "robust"`), and balanced Type-I and Type-II errors
+(`method = "balanced"`). `method = "JAB"` is a good choice for users who
+want to be conservative against small effects, `method = "min"` is for
+when the MLE is misspecified, `method = "robust"` is for when the MLE is
+misspecified and the sample size is small, and `method = "balanced"` is
+for when Type-II errors are costly.
+
+For instance, to achieve evidence of 3 for 1,000 observations while we
+ensure balanced error rates, we run
+
+``` r
+
+alphaN(1000, BF = 3, method = "balanced")
+#> [1] 0.024221
+```
+
+The package contains the convenience function `alphaN_plot` that allows
+a quick comparison of alpha as a function of sample size for the four
+different methods:
+
+``` r
+
+alphaN_plot(BF = 3)
+```
+
+![](intro-alphaN_files/figure-html/unnamed-chunk-6-1.png)

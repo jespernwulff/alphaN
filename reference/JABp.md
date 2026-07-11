@@ -1,0 +1,68 @@
+# Transforms a p-value into Jeffreys' approximate Bayes factor
+
+Converts a two-sided p-value from a z- or t-test into Jeffreys'
+approximate Bayes factor, given the sample size.
+
+## Usage
+
+``` r
+JABp(n, p, z = TRUE, df = NULL, method = "JAB", upper = 1)
+```
+
+## Arguments
+
+- n:
+
+  Sample size. A positive numeric vector.
+
+- p:
+
+  The two-sided p-value.
+
+- z:
+
+  Is the p-value based on a z- or t-statistic? TRUE if z.
+
+- df:
+
+  If z=FALSE, provide the degrees of freedom for the t-statistic.
+
+- method:
+
+  Used for the choice of 'b'. Currently one of:
+
+  - "JAB": this choice of b produces Jeffreys' approximate BF
+    (Wagenmakers, 2022)
+
+  - "min": uses the minimal training sample for the prior (Gu et al.,
+    2018)
+
+  - "robust": a robust version of "min" that prevents too small b
+    (O'Hagan, 1995)
+
+  - "balanced": this choice of b balances the type I and type II errors
+    (Gu et al., 2016)
+
+- upper:
+
+  The upper limit for the range of realistic effect sizes. Only relevant
+  when method="balanced". Defaults to 1 such that the range of realistic
+  effect sizes is uniformly distributed between 0 and 1, U(0,1).
+
+## Value
+
+A numeric value for the BF in favour of H1.
+
+## Examples
+
+``` r
+# Transform a p-value of 0.007038863 from a z-test into JAB
+# using a sample size of 200.
+JABp(200, 0.007038863)
+#> [1] 2.670735
+
+# Transform a p-value of 0.007038863 from a t-test with 190
+# degrees of freedom into JAB using a sample size of 200.
+JABp(200, 0.007038863, z=FALSE, df=190)
+#> [1] 2.893791
+```
