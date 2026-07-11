@@ -49,7 +49,7 @@ You can install the development version of alphaN from
 devtools::install_github("jespernwulff/alphaN")
 ```
 
-## Example
+## Examples
 
 Here is an example: We are planning to run a linear regression model
 with 1000 observations. We thus set `n = 1000`. The default `BF` is 1
@@ -67,3 +67,97 @@ alpha
 
 Therefore, to obtain evidence of at least 1, we should set our alpha to
 0.0086.
+
+### Targeting stronger evidence, and choosing the prior
+
+Raising `BF` asks for more evidence before you are allowed to reject,
+which lowers alpha. The `method` argument selects the prior behind
+Jeffreys’ approximate Bayes factor:
+
+``` r
+# Moderate (BF = 3) and strong (BF = 10) evidence at n = 1000
+alphaN(n = 1000, BF = 3)
+#> [1] 0.002549145
+alphaN(n = 1000, BF = 10)
+#> [1] 0.0006911392
+
+# Balancing Type I and Type II error rates instead of the default prior
+alphaN(n = 1000, BF = 3, method = "balanced")
+#> [1] 0.024221
+```
+
+### Calibrating alpha to effect-size and moment Bayes factors
+
+The methods `"ES"` and `"moment"` (new in 0.2.0) answer the question:
+which alpha do I need so that a significant result corresponds to a
+Bayes factor of at least `BF` against an alternative centered on the
+effect size `de` I actually care about?
+
+``` r
+# Moderate evidence, targeting a medium-sized effect (Cohen's d = 0.5)
+alphaN(1000, BF = 3, method = "ES", de = 0.5)
+#> [1] 0.002189564
+alphaN(1000, BF = 3, method = "moment", de = 0.5)
+#> [1] 0.0004913521
+```
+
+Because the moment prior treats effects near zero as a priori
+implausible, the alpha it implies falls much faster with the sample size
+than under JAB:
+
+``` r
+ns <- c(100, 1000, 10000)
+tab <- rbind(JAB    = alphaN(ns, BF = 3),
+             ES     = alphaN(ns, BF = 3, method = "ES"),
+             moment = alphaN(ns, BF = 3, method = "moment"))
+colnames(tab) <- paste0("n = ", ns)
+round(tab, 5)
+#>        n = 100 n = 1000 n = 10000
+#> JAB    0.00910  0.00255   0.00073
+#> ES     0.01185  0.00219   0.00058
+#> moment 0.00788  0.00049   0.00002
+```
+
+### Turning regression output into Bayes factors
+
+`JAB()` computes Jeffreys’ approximate Bayes factor for a coefficient
+directly from a fitted `lm()` or `glm()` object; `JABt()` and `JABp()`
+do the same from a t-statistic or a p-value if that is all you have
+(e.g., from a published paper):
+
+``` r
+set.seed(1)
+d <- data.frame(x = rnorm(200), z = rnorm(200))
+d$y <- 0.2 * d$x + rnorm(200)
+m <- lm(y ~ x + z, data = d)
+
+JAB(m, covariate = "x")
+#> [1] 22.50664
+
+# From summary statistics alone
+JABt(n = 200, t = 2.8)
+#> [1] 3.56385
+JABp(n = 200, p = 0.005)
+#> [1] 3.634824
+```
+
+### Visualizing the trade-offs
+
+`alphaN_plot()` compares alpha as a function of sample size across the
+four JAB-type priors:
+
+``` r
+alphaN_plot(BF = 3)
+```
+
+<img src="man/figures/README-alphaN-plot-1.png" alt="" width="100%" />
+
+`JAB_plot()` shows how the Bayes factor maps onto the p-value for a
+given sample size, marking the alpha levels needed for evidence
+thresholds of 1, 3, and 10:
+
+``` r
+JAB_plot(n = 1000, BF = 3)
+```
+
+<img src="man/figures/README-JAB-plot-1.png" alt="" width="100%" />
