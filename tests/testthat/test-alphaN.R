@@ -26,3 +26,28 @@ test_that("method = robust has a higher alpha than method = min", {
   expect_gt(alphaN(200, method = "robust"), alphaN(200, method = "min"))
   expect_gt(alphaN(300, method = "robust"), alphaN(300, method = "min"))
 })
+
+test_that("alphaN vectorizes over n for every method", {
+  ns <- c(100, 1000, 10000)
+  for (m in c("JAB", "min", "robust", "balanced")) {
+    expect_equal(alphaN(ns, method = m),
+                 vapply(ns, function(n) alphaN(n, method = m), numeric(1)))
+  }
+})
+
+test_that("alphaN vectorizes over BF", {
+  BFs <- c(1, 3, 10)
+  expect_equal(alphaN(1000, BF = BFs),
+               vapply(BFs, function(BF) alphaN(1000, BF = BF), numeric(1)))
+})
+
+test_that("alphaN rejects invalid input with informative errors", {
+  expect_error(alphaN(1000, method = "typo"), "should be one of")
+  expect_error(alphaN(-5), "positive")
+  expect_error(alphaN(0), "positive")
+  expect_error(alphaN(Inf), "finite")
+  expect_error(alphaN("many"), "numeric")
+  expect_error(alphaN(1000, BF = -2), "BF")
+  expect_error(alphaN(1000, BF = 0), "BF")
+  expect_error(alphaN(1000, method = "balanced", upper = -1), "upper")
+})

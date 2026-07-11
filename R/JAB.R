@@ -1,15 +1,12 @@
 #' Transforms a t-statistic from a glm or lm object into Jeffreys' approximate Bayes factor
 #'
+#' Extracts the test statistic of a coefficient from a fitted model object and
+#' converts it into Jeffreys' approximate Bayes factor, given the sample size
+#' used in the fit.
+#'
+#' @inheritParams alphaN
 #' @param glm_obj a glm or lm object.
 #' @param covariate the name of the covariate that you want a BF for as a string.
-#' @param method Used for the choice of 'b'. Currently one of:
-#' \itemize{
-#'   \item "JAB": this choice of b produces Jeffery's approximate BF (Wagenmakers, 2022)
-#'   \item "min": uses the minimal training sample for the prior (Gu et al., 2018)
-#'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, 1995)
-#'   \item "balanced": this choice of b balances the type I and type II errors (Gu et al, 2016)
-#' }
-#' @param upper The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
 #'
 #' @return A numeric value for the BF in favour of H1.
 #' @export
@@ -41,10 +38,23 @@
 #'
 #' # Compute JAB using the minimum prior
 #' JAB(LM, "X", method = "min")
+#' @importFrom stats nobs
 JAB <- function(glm_obj, covariate, method="JAB", upper = 1){
-  glm_obj_sum <- summary(glm_obj)
-  n <- glm_obj_sum$df[1] + glm_obj_sum$df[2]
-  t <- as.numeric(glm_obj_sum$coefficients[covariate,][3])
+  if (!inherits(glm_obj, c("glm", "lm"))) {
+    stop("`glm_obj` must be a model fitted with lm() or glm().", call. = FALSE)
+  }
+  if (!is.character(covariate) || length(covariate) != 1) {
+    stop("`covariate` must be a single character string.", call. = FALSE)
+  }
+
+  coefs <- summary(glm_obj)$coefficients
+  if (!covariate %in% rownames(coefs)) {
+    stop("Covariate '", covariate, "' not found in the model. Available: ",
+         paste(rownames(coefs), collapse = ", "), ".", call. = FALSE)
+  }
+
+  n <- nobs(glm_obj)
+  t <- coefs[covariate, 3]
 
   BF <- JABt(n = n, t = t, method = method, upper = upper)
 

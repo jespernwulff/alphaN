@@ -26,3 +26,14 @@ test_that("JAB increases when df decrease for the t-stat", {
   expect_gt(JABp(n, p, z = FALSE, df = 98), JABp(n, p, z = FALSE, df = 99))
   expect_gt(JABp(n, p, z = FALSE, df = 97), JABp(n, p, z = FALSE, df = 98))
 })
+
+test_that("JABp rejects invalid input with informative errors", {
+  expect_error(JABp(100, 0.05, z = FALSE), "df")
+  expect_error(JABp(100, 0.05, z = FALSE, df = -3), "df")
+  expect_error(JABp(100, 1.5), "\\(0, 1\\]")
+  expect_error(JABp(100, 0), "\\(0, 1\\]")
+  expect_error(JABp(100, -0.2), "\\(0, 1\\]")
+  expect_error(JABp(100, "small"), "numeric")
+  expect_error(JABp(100, 0.05, z = "yes"), "TRUE or FALSE")
+  expect_error(JABp(100, 0.05, method = "typo"), "should be one of")
+})

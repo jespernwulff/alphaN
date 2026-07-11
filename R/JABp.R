@@ -1,17 +1,12 @@
-#' Title
+#' Transforms a p-value into Jeffreys' approximate Bayes factor
 #'
-#' @param n Sample size.
-#' @param p The p-value.
+#' Converts a two-sided p-value from a z- or t-test into Jeffreys' approximate
+#' Bayes factor, given the sample size.
+#'
+#' @inheritParams alphaN
+#' @param p The two-sided p-value.
 #' @param z Is the p-value based on a z- or t-statistic? TRUE if z.
 #' @param df If z=FALSE, provide the degrees of freedom for the t-statistic.
-#' @param method Used for the choice of 'b'. Currently one of:
-#' \itemize{
-#'   \item "JAB": this choice of b produces Jeffery's approximate BF (Wagenmakers, 2022)
-#'   \item "min": uses the minimal training sample for the prior (Gu et al., 2018)
-#'   \item "robust": a robust version of "min" that prevents too small b (O'Hagan, 1995)
-#'   \item "balanced": this choice of b balances the type I and type II errors (Gu et al, 2016)
-#' }
-#' @param upper The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
 #'
 #' @return A numeric value for the BF in favour of H1.
 #' @export
@@ -27,10 +22,26 @@
 #'
 #' @importFrom stats qnorm qt
 JABp <- function(n, p, z = TRUE, df = NULL, method = "JAB", upper = 1){
+  if (!is.numeric(p) || length(p) == 0 || !all(is.finite(p)) ||
+      any(p <= 0) || any(p > 1)) {
+    stop("`p` must be numeric with values in (0, 1].", call. = FALSE)
+  }
+  if (!isTRUE(z) && !isFALSE(z)) {
+    stop("`z` must be TRUE or FALSE.", call. = FALSE)
+  }
+
   # Find the corresponding z- or t-statistic
   if(z){
     stat <- qnorm(p/2, lower.tail = FALSE)
   } else {
+    if (is.null(df)) {
+      stop("When `z = FALSE`, provide the degrees of freedom of the t-statistic via `df`.",
+           call. = FALSE)
+    }
+    if (!is.numeric(df) || length(df) == 0 || !all(is.finite(df)) ||
+        any(df <= 0)) {
+      stop("`df` must be a positive, finite numeric value.", call. = FALSE)
+    }
     stat <- qt(p/2, df = df, lower.tail = FALSE)
   }
 

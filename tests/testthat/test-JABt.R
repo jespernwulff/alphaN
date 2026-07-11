@@ -60,3 +60,24 @@ test_that("method = robust has a higher BF than method = min", {
   expect_gt(JABt(300, 1, method = "robust"), JABt(300, 1, method = "min"))
 })
 
+test_that("JABt vectorizes over n for every method", {
+  ns <- c(100, 1000, 10000)
+  for (m in c("JAB", "min", "robust", "balanced")) {
+    expect_equal(JABt(ns, 2, method = m),
+                 vapply(ns, function(n) JABt(n, 2, method = m), numeric(1)))
+  }
+})
+
+test_that("JABt vectorizes over t", {
+  ts <- c(0, 1, 2.5)
+  expect_equal(JABt(100, ts),
+               vapply(ts, function(t) JABt(100, t), numeric(1)))
+})
+
+test_that("JABt rejects invalid input with informative errors", {
+  expect_error(JABt(100, 2, method = "typo"), "should be one of")
+  expect_error(JABt(-100, 2), "positive")
+  expect_error(JABt(100, "big"), "numeric")
+  expect_error(JABt(100, NA), "missing")
+})
+

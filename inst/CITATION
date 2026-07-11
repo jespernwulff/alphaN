@@ -1,0 +1,17 @@
+citHeader("To cite alphaN in publications use:")
+
+bibentry(
+  bibtype = "Article",
+  title   = "How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing",
+  author  = c(person("Jesper", "Wulff"), person("Luke", "Taylor")),
+  journal = "Strategic Organization",
+  year    = "2024",
+  doi     = "10.1177/14761270231214429",
+  textVersion = paste(
+    "Wulff, J. N., & Taylor, L. (2024).",
+    "How and why alpha should depend on sample size:",
+    "A Bayesian-frequentist compromise for significance testing.",
+    "Strategic Organization.",
+    "doi:10.1177/14761270231214429"
+  )
+)
