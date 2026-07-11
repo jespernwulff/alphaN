@@ -127,3 +127,48 @@ alphaN_plot(BF = 3)
 ```
 
 ![](intro-alphaN_files/figure-html/unnamed-chunk-6-1.png)
+
+### Calibrating alpha to effect-size and moment Bayes factors
+
+The four methods above all invert Jeffreys’ approximate Bayes factor,
+whose prior places its mode on a null effect. Klauer, Meyer-Grant &
+Kellen (2024) propose two alternative families of Bayes factors whose
+priors instead center the alternative hypothesis on an effect size
+$`d_e`$ chosen by the researcher: *effect-size* Bayes factors, and
+*moment* Bayes factors, under which effects near zero are a priori
+implausible. `alphaN` can calibrate the alpha level to these Bayes
+factors, which answers the question: which alpha do I need so that a
+significant result corresponds to a Bayes factor of at least `BF`
+against an alternative centered on the effect size I actually care
+about?
+
+``` r
+
+# alpha needed at n = 1000 for moderate evidence (BF = 3), targeting a
+# medium-sized effect (de = 0.5)
+alphaN(1000, BF = 3, method = "ES", de = 0.5)
+#> [1] 0.002189564
+alphaN(1000, BF = 3, method = "moment", de = 0.5)
+#> [1] 0.0004913521
+```
+
+Because the moment prior rules out effects near zero, the alpha level it
+implies falls much faster with the sample size than under JAB:
+
+``` r
+
+ns <- c(100, 1000, 10000)
+round(rbind(JAB    = alphaN(ns, BF = 3),
+            ES     = alphaN(ns, BF = 3, method = "ES"),
+            moment = alphaN(ns, BF = 3, method = "moment")), 5)
+#>           [,1]    [,2]    [,3]
+#> JAB    0.00910 0.00255 0.00073
+#> ES     0.01185 0.00219 0.00058
+#> moment 0.00788 0.00049 0.00002
+```
+
+The prior settings follow the recommendations of Klauer et al. (2024)
+and can be adjusted through the `nu` and `r` arguments; see
+[`?alphaN`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+for details, including how to recover the calibration of the default
+(Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al. (2009).

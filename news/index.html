@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">alphaN</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +35,16 @@
       <small>Source: <a href="https://github.com/jespernwulff/alphaN/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="alphan-020">alphaN 0.2.0<a class="anchor" aria-label="anchor" href="#alphan-020"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li>
+<code><a href="../reference/alphaN.html">alphaN()</a></code> gains two methods based on Klauer, Meyer-Grant &amp; Kellen (2024, Psychonomic Bulletin &amp; Review, <a href="doi:10.3758/s13423-024-02612-2" class="uri">doi:10.3758/s13423-024-02612-2</a>): <code>method = "ES"</code> calibrates alpha to their effect-size Bayes factor, whose prior centers the alternative hypothesis on a prespecified effect size, and <code>method = "moment"</code> calibrates alpha to their moment Bayes factor, under which effects near zero are a priori implausible. New arguments <code>de</code> (targeted effect size, default 0.5), <code>nu</code>, and <code>r</code> control the priors, with defaults following the paper’s recommendations. Because the moment prior rules out near-zero effects, the alpha level it implies falls much faster with <code>n</code> than under JAB.</li>
+<li>As a special case, <code>method = "ES", nu = 1, de = 0</code> with an explicit <code>r</code> calibrates alpha to the default (Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al. (2009).</li>
+<li>The implementation is validated against all twelve Bayes factors printed in Table 7 of Klauer et al. (2024); these checks are part of the test suite.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.3" id="alphan-013">alphaN 0.1.3<a class="anchor" aria-label="anchor" href="#alphan-013"></a></h2>
 <div class="section level3">

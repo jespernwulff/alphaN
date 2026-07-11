@@ -16,8 +16,8 @@ JAB_plot(n, BF = 1, method = "JAB", upper = 1)
 
 - BF:
 
-  Bayes factor you would like to match. 1 to avoid Lindley's Paradox, 3
-  to achieve moderate evidence and 10 to achieve strong evidence.
+  Bayes factor you would like to match. 1 to avoid the Lindley Paradox,
+  3 to achieve moderate evidence and 10 to achieve strong evidence.
 
 - method:
 
