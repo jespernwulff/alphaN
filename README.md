@@ -24,6 +24,12 @@ Calculations are based on [Wulff & Taylor
 (2024)](https://doi.org/10.1177/14761270231214429). If you enjoy the
 package, please consider citing the paper (see `citation("alphaN")`).
 
+As of version 0.2.0, `alphaN()` can also calibrate the alpha level to
+the effect-size and moment Bayes factors of [Klauer, Meyer-Grant &
+Kellen (2024)](https://doi.org/10.3758/s13423-024-02612-2), which center
+the alternative hypothesis on an effect size of your choosing
+(`method = "ES"` and `method = "moment"`).
+
 If you’re not an R user, you may also be interested in the associated
 [Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
 

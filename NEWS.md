@@ -1,3 +1,23 @@
+# alphaN 0.2.0
+
+## New features
+
+* `alphaN()` gains two methods based on Klauer, Meyer-Grant & Kellen (2024,
+  Psychonomic Bulletin & Review, doi:10.3758/s13423-024-02612-2):
+  `method = "ES"` calibrates alpha to their effect-size Bayes factor, whose
+  prior centers the alternative hypothesis on a prespecified effect size, and
+  `method = "moment"` calibrates alpha to their moment Bayes factor, under
+  which effects near zero are a priori implausible. New arguments `de`
+  (targeted effect size, default 0.5), `nu`, and `r` control the priors, with
+  defaults following the paper's recommendations. Because the moment prior
+  rules out near-zero effects, the alpha level it implies falls much faster
+  with `n` than under JAB.
+* As a special case, `method = "ES", nu = 1, de = 0` with an explicit `r`
+  calibrates alpha to the default (Jeffreys-Zellner-Siow type) Bayes factor of
+  Rouder et al. (2009).
+* The implementation is validated against all twelve Bayes factors printed in
+  Table 7 of Klauer et al. (2024); these checks are part of the test suite.
+
 # alphaN 0.1.3
 
 ## Bug fixes

@@ -4,7 +4,7 @@
 #' converts it into Jeffreys' approximate Bayes factor, given the sample size
 #' used in the fit.
 #'
-#' @inheritParams alphaN
+#' @inheritParams JABt
 #' @param glm_obj a glm or lm object.
 #' @param covariate the name of the covariate that you want a BF for as a string.
 #'

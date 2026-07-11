@@ -1,9 +1,15 @@
-# alphaN 0.1.3
+# alphaN 0.2.0
 
-This is a maintenance release. It fixes incorrect results for vector-valued
-sample sizes with two of the prior methods, adds input validation with
-informative error messages, corrects and updates references (the companion
-paper is now published), and adds a CITATION file.
+This release adds one feature and several fixes:
+
+* New: `alphaN()` can calibrate the alpha level to the effect-size and moment
+  Bayes factors of Klauer, Meyer-Grant, and Kellen (2024)
+  <doi:10.3758/s13423-024-02612-2> (`method = "ES"` / `"moment"`). The
+  implementation is validated against the values published in that paper
+  (regression tests included).
+* Fixed incorrect results for vector-valued sample sizes with two of the
+  prior methods; added input validation with informative error messages;
+  corrected and updated references; added a CITATION file.
 
 ## Test environments
 

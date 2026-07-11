@@ -9,7 +9,7 @@ JAB_plot(n, BF = 1, method = "JAB", upper = 1)
 \arguments{
 \item{n}{Sample size. A positive numeric vector.}
 
-\item{BF}{Bayes factor you would like to match. 1 to avoid Lindley's Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.}
+\item{BF}{Bayes factor you would like to match. 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.}
 
 \item{method}{Used for the choice of 'b'. Currently one of:
 \itemize{

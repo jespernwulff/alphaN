@@ -1,6 +1,7 @@
 #' Plots JAB as a function of the p-value
 #'
-#' @inheritParams alphaN
+#' @inheritParams JABt
+#' @param BF Bayes factor you would like to match. 1 to avoid the Lindley Paradox, 3 to achieve moderate evidence and 10 to achieve strong evidence.
 #'
 #' @return Prints a plot.
 #' @export
@@ -10,6 +11,7 @@
 #' JAB_plot(2000)
 #' @importFrom graphics abline axis points
 JAB_plot <- function(n, BF=1, method="JAB", upper = 1){
+  method <- match.arg(method, c("JAB", "min", "robust", "balanced"))
 
   alpha <- alphaN(n = n, BF = BF, method = method, upper = upper)
 

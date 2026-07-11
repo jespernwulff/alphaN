@@ -3,7 +3,7 @@
 #' Converts a two-sided p-value from a z- or t-test into Jeffreys' approximate
 #' Bayes factor, given the sample size.
 #'
-#' @inheritParams alphaN
+#' @inheritParams JABt
 #' @param p The two-sided p-value.
 #' @param z Is the p-value based on a z- or t-statistic? TRUE if z.
 #' @param df If z=FALSE, provide the degrees of freedom for the t-statistic.

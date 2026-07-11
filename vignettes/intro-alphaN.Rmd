@@ -83,10 +83,32 @@ For instance, to achieve evidence of 3 for 1,000 observations while we ensure ba
 ```{r}
 alphaN(1000, BF = 3, method = "balanced")
 ```
-The package contains the convenience function `alphaN_plot` that allows a quick comparison of alpha as a function of sample size for the four different methods: 
+The package contains the convenience function `alphaN_plot` that allows a quick comparison of alpha as a function of sample size for the four different methods:
 
 ```{r}
 alphaN_plot(BF = 3)
 ```
+
+## Calibrating alpha to effect-size and moment Bayes factors
+
+The four methods above all invert Jeffreys' approximate Bayes factor, whose prior places its mode on a null effect. Klauer, Meyer-Grant & Kellen (2024) propose two alternative families of Bayes factors whose priors instead center the alternative hypothesis on an effect size $d_e$ chosen by the researcher: *effect-size* Bayes factors, and *moment* Bayes factors, under which effects near zero are a priori implausible. `alphaN` can calibrate the alpha level to these Bayes factors, which answers the question: which alpha do I need so that a significant result corresponds to a Bayes factor of at least `BF` against an alternative centered on the effect size I actually care about?
+
+```{r}
+# alpha needed at n = 1000 for moderate evidence (BF = 3), targeting a
+# medium-sized effect (de = 0.5)
+alphaN(1000, BF = 3, method = "ES", de = 0.5)
+alphaN(1000, BF = 3, method = "moment", de = 0.5)
+```
+
+Because the moment prior rules out effects near zero, the alpha level it implies falls much faster with the sample size than under JAB:
+
+```{r}
+ns <- c(100, 1000, 10000)
+round(rbind(JAB    = alphaN(ns, BF = 3),
+            ES     = alphaN(ns, BF = 3, method = "ES"),
+            moment = alphaN(ns, BF = 3, method = "moment")), 5)
+```
+
+The prior settings follow the recommendations of Klauer et al. (2024) and can be adjusted through the `nu` and `r` arguments; see `?alphaN` for details, including how to recover the calibration of the default (Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al. (2009).
 
 
