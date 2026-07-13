@@ -1,6 +1,10 @@
 # Changelog
 
+## alphaN (development version)
+
 ## alphaN 0.2.0
+
+CRAN release: 2026-07-12
 
 ### New features
 
