@@ -9,6 +9,9 @@
 ^\.github$
 ^CLAUDE\.md$
 ^SESSIONLOG\.md$
+^\.claude$
+^RJournal-brief\.md$
+^paper$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
