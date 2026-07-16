@@ -15,3 +15,23 @@ bibentry(
     "doi:10.1177/14761270231214429"
   )
 )
+
+bibentry(
+  header  = "If you use the effect-size or moment calibrations (method = 'ES' or 'moment') or klauerBF(), please also cite:",
+  bibtype = "Article",
+  title   = "On Bayes factors for hypothesis tests",
+  author  = c(person("Karl Christoph", "Klauer"),
+              person("Constantin G.", "Meyer-Grant"),
+              person("David", "Kellen")),
+  journal = "Psychonomic Bulletin & Review",
+  year    = "2025",
+  volume  = "32",
+  pages   = "1070-1094",
+  doi     = "10.3758/s13423-024-02612-2",
+  textVersion = paste(
+    "Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025).",
+    "On Bayes factors for hypothesis tests.",
+    "Psychonomic Bulletin & Review, 32, 1070-1094.",
+    "doi:10.3758/s13423-024-02612-2"
+  )
+)
