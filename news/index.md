@@ -5,6 +5,28 @@
 ### New features
 
 - New function
+  [`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
+  writes a preregistration-ready Markdown settings report: every input
+  behind a calibrated alpha (sample size, evidence target, method, prior
+  settings), the resulting alpha, the decision rule, and the references
+  to cite. It mirrors the downloadable report of the companion Shiny
+  application and can write straight to a file.
+
+- [`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md)
+  called without a `covariate` now returns a named vector with the Bayes
+  factor of every coefficient except the intercept (which remains
+  available on explicit request).
+
+- [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
+  and
+  [`JAB_plot()`](https://jespernwulff.github.io/alphaN/reference/JAB_plot.md)
+  have been restyled: colorblind-safe Okabe-Ito palette, light grid
+  lines, open axes, and horizontal axis labels.
+  [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
+  additionally gains a `log` argument (“x”, “y”, “xy”) which helps when
+  the fast-falling “moment” curve is drawn next to the others.
+
+- New function
   [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
   exports the effect-size and moment Bayes factors of Klauer,
   Meyer-Grant & Kellen (2025) that
@@ -12,6 +34,7 @@
   inverts: from a t statistic (one-sample test or single regression
   coefficient) or from an F statistic for a joint test of `q`
   coefficients.
+
 - [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
   (methods `"ES"` and `"moment"`) gains arguments `q` and `p`. With
   `q > 1` the alpha level is calibrated for the joint F test of q
@@ -24,14 +47,17 @@
   is now `5 + (q - 1)` and the ES-prior scale recommendation generalizes
   to `r = sqrt((nu - 2)/(nu * q)) * de`, both following the paper
   (unchanged at `q = 1`).
+
 - New function
   [`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)
   computes the effective sample size `n * (se/se_robust)^2` that Wulff &
   Taylor (2024) recommend as a sensitivity check when calibrating alpha
   with clustered (panel) data.
+
 - [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
   gains a `methods` argument and can now draw the `"ES"` and `"moment"`
   curves alongside the prior-fraction methods.
+
 - The regression-case implementation is validated against all printed
   Bayes factors in Table 8 of Klauer et al. (2025), in addition to the
   existing Table 7 anchors, and the q = 1 F form agrees with the

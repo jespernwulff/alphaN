@@ -162,7 +162,8 @@
 </h3>
 <p><code><a href="reference/alphaN_plot.html">alphaN_plot()</a></code> compares alpha as a function of sample size across any selection of the calibration methods (the four prior fractions by default):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_plot.html">alphaN_plot</a></span><span class="op">(</span>BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_plot.html">alphaN_plot</a></span><span class="op">(</span>BF <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>            methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JAB"</span>, <span class="st">"min"</span>, <span class="st">"robust"</span>, <span class="st">"balanced"</span>, <span class="st">"ES"</span>, <span class="st">"moment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-alphaN-plot-1.png" alt="" width="100%"></p>
 <p><code><a href="reference/JAB_plot.html">JAB_plot()</a></code> shows how the Bayes factor maps onto the p-value for a given sample size, marking the alpha levels needed for evidence thresholds of 1, 3, and 10:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">

@@ -91,7 +91,14 @@ hypothesis on a prespecified effect size <code>de</code>. One of:</p><ul><li><p>
 
 
 <dt id="arg-upper">upper<a class="anchor" aria-label="anchor" href="#arg-upper"></a></dt>
-<dd><p>The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).</p></dd>
+<dd><p>The upper limit for the range of realistic effect sizes. Only
+relevant when method="balanced". Defaults to 1 such that the range of
+realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
+Conceptually, <code>upper</code> plays for the "balanced" method the role that <code>de</code>
+plays for "ES" and "moment": both declare which effect sizes the
+researcher deems realistic. <code>upper</code> treats them as a uniform band whose
+Type I and Type II error rates are then balanced, whereas <code>de</code> singles
+out a focal effect size on which the prior concentrates.</p></dd>
 
 
 <dt id="arg-de">de<a class="anchor" aria-label="anchor" href="#arg-de"></a></dt>

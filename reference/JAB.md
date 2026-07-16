@@ -1,13 +1,13 @@
-# Transforms a t-statistic from a glm or lm object into Jeffreys' approximate Bayes factor
+# Transforms t-statistics from a glm or lm object into Jeffreys' approximate Bayes factors
 
-Extracts the test statistic of a coefficient from a fitted model object
-and converts it into Jeffreys' approximate Bayes factor, given the
-sample size used in the fit.
+Extracts the test statistic of one coefficient, or of every coefficient,
+from a fitted model object and converts it into Jeffreys' approximate
+Bayes factor, given the sample size used in the fit.
 
 ## Usage
 
 ``` r
-JAB(glm_obj, covariate, method = "JAB", upper = 1)
+JAB(glm_obj, covariate = NULL, method = "JAB", upper = 1)
 ```
 
 ## Arguments
@@ -18,7 +18,10 @@ JAB(glm_obj, covariate, method = "JAB", upper = 1)
 
 - covariate:
 
-  the name of the covariate that you want a BF for as a string.
+  the name of the covariate that you want a BF for, as a string. The
+  default, NULL, returns a named vector with the Bayes factor of every
+  coefficient except the intercept (request the intercept explicitly
+  with `covariate = "(Intercept)"` if you need it).
 
 - method:
 
@@ -44,7 +47,8 @@ JAB(glm_obj, covariate, method = "JAB", upper = 1)
 
 ## Value
 
-A numeric value for the BF in favour of H1.
+A numeric value with the BF in favour of H1, or a named vector of BFs
+when `covariate = NULL`.
 
 ## Examples
 
@@ -73,6 +77,11 @@ LM <- glm(Y ~ X + Z1 + Z2 + Z3 + Z4)
 # Compute JAB for "X" based on the regression results
 JAB(LM, "X")
 #> [1] 0.07981323
+
+# Compute JAB for every coefficient at once
+JAB(LM)
+#>          X         Z1         Z2         Z3         Z4 
+#> 0.07981323 0.09386151 0.20528203 0.09049906 0.07918742 
 
 # Compute JAB using the minimum prior
 JAB(LM, "X", method = "min")

@@ -7,7 +7,8 @@ The prior-fraction curves ("JAB", "min", "robust", "balanced") are
 evaluated exactly at every sample size; the "ES" and "moment" curves are
 evaluated at twelve log-spaced sample sizes and interpolated by a spline
 on the log-log scale, which keeps the plot fast (expect roughly a second
-of computation per Klauer-type curve).
+of computation per Klauer-type curve). Colors follow the colorblind-safe
+Okabe-Ito palette.
 
 ## Usage
 
@@ -17,7 +18,8 @@ alphaN_plot(
   max = 10000,
   ylim = NULL,
   methods = c("JAB", "min", "robust", "balanced"),
-  de = 0.5
+  de = 0.5,
+  log = ""
 )
 ```
 
@@ -52,6 +54,13 @@ alphaN_plot(
   medium effect; use 0.2 for small and 0.8 for large effects (Cohen,
   1988).
 
+- log:
+
+  Passed to [`plot()`](https://rdrr.io/r/graphics/plot.default.html): ""
+  (default) for linear axes, "x", "y", or "xy" for logarithmic ones.
+  Logarithmic axes are useful when the "moment" curve is included, since
+  it falls much faster than the others.
+
 ## Value
 
 Prints a plot.
@@ -64,5 +73,5 @@ alphaN_plot(BF = 3)
 
 
 # Compare JAB with the effect-size and moment calibrations
-alphaN_plot(BF = 3, methods = c("JAB", "ES", "moment"))
+alphaN_plot(BF = 3, methods = c("JAB", "ES", "moment"), log = "xy")
 ```

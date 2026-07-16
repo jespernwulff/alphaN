@@ -233,6 +233,17 @@ linear model (t tests, linear regression, ANOVA). For other generalized
 linear models they apply in the same asymptotic sense as the four
 prior-fraction methods, which is why the prior-fraction methods are the
 natural choice for, say, a logit model with a modest sample.</p>
+<p>Note a conceptual kinship across methods: the <code>upper</code>
+argument of the balanced method and the targeted effect size
+<code>de</code> of the ES and moment methods both declare which effect
+sizes you consider realistic. The balanced method treats them as a
+uniform band over which Type I and Type II error rates are balanced; the
+ES and moment priors concentrate on a focal effect size instead. If you
+can only name a plausible <em>range</em>,
+<code>method = "balanced"</code> with a matching <code>upper</code>
+expresses that; if you can name the effect size you actually care about,
+<code>method = "ES"</code> or <code>"moment"</code> with <code>de</code>
+is the sharper statement.</p>
 <p>Finally, for clustered (panel) data, Wulff &amp; Taylor (2024)
 recommend calibrating with the total number of observations, the
 conservative choice, and then checking sensitivity with the effective

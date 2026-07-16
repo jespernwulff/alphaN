@@ -3,8 +3,8 @@
 ## All functions
 
 - [`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md) :
-  Transforms a t-statistic from a glm or lm object into Jeffreys'
-  approximate Bayes factor
+  Transforms t-statistics from a glm or lm object into Jeffreys'
+  approximate Bayes factors
 - [`JAB_plot()`](https://jespernwulff.github.io/alphaN/reference/JAB_plot.md)
   : Plots JAB as a function of the p-value
 - [`JABp()`](https://jespernwulff.github.io/alphaN/reference/JABp.md) :
@@ -17,6 +17,8 @@
 - [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
   : Creates a plot of alpha as function of sample size for the chosen
   methods
+- [`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
+  : Write a settings report for a calibrated alpha level
 - [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
   : Effect-size or moment Bayes factor from a t or F statistic
 - [`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)

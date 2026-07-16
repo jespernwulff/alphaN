@@ -178,7 +178,8 @@ calibration methods (the four prior fractions by default):
 
 ``` r
 
-alphaN_plot(BF = 3)
+alphaN_plot(BF = 3,
+            methods = c("JAB", "min", "robust", "balanced", "ES", "moment"))
 ```
 
 ![](reference/figures/README-alphaN-plot-1.png)

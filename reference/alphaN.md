@@ -64,6 +64,11 @@ alphaN(
   The upper limit for the range of realistic effect sizes. Only relevant
   when method="balanced". Defaults to 1 such that the range of realistic
   effect sizes is uniformly distributed between 0 and 1, U(0,1).
+  Conceptually, `upper` plays for the "balanced" method the role that
+  `de` plays for "ES" and "moment": both declare which effect sizes the
+  researcher deems realistic. `upper` treats them as a uniform band
+  whose Type I and Type II error rates are then balanced, whereas `de`
+  singles out a focal effect size on which the prior concentrates.
 
 - de:
 

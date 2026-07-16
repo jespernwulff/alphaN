@@ -210,6 +210,16 @@ models they apply in the same asymptotic sense as the four
 prior-fraction methods, which is why the prior-fraction methods are the
 natural choice for, say, a logit model with a modest sample.
 
+Note a conceptual kinship across methods: the `upper` argument of the
+balanced method and the targeted effect size `de` of the ES and moment
+methods both declare which effect sizes you consider realistic. The
+balanced method treats them as a uniform band over which Type I and Type
+II error rates are balanced; the ES and moment priors concentrate on a
+focal effect size instead. If you can only name a plausible *range*,
+`method = "balanced"` with a matching `upper` expresses that; if you can
+name the effect size you actually care about, `method = "ES"` or
+`"moment"` with `de` is the sharper statement.
+
 Finally, for clustered (panel) data, Wulff & Taylor (2024) recommend
 calibrating with the total number of observations, the conservative
 choice, and then checking sensitivity with the effective sample size,
