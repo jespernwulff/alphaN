@@ -13,7 +13,7 @@ Vectorized over n and BF."><meta property="og:image" content="https://jespernwul
 
     <a class="navbar-brand me-2" href="../index.html">alphaN</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ Vectorized over n and BF."><meta property="og:image" content="https://jespernwul
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Set the alpha level based on sample size for coefficients in a regression model</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jespernwulff/alphaN/blob/v0.2.0/R/alphaN.R" class="external-link"><code>R/alphaN.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jespernwulff/alphaN/blob/master/R/alphaN.R" class="external-link"><code>R/alphaN.R</code></a></small>
       <div class="d-none name"><code>alphaN.Rd</code></div>
     </div>
 
@@ -51,7 +51,17 @@ Vectorized over <code>n</code> and <code>BF</code>.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">alphaN</span><span class="op">(</span><span class="va">n</span>, BF <span class="op">=</span> <span class="fl">1</span>, method <span class="op">=</span> <span class="st">"JAB"</span>, upper <span class="op">=</span> <span class="fl">1</span>, de <span class="op">=</span> <span class="fl">0.5</span>, nu <span class="op">=</span> <span class="cn">NULL</span>, r <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">alphaN</span><span class="op">(</span></span>
+<span>  <span class="va">n</span>,</span>
+<span>  BF <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"JAB"</span>,</span>
+<span>  upper <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  de <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  nu <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  r <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  q <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,13 +80,13 @@ Vectorized over <code>n</code> and <code>BF</code>.</p>
 <dd><p>Which Bayes factor to calibrate alpha to. The first four
 options invert Jeffreys' approximate Bayes factor and differ in the choice
 of the prior fraction 'b'; the last two invert the exact test-statistic
-Bayes factors of Klauer et al. (2024), whose priors center the alternative
+Bayes factors of Klauer et al. (2025), whose priors center the alternative
 hypothesis on a prespecified effect size <code>de</code>. One of:</p><ul><li><p>"JAB": this choice of b produces Jeffreys' approximate BF (Wagenmakers, 2022)</p></li>
 <li><p>"min": uses the minimal training sample for the prior (Gu et al., 2018)</p></li>
 <li><p>"robust": a robust version of "min" that prevents too small b (O'Hagan, 1995)</p></li>
 <li><p>"balanced": this choice of b balances the type I and type II errors (Gu et al., 2016)</p></li>
-<li><p>"ES": calibrates alpha to the effect-size Bayes factor (Klauer et al., 2024)</p></li>
-<li><p>"moment": calibrates alpha to the moment Bayes factor (Klauer et al., 2024), under which effects close to zero are a priori implausible</p></li>
+<li><p>"ES": calibrates alpha to the effect-size Bayes factor (Klauer et al., 2025)</p></li>
+<li><p>"moment": calibrates alpha to the moment Bayes factor (Klauer et al., 2025), under which effects close to zero are a priori implausible</p></li>
 </ul></dd>
 
 
@@ -85,22 +95,41 @@ hypothesis on a prespecified effect size <code>de</code>. One of:</p><ul><li><p>
 
 
 <dt id="arg-de">de<a class="anchor" aria-label="anchor" href="#arg-de"></a></dt>
-<dd><p>The prespecified (targeted) effect size in standardized units
-(Cohen's d). Only used by methods "ES" and "moment". Defaults to 0.5, a
+<dd><p>The prespecified (targeted) effect size in standardized units:
+Cohen's d for <code>q = 1</code> and Cohen's f for joint tests (the scales coincide
+at <code>q = 1</code>). Only used by methods "ES" and "moment". Defaults to 0.5, a
 medium effect; use 0.2 for small and 0.8 for large effects (Cohen, 1988).</p></dd>
 
 
 <dt id="arg-nu">nu<a class="anchor" aria-label="anchor" href="#arg-nu"></a></dt>
 <dd><p>Degrees of freedom of the prior t distribution for methods "ES"
 and "moment". The default, NULL, uses the values recommended by Klauer
-et al. (2024): 3 for "ES" and 5 for "moment".</p></dd>
+et al. (2025): 3 for "ES" and <code>5 + (q - 1)</code> for "moment".</p></dd>
 
 
 <dt id="arg-r">r<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
 <dd><p>Scale of the two prior mixture components for method "ES". The
-default, NULL, uses the recommendation of Klauer et al. (2024),
-r = sqrt((nu - 2)/nu) * de, which requires nu &gt; 2 and de &gt; 0; otherwise
-supply <code>r</code> explicitly.</p></dd>
+default, NULL, uses the recommendation of Klauer et al. (2025),
+<code>r = sqrt((nu - 2)/(nu * q)) * de</code>, which requires nu &gt; 2 and de &gt; 0;
+otherwise supply <code>r</code> explicitly.</p></dd>
+
+
+<dt id="arg-q">q<a class="anchor" aria-label="anchor" href="#arg-q"></a></dt>
+<dd><p>Number of coefficients tested jointly. Only used by methods "ES"
+and "moment". The default, 1, is the test of a single coefficient; for
+<code>q &gt; 1</code> the alpha level is set for the F test of the joint null that all
+q coefficients are zero.</p></dd>
+
+
+<dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
+<dd><p>Number of parameters retained in the model under the null,
+including any intercept. Only used by methods "ES" and "moment". The
+effective sample size of Klauer et al. (2025) is <code>n - p</code>; the default,
+0, reproduces the one-sample form, which treats the sample size as
+effective. For a regression coefficient in a small sample, setting <code>p</code>
+to the number of other estimated coefficients (including the intercept)
+gives the residual-degrees-of-freedom behavior of the exact regression
+case.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -109,20 +138,29 @@ supply <code>r</code> explicitly.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>For methods "ES" and "moment", the alpha level is found by solving for the
-critical t value at which the effect-size or moment Bayes factor equals
-<code>BF</code>, and converting that critical value to a two-sided p-value on the t
-distribution with <code>n - 1</code> degrees of freedom (the one-sample /
-single-coefficient case of Klauer et al., 2024). The implementation is
-validated against the Bayes factors reported in Table 7 of that paper.
-Because the moment prior assigns effects near zero a priori density zero,
-the alpha level it implies decreases much faster with <code>n</code> than under JAB.</p>
+    <p>For methods "ES" and "moment" with <code>q = 1</code>, the alpha level is found by
+solving for the critical t value at which the effect-size or moment Bayes
+factor equals <code>BF</code>, and converting that critical value to a two-sided
+p-value on the t distribution with <code>n - p - 1</code> degrees of freedom. For
+<code>q &gt; 1</code>, the same inversion runs through the noncentral-F form of the
+Bayes factors (Klauer et al., 2025, Table 4), and alpha is a p-value on
+the F distribution with <code>(q, n - p - q)</code> degrees of freedom. The
+implementation is validated against the Bayes factors reported in Tables
+7 and 8 of that paper. Because the moment prior assigns effects near zero
+a priori density zero, the alpha level it implies decreases much faster
+with <code>n</code> than under JAB.</p>
+<p>Klauer et al. (2025) derive these Bayes factors under the normal linear
+model (t tests, linear regression, ANOVA). For other generalized linear
+models, the "ES" and "moment" calibrations hold in the same asymptotic
+sense as the prior-fraction methods, whose Wald-based derivation covers
+any generalized linear model directly; for non-Gaussian models with
+modest <code>n</code>, prefer the prior-fraction methods.</p>
 <p>As a special case, setting <code>method = "ES", nu = 1, de = 0</code> with an
 explicit scale (e.g. <code>r = 1</code>) calibrates alpha to the default
 (Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al. (2009).</p>
-<p>For <code>n</code> greater than 50,000, methods "ES" and "moment" evaluate the
-noncentral-t density ratio in its normal limit, which is accurate to a
-fraction of a percent there.</p>
+<p>For effective sample sizes greater than 50,000, methods "ES" and "moment"
+evaluate the noncentral density ratio in its normal (or chi-square)
+limit, which is accurate to a fraction of a percent there.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -130,12 +168,12 @@ fraction of a percent there.</p>
 
 <p>Gu et al. (2016). Error probabilities in default Bayesian hypothesis testing. Journal of Mathematical Psychology, 72, 130–143. <br><br>
 Gu et al. (2018). Approximated adjusted fractional Bayes factors: A general method for testing informative hypotheses. The British Journal of Mathematical and Statistical Psychology, 71(2). <br><br>
-Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2024). On Bayes factors for hypothesis tests. Psychonomic Bulletin &amp; Review. <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">doi:10.3758/s13423-024-02612-2</a>
+Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2025). On Bayes factors for hypothesis tests. Psychonomic Bulletin &amp; Review, 32, 1070–1094. <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">doi:10.3758/s13423-024-02612-2</a>
  <br><br>
 O’Hagan, A. (1995). Fractional Bayes Factors for Model Comparison. Journal of the Royal Statistical Society. Series B (Methodological), 57(1), 99–138. <br><br>
 Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., &amp; Iverson, G. (2009). Bayesian t tests for accepting and rejecting the null hypothesis. Psychonomic Bulletin &amp; Review, 16, 225–237. <br><br>
 Wagenmakers, E.-J. (2022). Approximate objective Bayes factors from p-values and sample size: The 3p(sqrt(n)) rule. PsyArXiv. <br><br>
-Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. Strategic Organization. <a href="https://doi.org/10.1177/14761270231214429" class="external-link">doi:10.1177/14761270231214429</a></p>
+Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. Strategic Organization, 22(3), 550–581. <a href="https://doi.org/10.1177/14761270231214429" class="external-link">doi:10.1177/14761270231214429</a></p>
     </div>
 
     <div class="section level2">
@@ -145,7 +183,7 @@ Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">seqN</span>, <span class="fu">alphaN</span><span class="op">(</span><span class="va">seqN</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="alphaN-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Alpha calibrated to the effect-size Bayes factor (Klauer et al., 2024),</span></span></span>
+<span class="r-in"><span><span class="co"># Alpha calibrated to the effect-size Bayes factor (Klauer et al., 2025),</span></span></span>
 <span class="r-in"><span><span class="co"># targeting moderate evidence for a medium-sized effect</span></span></span>
 <span class="r-in"><span><span class="fu">alphaN</span><span class="op">(</span><span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002189564</span>
@@ -153,6 +191,12 @@ Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample
 <span class="r-in"><span><span class="co"># The same calibration under the moment Bayes factor</span></span></span>
 <span class="r-in"><span><span class="fu">alphaN</span><span class="op">(</span><span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"moment"</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0004913521</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Alpha for the joint F test of q = 2 coefficients in a model with an</span></span></span>
+<span class="r-in"><span><span class="co"># intercept and one further retained coefficient (p = 2), targeting a</span></span></span>
+<span class="r-in"><span><span class="co"># medium effect on Cohen's f scale</span></span></span>
+<span class="r-in"><span><span class="fu">alphaN</span><span class="op">(</span><span class="fl">200</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, q <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">2</span>, de <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008427417</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

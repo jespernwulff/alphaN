@@ -132,7 +132,7 @@ alphaN_plot(BF = 3)
 
 The four methods above all invert Jeffreys’ approximate Bayes factor,
 whose prior places its mode on a null effect. Klauer, Meyer-Grant &
-Kellen (2024) propose two alternative families of Bayes factors whose
+Kellen (2025) propose two alternative families of Bayes factors whose
 priors instead center the alternative hypothesis on an effect size
 $`d_e`$ chosen by the researcher: *effect-size* Bayes factors, and
 *moment* Bayes factors, under which effects near zero are a priori
@@ -167,8 +167,58 @@ round(rbind(JAB    = alphaN(ns, BF = 3),
 #> moment 0.00788 0.00049 0.00002
 ```
 
-The prior settings follow the recommendations of Klauer et al. (2024)
+The prior settings follow the recommendations of Klauer et al. (2025)
 and can be adjusted through the `nu` and `r` arguments; see
 [`?alphaN`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
 for details, including how to recover the calibration of the default
 (Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al. (2009).
+
+### Bayes factors, joint tests, and clustered data
+
+The Bayes factors behind `method = "ES"` and `method = "moment"` are
+available directly through
+[`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md),
+so a reported test statistic can be converted into evidence under the
+same prior that set the alpha level:
+
+``` r
+
+klauerBF(n = 80, t = 2.24, de = 0.5)
+#> [1] 1.567758
+```
+
+For a joint test of several coefficients,
+[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+and
+[`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
+accept `q` (the number of coefficients tested) and `p` (the number of
+retained parameters, including the intercept). This uses the exact
+regression-case Bayes factors of Klauer et al. (2025), where the
+targeted effect size is on Cohen’s f scale:
+
+``` r
+
+# Alpha for the joint F test of q = 2 coefficients at n = 200, targeting a
+# medium effect
+alphaN(200, BF = 3, method = "ES", q = 2, p = 2, de = sqrt(0.15))
+#> [1] 0.008427417
+```
+
+Klauer et al. (2025) derive these Bayes factors under the normal linear
+model (t tests, linear regression, ANOVA). For other generalized linear
+models they apply in the same asymptotic sense as the four
+prior-fraction methods, which is why the prior-fraction methods are the
+natural choice for, say, a logit model with a modest sample.
+
+Finally, for clustered (panel) data, Wulff & Taylor (2024) recommend
+calibrating with the total number of observations, the conservative
+choice, and then checking sensitivity with the effective sample size,
+computed from the ratio of the classical to the cluster-robust standard
+error:
+
+``` r
+
+# Cluster-robust SE twice the classical one: n_e is four times smaller
+n_effective(n = 237, se = 0.1, se_robust = 0.2)
+#> [1] 59.25
+```

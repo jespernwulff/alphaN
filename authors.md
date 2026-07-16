@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/jespernwulff/alphaN/blob/v0.2.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/jespernwulff/alphaN/blob/master/inst/CITATION)
 
 Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
 sample size: A Bayesian-frequentist compromise for significance testing.
@@ -22,4 +22,18 @@ Strategic Organization. doi:10.1177/14761270231214429
       journal = {Strategic Organization},
       year = {2024},
       doi = {10.1177/14761270231214429},
+    }
+
+Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes factors
+for hypothesis tests. Psychonomic Bulletin & Review, 32, 1070-1094.
+doi:10.3758/s13423-024-02612-2
+
+    @Article{,
+      title = {On Bayes factors for hypothesis tests},
+      author = {Karl Christoph Klauer and Constantin G. Meyer-Grant and David Kellen},
+      journal = {Psychonomic Bulletin & Review},
+      year = {2025},
+      volume = {32},
+      pages = {1070-1094},
+      doi = {10.3758/s13423-024-02612-2},
     }

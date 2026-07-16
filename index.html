@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Set Alpha Based on Sample Size Using Bayes Factors">
-<meta name="description" content="Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Jeffreys Approximate Bayes factor. You tell alphaN() your sample size, and it tells you to which value you must lower alpha to avoid Lindleys Paradox. For details, see Wulff and Taylor (2024) &lt;doi:10.1177/14761270231214429&gt;. Alpha can also be calibrated to the effect-size and moment Bayes factors of Klauer, Meyer-Grant, and Kellen (2024) &lt;doi:10.3758/s13423-024-02612-2&gt;, which center the alternative hypothesis on an effect size of your choosing.">
-<meta property="og:description" content="Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Jeffreys Approximate Bayes factor. You tell alphaN() your sample size, and it tells you to which value you must lower alpha to avoid Lindleys Paradox. For details, see Wulff and Taylor (2024) &lt;doi:10.1177/14761270231214429&gt;. Alpha can also be calibrated to the effect-size and moment Bayes factors of Klauer, Meyer-Grant, and Kellen (2024) &lt;doi:10.3758/s13423-024-02612-2&gt;, which center the alternative hypothesis on an effect size of your choosing.">
+<meta name="description" content="Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Jeffreys Approximate Bayes factor. You tell alphaN() your sample size, and it tells you to which value you must lower alpha to avoid Lindleys Paradox. For details, see Wulff and Taylor (2024) &lt;doi:10.1177/14761270231214429&gt;. Alpha can also be calibrated to the effect-size and moment Bayes factors of Klauer, Meyer-Grant, and Kellen (2025) &lt;doi:10.3758/s13423-024-02612-2&gt;, which center the alternative hypothesis on an effect size of your choosing.">
+<meta property="og:description" content="Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Jeffreys Approximate Bayes factor. You tell alphaN() your sample size, and it tells you to which value you must lower alpha to avoid Lindleys Paradox. For details, see Wulff and Taylor (2024) &lt;doi:10.1177/14761270231214429&gt;. Alpha can also be calibrated to the effect-size and moment Bayes factors of Klauer, Meyer-Grant, and Kellen (2025) &lt;doi:10.3758/s13423-024-02612-2&gt;, which center the alternative hypothesis on an effect size of your choosing.">
 <meta property="og:image" content="https://jespernwulff.github.io/alphaN/logo.png">
 </head>
 <body>
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">alphaN</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
 
 <p>The goal of alphaN is to help the user set their significance level as a function of the sample size. The function <code>alphaN</code> allows users to set the significance level as function of the sample size based on the evidence and the prior features they desire. The function <code>JABt</code> and <code>JABp</code> converts test statistics and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values into sample size dependent Bayes factors. <code>JAB_plot</code> plots the Bayes factor as a function of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value, and <code>alphaN_plot</code> plots the alpha level as a function of sample size for a given Bayes factor.</p>
 <p>Calculations are based on <a href="https://doi.org/10.1177/14761270231214429" class="external-link">Wulff &amp; Taylor (2024)</a>. If you enjoy the package, please consider citing the paper (see <code>citation("alphaN")</code>).</p>
-<p>As of version 0.2.0, <code><a href="reference/alphaN.html">alphaN()</a></code> can also calibrate the alpha level to the effect-size and moment Bayes factors of <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">Klauer, Meyer-Grant &amp; Kellen (2024)</a>, which center the alternative hypothesis on an effect size of your choosing (<code>method = "ES"</code> and <code>method = "moment"</code>).</p>
+<p>As of version 0.2.0, <code><a href="reference/alphaN.html">alphaN()</a></code> can also calibrate the alpha level to the effect-size and moment Bayes factors of <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">Klauer, Meyer-Grant &amp; Kellen (2025)</a>, which center the alternative hypothesis on an effect size of your choosing (<code>method = "ES"</code> and <code>method = "moment"</code>).</p>
 <p>If you’re not an R user, you may also be interested in the associated <a href="https://crossvalidated.shinyapps.io/alphaN/" class="external-link">Shiny app</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -144,14 +144,28 @@
 <span><span class="co">#&gt; [1] 3.634824</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="klauer-bayes-factors-joint-tests-and-clustered-data">Klauer Bayes factors, joint tests, and clustered data<a class="anchor" aria-label="anchor" href="#klauer-bayes-factors-joint-tests-and-clustered-data"></a>
+</h3>
+<p><code><a href="reference/klauerBF.html">klauerBF()</a></code> returns the effect-size or moment Bayes factor itself, so a reported statistic can be converted into evidence under the same prior that set alpha. For joint F tests, <code><a href="reference/alphaN.html">alphaN()</a></code> and <code><a href="reference/klauerBF.html">klauerBF()</a></code> take <code>q</code> (coefficients tested) and <code>p</code> (retained parameters) and use the exact regression-case Bayes factors of Klauer et al. (2025). And <code><a href="reference/n_effective.html">n_effective()</a></code> implements the Wulff &amp; Taylor (2024) effective-sample-size check for clustered data:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/klauerBF.html">klauerBF</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">80</span>, t <span class="op">=</span> <span class="fl">2.24</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.567758</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="fl">200</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, q <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">2</span>, de <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.008427417</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/n_effective.html">n_effective</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">237</span>, se <span class="op">=</span> <span class="fl">0.1</span>, se_robust <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 59.25</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="visualizing-the-trade-offs">Visualizing the trade-offs<a class="anchor" aria-label="anchor" href="#visualizing-the-trade-offs"></a>
 </h3>
-<p><code><a href="reference/alphaN_plot.html">alphaN_plot()</a></code> compares alpha as a function of sample size across the four JAB-type priors:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p><code><a href="reference/alphaN_plot.html">alphaN_plot()</a></code> compares alpha as a function of sample size across any selection of the calibration methods (the four prior fractions by default):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_plot.html">alphaN_plot</a></span><span class="op">(</span>BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-alphaN-plot-1.png" alt="" width="100%"></p>
 <p><code><a href="reference/JAB_plot.html">JAB_plot()</a></code> shows how the Bayes factor maps onto the p-value for a given sample size, marking the alpha levels needed for evidence thresholds of 1, 3, and 10:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/JAB_plot.html">JAB_plot</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-JAB-plot-1.png" alt="" width="100%"></p>
 </div>

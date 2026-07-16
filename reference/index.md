@@ -15,5 +15,9 @@
   : Set the alpha level based on sample size for coefficients in a
   regression model
 - [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
-  : Creates a plot of alpha as function of sample size for each of the
-  four prior options
+  : Creates a plot of alpha as function of sample size for the chosen
+  methods
+- [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
+  : Effect-size or moment Bayes factor from a t or F statistic
+- [`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)
+  : Effective sample size from cluster-robust standard errors

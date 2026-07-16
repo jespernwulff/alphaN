@@ -17,7 +17,7 @@ As of version 0.2.0,
 [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
 can also calibrate the alpha level to the effect-size and moment Bayes
 factors of [Klauer, Meyer-Grant & Kellen
-(2024)](https://doi.org/10.3758/s13423-024-02612-2), which center the
+(2025)](https://doi.org/10.3758/s13423-024-02612-2), which center the
 alternative hypothesis on an effect size of your choosing
 (`method = "ES"` and `method = "moment"`).
 
@@ -143,11 +143,38 @@ JABp(n = 200, p = 0.005)
 #> [1] 3.634824
 ```
 
+### Klauer Bayes factors, joint tests, and clustered data
+
+[`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
+returns the effect-size or moment Bayes factor itself, so a reported
+statistic can be converted into evidence under the same prior that set
+alpha. For joint F tests,
+[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+and
+[`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
+take `q` (coefficients tested) and `p` (retained parameters) and use the
+exact regression-case Bayes factors of Klauer et al. (2025). And
+[`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)
+implements the Wulff & Taylor (2024) effective-sample-size check for
+clustered data:
+
+``` r
+
+klauerBF(n = 80, t = 2.24, de = 0.5)
+#> [1] 1.567758
+
+alphaN(200, BF = 3, method = "ES", q = 2, p = 2, de = sqrt(0.15))
+#> [1] 0.008427417
+
+n_effective(n = 237, se = 0.1, se_robust = 0.2)
+#> [1] 59.25
+```
+
 ### Visualizing the trade-offs
 
 [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
-compares alpha as a function of sample size across the four JAB-type
-priors:
+compares alpha as a function of sample size across any selection of the
+calibration methods (the four prior fractions by default):
 
 ``` r
 

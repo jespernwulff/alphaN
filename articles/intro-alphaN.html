@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">alphaN</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Intro to alphaN</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jespernwulff/alphaN/blob/v0.2.0/vignettes/intro-alphaN.Rmd" class="external-link"><code>vignettes/intro-alphaN.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jespernwulff/alphaN/blob/master/vignettes/intro-alphaN.Rmd" class="external-link"><code>vignettes/intro-alphaN.Rmd</code></a></small>
       <div class="d-none name"><code>intro-alphaN.Rmd</code></div>
     </div>
 
@@ -173,7 +173,7 @@ function of sample size for the four different methods:</p>
 </h3>
 <p>The four methods above all invert Jeffreys’ approximate Bayes factor,
 whose prior places its mode on a null effect. Klauer, Meyer-Grant &amp;
-Kellen (2024) propose two alternative families of Bayes factors whose
+Kellen (2025) propose two alternative families of Bayes factors whose
 priors instead center the alternative hypothesis on an effect size
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>e</mi></msub><annotation encoding="application/x-tex">d_e</annotation></semantics></math>
 chosen by the researcher: <em>effect-size</em> Bayes factors, and
@@ -201,11 +201,47 @@ it implies falls much faster with the sample size than under JAB:</p>
 <span><span class="co">#&gt; JAB    0.00910 0.00255 0.00073</span></span>
 <span><span class="co">#&gt; ES     0.01185 0.00219 0.00058</span></span>
 <span><span class="co">#&gt; moment 0.00788 0.00049 0.00002</span></span></code></pre></div>
-<p>The prior settings follow the recommendations of Klauer et al. (2024)
+<p>The prior settings follow the recommendations of Klauer et al. (2025)
 and can be adjusted through the <code>nu</code> and <code>r</code>
 arguments; see <code><a href="../reference/alphaN.html">?alphaN</a></code> for details, including how to
 recover the calibration of the default (Jeffreys-Zellner-Siow type)
 Bayes factor of Rouder et al. (2009).</p>
+</div>
+<div class="section level3">
+<h3 id="bayes-factors-joint-tests-and-clustered-data">Bayes factors, joint tests, and clustered data<a class="anchor" aria-label="anchor" href="#bayes-factors-joint-tests-and-clustered-data"></a>
+</h3>
+<p>The Bayes factors behind <code>method = "ES"</code> and
+<code>method = "moment"</code> are available directly through
+<code><a href="../reference/klauerBF.html">klauerBF()</a></code>, so a reported test statistic can be converted
+into evidence under the same prior that set the alpha level:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/klauerBF.html">klauerBF</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">80</span>, t <span class="op">=</span> <span class="fl">2.24</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.567758</span></span></code></pre></div>
+<p>For a joint test of several coefficients, <code><a href="../reference/alphaN.html">alphaN()</a></code> and
+<code><a href="../reference/klauerBF.html">klauerBF()</a></code> accept <code>q</code> (the number of
+coefficients tested) and <code>p</code> (the number of retained
+parameters, including the intercept). This uses the exact
+regression-case Bayes factors of Klauer et al. (2025), where the
+targeted effect size is on Cohen’s f scale:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Alpha for the joint F test of q = 2 coefficients at n = 200, targeting a</span></span>
+<span><span class="co"># medium effect</span></span>
+<span><span class="fu"><a href="../reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="fl">200</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, q <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">2</span>, de <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.008427417</span></span></code></pre></div>
+<p>Klauer et al. (2025) derive these Bayes factors under the normal
+linear model (t tests, linear regression, ANOVA). For other generalized
+linear models they apply in the same asymptotic sense as the four
+prior-fraction methods, which is why the prior-fraction methods are the
+natural choice for, say, a logit model with a modest sample.</p>
+<p>Finally, for clustered (panel) data, Wulff &amp; Taylor (2024)
+recommend calibrating with the total number of observations, the
+conservative choice, and then checking sensitivity with the effective
+sample size, computed from the ratio of the classical to the
+cluster-robust standard error:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Cluster-robust SE twice the classical one: n_e is four times smaller</span></span>
+<span><span class="fu"><a href="../reference/n_effective.html">n_effective</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">237</span>, se <span class="op">=</span> <span class="fl">0.1</span>, se_robust <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 59.25</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

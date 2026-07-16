@@ -1,5 +1,54 @@
 # Changelog
 
+## alphaN (development version)
+
+### New features
+
+- New function
+  [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
+  exports the effect-size and moment Bayes factors of Klauer,
+  Meyer-Grant & Kellen (2025) that
+  [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+  inverts: from a t statistic (one-sample test or single regression
+  coefficient) or from an F statistic for a joint test of `q`
+  coefficients.
+- [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+  (methods `"ES"` and `"moment"`) gains arguments `q` and `p`. With
+  `q > 1` the alpha level is calibrated for the joint F test of q
+  coefficients through the exact regression-case Bayes factors of Klauer
+  et al. (2025, Table 4), implemented natively including their Gaussian
+  hypergeometric term; `p` sets the number of retained model parameters
+  so that small-sample calibrations can use the effective sample size
+  `n - p` (residual degrees of freedom). The defaults (`q = 1`, `p = 0`)
+  reproduce the previous behavior exactly. The moment-prior default `nu`
+  is now `5 + (q - 1)` and the ES-prior scale recommendation generalizes
+  to `r = sqrt((nu - 2)/(nu * q)) * de`, both following the paper
+  (unchanged at `q = 1`).
+- New function
+  [`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)
+  computes the effective sample size `n * (se/se_robust)^2` that Wulff &
+  Taylor (2024) recommend as a sensitivity check when calibrating alpha
+  with clustered (panel) data.
+- [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
+  gains a `methods` argument and can now draw the `"ES"` and `"moment"`
+  curves alongside the prior-fraction methods.
+- The regression-case implementation is validated against all printed
+  Bayes factors in Table 8 of Klauer et al. (2025), in addition to the
+  existing Table 7 anchors, and the q = 1 F form agrees with the
+  validated t form to near machine precision.
+
+### Documentation
+
+- Klauer, Meyer-Grant & Kellen is now cited with its printed-issue
+  details (2025, Psychonomic Bulletin & Review, 32, 1070-1094)
+  throughout; it was previously cited by its online-first year, 2024.
+- [`?alphaN`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+  states the model scope of the `"ES"` and `"moment"` methods: exact
+  under the normal linear model, asymptotic (like the prior-fraction
+  methods) for other generalized linear models.
+- `citation("alphaN")` now also lists Klauer et al. (2025) for users of
+  the `"ES"` and `"moment"` methods.
+
 ## alphaN 0.2.0
 
 CRAN release: 2026-07-12
