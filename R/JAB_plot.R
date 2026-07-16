@@ -26,21 +26,31 @@ JAB_plot <- function(n, BF=1, method="JAB", upper = 1){
   ## Third, get a Bayes factor for every p-value
   bf <- JABt(n = n, t = ts, method = method, upper = upper)
 
-  plot(ps, bf, type="l", lty=1, lwd=2, log = "y",
-       xlab = bquote(italic("p")*"-value"), ylab = "Bayes factor",
-       ylim = c(0.1, 10), xlim = c(0, max(c(0.05, lindley))),
-       axes=FALSE)
+  # Okabe-Ito, colorblind safe
+  oi <- c(blue = "#0072B2", vermillion = "#D55E00")
 
-  axis(side=1, at = c(0, as.numeric(lindley), as.numeric(moderate),
-                      as.numeric(strong), 0.05, indicated),
+  op <- par(mgp = c(2.4, 0.7, 0), tcl = -0.3)
+  on.exit(par(op))
+  plot(NULL, log = "y",
+       xlab = bquote(italic("p")*"-value"), ylab = "Bayes factor",
+       ylim = c(0.1, 10), xlim = c(0, base::max(c(0.05, lindley))),
+       axes = FALSE,
+       main = bquote("Sample size:" ~ .(format(n, big.mark = ","))))
+  abline(h = c(0.1, 1/3, 1, 3, 10), col = "grey85", lwd = 0.7)
+  abline(v = c(lindley, moderate, strong), lty = 3, col = "grey55")
+  abline(v = indicated, lty = 3, col = oi[["vermillion"]])
+  lines(ps, bf, lty = 1, lwd = 2.5, col = oi[["blue"]])
+
+  axis(side = 1,
+       at = c(0, as.numeric(lindley), as.numeric(moderate),
+              as.numeric(strong), 0.05, indicated),
        labels = c(0, round(lindley, digits = 3), round(moderate, digits = 3),
                   round(strong, digits = 3), 0.05, round(indicated, digits = 3)),
-       lwd = 2, las = 3)
+       lwd = 0, lwd.ticks = 1, las = 3)
+  axis(side = 2, at = c(0.1, 1/3, 1, 3, 10),
+       labels = c("1/10", "1/3", "1", "3", "10"),
+       lwd = 0, lwd.ticks = 1, las = 1)
 
-  axis(side=2, at = c(0.1, 0.33, 1, 3, 10), labels = c("1/10", "1/3", 1, 3, 10), lwd = 2)
-  abline(h = c(0.1, 0.33, 1, 3, 10), col = "gray", lty = 2)
-  abline(v = c(lindley, moderate, strong), lty = 3)
-  abline(v = indicated, lty = 3, col = "red")
-
-  points(indicated, BF, col = "black", bg="red", cex=2, pch = 24, lwd = 2)
+  points(indicated, BF, col = "black", bg = oi[["vermillion"]], cex = 2,
+         pch = 24, lwd = 2)
 }

@@ -9,7 +9,8 @@ alphaN_plot(
   max = 10000,
   ylim = NULL,
   methods = c("JAB", "min", "robust", "balanced"),
-  de = 0.5
+  de = 0.5,
+  log = ""
 )
 }
 \arguments{
@@ -30,6 +31,10 @@ versions.}
 Cohen's d for \code{q = 1} and Cohen's f for joint tests (the scales coincide
 at \code{q = 1}). Only used by methods "ES" and "moment". Defaults to 0.5, a
 medium effect; use 0.2 for small and 0.8 for large effects (Cohen, 1988).}
+
+\item{log}{Passed to \code{\link[=plot]{plot()}}: "" (default) for linear axes, "x", "y", or
+"xy" for logarithmic ones. Logarithmic axes are useful when the
+"moment" curve is included, since it falls much faster than the others.}
 }
 \value{
 Prints a plot.
@@ -41,12 +46,13 @@ curves ("JAB", "min", "robust", "balanced") are evaluated exactly at every
 sample size; the "ES" and "moment" curves are evaluated at twelve
 log-spaced sample sizes and interpolated by a spline on the log-log
 scale, which keeps the plot fast (expect roughly a second of computation
-per Klauer-type curve).
+per Klauer-type curve). Colors follow the colorblind-safe Okabe-Ito
+palette.
 }
 \examples{
 # Plot of alpha level as a function of n for a Bayes factor of 3
 alphaN_plot(BF = 3)
 
 # Compare JAB with the effect-size and moment calibrations
-alphaN_plot(BF = 3, methods = c("JAB", "ES", "moment"))
+alphaN_plot(BF = 3, methods = c("JAB", "ES", "moment"), log = "xy")
 }

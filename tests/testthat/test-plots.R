@@ -15,3 +15,11 @@ test_that("alphaN_plot draws ES and moment curves", {
                             methods = c("JAB", "ES", "moment")))
   expect_error(alphaN_plot(BF = 3, methods = "nope"), "should be one of")
 })
+
+test_that("alphaN_plot supports logarithmic axes", {
+  pdf(NULL)
+  on.exit(dev.off())
+  expect_silent(alphaN_plot(BF = 3, max = 2000,
+                            methods = c("JAB", "moment"), log = "xy"))
+  expect_error(alphaN_plot(BF = 3, log = "z"), "must be one of")
+})

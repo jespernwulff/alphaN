@@ -20,7 +20,14 @@
 #'   \item "ES": calibrates alpha to the effect-size Bayes factor (Klauer et al., 2025)
 #'   \item "moment": calibrates alpha to the moment Bayes factor (Klauer et al., 2025), under which effects close to zero are a priori implausible
 #' }
-#' @param upper The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
+#' @param upper The upper limit for the range of realistic effect sizes. Only
+#'   relevant when method="balanced". Defaults to 1 such that the range of
+#'   realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).
+#'   Conceptually, `upper` plays for the "balanced" method the role that `de`
+#'   plays for "ES" and "moment": both declare which effect sizes the
+#'   researcher deems realistic. `upper` treats them as a uniform band whose
+#'   Type I and Type II error rates are then balanced, whereas `de` singles
+#'   out a focal effect size on which the prior concentrates.
 #' @param de The prespecified (targeted) effect size in standardized units:
 #'   Cohen's d for `q = 1` and Cohen's f for joint tests (the scales coincide
 #'   at `q = 1`). Only used by methods "ES" and "moment". Defaults to 0.5, a

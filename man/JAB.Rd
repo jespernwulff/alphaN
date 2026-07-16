@@ -2,14 +2,17 @@
 % Please edit documentation in R/JAB.R
 \name{JAB}
 \alias{JAB}
-\title{Transforms a t-statistic from a glm or lm object into Jeffreys' approximate Bayes factor}
+\title{Transforms t-statistics from a glm or lm object into Jeffreys' approximate Bayes factors}
 \usage{
-JAB(glm_obj, covariate, method = "JAB", upper = 1)
+JAB(glm_obj, covariate = NULL, method = "JAB", upper = 1)
 }
 \arguments{
 \item{glm_obj}{a glm or lm object.}
 
-\item{covariate}{the name of the covariate that you want a BF for as a string.}
+\item{covariate}{the name of the covariate that you want a BF for, as a
+string. The default, NULL, returns a named vector with the Bayes factor
+of every coefficient except the intercept (request the intercept
+explicitly with \code{covariate = "(Intercept)"} if you need it).}
 
 \item{method}{Used for the choice of 'b'. Currently one of:
 \itemize{
@@ -22,12 +25,13 @@ JAB(glm_obj, covariate, method = "JAB", upper = 1)
 \item{upper}{The upper limit for the range of realistic effect sizes. Only relevant when method="balanced". Defaults to 1 such that the range of realistic effect sizes is uniformly distributed between 0 and 1, U(0,1).}
 }
 \value{
-A numeric value for the BF in favour of H1.
+A numeric value with the BF in favour of H1, or a named vector of
+BFs when \code{covariate = NULL}.
 }
 \description{
-Extracts the test statistic of a coefficient from a fitted model object and
-converts it into Jeffreys' approximate Bayes factor, given the sample size
-used in the fit.
+Extracts the test statistic of one coefficient, or of every coefficient,
+from a fitted model object and converts it into Jeffreys' approximate
+Bayes factor, given the sample size used in the fit.
 }
 \examples{
 # Simulate data
@@ -53,6 +57,9 @@ LM <- glm(Y ~ X + Z1 + Z2 + Z3 + Z4)
 
 # Compute JAB for "X" based on the regression results
 JAB(LM, "X")
+
+# Compute JAB for every coefficient at once
+JAB(LM)
 
 # Compute JAB using the minimum prior
 JAB(LM, "X", method = "min")

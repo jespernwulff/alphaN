@@ -2,6 +2,21 @@
 
 ## New features
 
+* New function `alphaN_report()` writes a preregistration-ready Markdown
+  settings report: every input behind a calibrated alpha (sample size,
+  evidence target, method, prior settings), the resulting alpha, the
+  decision rule, and the references to cite. It mirrors the downloadable
+  report of the companion Shiny application and can write straight to a
+  file.
+* `JAB()` called without a `covariate` now returns a named vector with the
+  Bayes factor of every coefficient except the intercept (which remains
+  available on explicit request).
+* `alphaN_plot()` and `JAB_plot()` have been restyled: colorblind-safe
+  Okabe-Ito palette, light grid lines, open axes, and horizontal axis
+  labels. `alphaN_plot()` additionally gains a `log` argument ("x", "y",
+  "xy") which helps when the fast-falling "moment" curve is drawn next to
+  the others.
+
 * New function `klauerBF()` exports the effect-size and moment Bayes factors
   of Klauer, Meyer-Grant & Kellen (2025) that `alphaN()` inverts: from a
   t statistic (one-sample test or single regression coefficient) or from an

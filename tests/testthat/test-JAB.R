@@ -40,6 +40,24 @@ test_that("JAB works for non-gaussian glms", {
                JABt(n = 100, t = summary(m)$coefficients["X", 3]))
 })
 
+test_that("JAB with covariate = NULL returns a named vector, no intercept", {
+  set.seed(4)
+  d <- data.frame(Y = rnorm(80), X = rnorm(80), Z = rnorm(80))
+  m <- lm(Y ~ X + Z, data = d)
+  all_bf <- JAB(m)
+  expect_named(all_bf, c("X", "Z"))
+  expect_false("(Intercept)" %in% names(all_bf))
+  expect_equal(all_bf[["X"]], JAB(m, "X"))
+  expect_equal(all_bf[["Z"]], JAB(m, "Z"))
+  # the method argument propagates
+  expect_equal(JAB(m, method = "min")[["X"]], JAB(m, "X", method = "min"))
+  # the intercept stays available on explicit request
+  expect_equal(JAB(m, "(Intercept)"),
+               JABt(n = nobs(m), t = summary(m)$coefficients["(Intercept)", 3]))
+  # intercept-only model: no silent empty vector
+  expect_error(JAB(lm(Y ~ 1, data = d)), "besides the intercept")
+})
+
 test_that("JAB rejects invalid input with informative errors", {
   set.seed(3)
   d <- data.frame(Y = rnorm(20), X = rnorm(20))
