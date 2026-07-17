@@ -31,7 +31,8 @@
 #'
 #' # Compare JAB with the effect-size and moment calibrations
 #' alphaN_plot(BF = 3, methods = c("JAB", "ES", "moment"), log = "xy")
-#' @importFrom graphics legend lines abline par axis axTicks
+#' @importFrom graphics legend lines abline par axis title
+#' @importFrom grDevices axisTicks
 #' @importFrom stats splinefun
 alphaN_plot <- function(BF = 1, max = 10000, ylim = NULL,
                         methods = c("JAB", "min", "robust", "balanced"),
@@ -70,25 +71,27 @@ alphaN_plot <- function(BF = 1, max = 10000, ylim = NULL,
     ylim <- if (logy) c(base::min(unlist(curves)), ymax) else c(0, ymax)
   }
 
-  op <- par(mgp = c(2.4, 0.7, 0), tcl = -0.3)
+  # Plain-notation tick labels: "0.0001" and "10,000", never "1e-04". Ticks
+  # are computed up front so the left margin can grow with the label width,
+  # keeping the axis title clear of the horizontal labels.
+  xat <- if (logx) axisTicks(log10(xlim), log = TRUE) else pretty(xlim)
+  yat <- if (logy) axisTicks(log10(ylim), log = TRUE) else pretty(ylim)
+  xlabs <- format(xat, scientific = FALSE, big.mark = ",", trim = TRUE)
+  ylabs <- format(yat, scientific = FALSE, drop0trailing = TRUE, trim = TRUE)
+  left <- 3.6 + 0.6*base::max(0, base::max(nchar(ylabs)) - 4)
+
+  op <- par(mgp = c(2.4, 0.7, 0), tcl = -0.3, mar = c(4.1, left, 3.1, 1.1))
   on.exit(par(op))
   plot(NULL, xlim = xlim, ylim = ylim, log = log, axes = FALSE,
-       xlab = "Sample size", ylab = expression(alpha),
+       xlab = "Sample size", ylab = "",
        main = bquote("Target Bayes factor:" ~ .(BF)))
-  xat <- if (logx) axTicks(1) else pretty(xlim)
-  yat <- if (logy) axTicks(2) else pretty(ylim)
   abline(h = yat, v = xat, col = "grey92", lwd = 0.7)
   for (m in methods) {
     lines(seqN, curves[[m]], lty = ltys[m], lwd = 2.5, col = cols[m])
   }
-  # Plain-notation tick labels: "0.0001" and "10,000", never "1e-04"
-  axis(side = 1, at = xat,
-       labels = format(xat, scientific = FALSE, big.mark = ",", trim = TRUE),
-       lwd = 0, lwd.ticks = 1, las = 1)
-  axis(side = 2, at = yat,
-       labels = format(yat, scientific = FALSE, drop0trailing = TRUE,
-                       trim = TRUE),
-       lwd = 0, lwd.ticks = 1, las = 1)
+  axis(side = 1, at = xat, labels = xlabs, lwd = 0, lwd.ticks = 1, las = 1)
+  axis(side = 2, at = yat, labels = ylabs, lwd = 0, lwd.ticks = 1, las = 1)
+  title(ylab = expression(alpha), line = left - 1.5)
 
   legend(if (logy) "bottomleft" else "topright",
          legend = methods,
