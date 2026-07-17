@@ -24,7 +24,9 @@
   lines, open axes, and horizontal axis labels.
   [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
   additionally gains a `log` argument (“x”, “y”, “xy”) which helps when
-  the fast-falling “moment” curve is drawn next to the others.
+  the fast-falling “moment” curve is drawn next to the others, and its
+  tick labels always use plain notation (“0.0001” and “10,000”, never
+  “1e-04”).
 
 - New function
   [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
