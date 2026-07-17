@@ -73,7 +73,8 @@ application.</p>
 <span>  r <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  q <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  p <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  file <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">72</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -157,6 +158,11 @@ case.</p></dd>
 <dd><p>Optional path. If supplied, the report is also written to
 this file.</p></dd>
 
+
+<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
+<dd><p>Maximum line width of the report; longer lines are wrapped
+with a hanging indent. Defaults to 72 characters.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -179,17 +185,23 @@ is printed to the console.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Sample size (n): 1,000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Target Bayes factor: 3 (moderate evidence)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Calibration method: JAB: Jeffreys' approximate Bayes factor (unit-information prior, b = 1/n)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Calibration method: JAB: Jeffreys' approximate Bayes factor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   (unit-information prior, b = 1/n)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Calibrated alpha level: 0.00255</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Decision rule: Reject H0 if the two-sided p-value of the coefficient is at or below 0.00255.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Interpretation: a significant result then corresponds to a Bayes factor of at least 3 in favor of the alternative under this prior.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Decision rule: Reject H0 if the two-sided p-value of the coefficient</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   is at or below 0.00255.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Interpretation: a significant result then corresponds to a Bayes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   factor of at least 3 in favor of the alternative under this prior.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Please cite</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. Strategic Organization, 22(3), 550-581. doi:10.1177/14761270231214429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sample size: A Bayesian-frequentist compromise for significance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   testing. Strategic Organization, 22(3), 550-581.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   doi:10.1177/14761270231214429</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Effect-size calibration, written to a file</span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".md"</span><span class="op">)</span></span></span>
@@ -202,7 +214,8 @@ is printed to the console.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Sample size (n): 1,000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Target Bayes factor: 3 (moderate evidence)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Calibration method: ES: effect-size Bayes factor of Klauer, Meyer-Grant &amp; Kellen (2025)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Calibration method: ES: effect-size Bayes factor of Klauer,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Meyer-Grant &amp; Kellen (2025)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Targeted effect size (de): 0.5 (Cohen's d)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Prior degrees of freedom (nu): 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Prior scale (r): 0.2887</span>
@@ -210,13 +223,20 @@ is printed to the console.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Calibrated alpha level: 0.00219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Decision rule: Reject H0 if the two-sided p-value of the coefficient is at or below 0.00219.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Interpretation: a significant result then corresponds to a Bayes factor of at least 3 in favor of the alternative under this prior.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Decision rule: Reject H0 if the two-sided p-value of the coefficient</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   is at or below 0.00219.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Interpretation: a significant result then corresponds to a Bayes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   factor of at least 3 in favor of the alternative under this prior.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Please cite</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. Strategic Organization, 22(3), 550-581. doi:10.1177/14761270231214429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2025). On Bayes factors for hypothesis tests. Psychonomic Bulletin &amp; Review, 32, 1070-1094. doi:10.3758/s13423-024-02612-2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sample size: A Bayesian-frequentist compromise for significance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   testing. Strategic Organization, 22(3), 550-581.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   doi:10.1177/14761270231214429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2025). On Bayes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   factors for hypothesis tests. Psychonomic Bulletin &amp; Review, 32,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1070-1094. doi:10.3758/s13423-024-02612-2</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

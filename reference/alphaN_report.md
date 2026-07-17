@@ -22,7 +22,8 @@ alphaN_report(
   r = NULL,
   q = 1,
   p = 0,
-  file = NULL
+  file = NULL,
+  width = 72
 )
 ```
 
@@ -118,6 +119,11 @@ alphaN_report(
 
   Optional path. If supplied, the report is also written to this file.
 
+- width:
+
+  Maximum line width of the report; longer lines are wrapped with a
+  hanging indent. Defaults to 72 characters.
+
 ## Value
 
 The report as a character vector of lines, invisibly. The report is
@@ -139,17 +145,23 @@ alphaN_report(n = 1000, BF = 3, method = "JAB")
 #> 
 #> - Sample size (n): 1,000
 #> - Target Bayes factor: 3 (moderate evidence)
-#> - Calibration method: JAB: Jeffreys' approximate Bayes factor (unit-information prior, b = 1/n)
+#> - Calibration method: JAB: Jeffreys' approximate Bayes factor
+#>   (unit-information prior, b = 1/n)
 #> 
 #> ## Result
 #> 
 #> - Calibrated alpha level: 0.00255
-#> - Decision rule: Reject H0 if the two-sided p-value of the coefficient is at or below 0.00255.
-#> - Interpretation: a significant result then corresponds to a Bayes factor of at least 3 in favor of the alternative under this prior.
+#> - Decision rule: Reject H0 if the two-sided p-value of the coefficient
+#>   is at or below 0.00255.
+#> - Interpretation: a significant result then corresponds to a Bayes
+#>   factor of at least 3 in favor of the alternative under this prior.
 #> 
 #> ## Please cite
 #> 
-#> - Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. Strategic Organization, 22(3), 550-581. doi:10.1177/14761270231214429
+#> - Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+#>   sample size: A Bayesian-frequentist compromise for significance
+#>   testing. Strategic Organization, 22(3), 550-581.
+#>   doi:10.1177/14761270231214429
 
 # Effect-size calibration, written to a file
 f <- tempfile(fileext = ".md")
@@ -162,7 +174,8 @@ alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
 #> 
 #> - Sample size (n): 1,000
 #> - Target Bayes factor: 3 (moderate evidence)
-#> - Calibration method: ES: effect-size Bayes factor of Klauer, Meyer-Grant & Kellen (2025)
+#> - Calibration method: ES: effect-size Bayes factor of Klauer,
+#>   Meyer-Grant & Kellen (2025)
 #> - Targeted effect size (de): 0.5 (Cohen's d)
 #> - Prior degrees of freedom (nu): 3
 #> - Prior scale (r): 0.2887
@@ -170,11 +183,18 @@ alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
 #> ## Result
 #> 
 #> - Calibrated alpha level: 0.00219
-#> - Decision rule: Reject H0 if the two-sided p-value of the coefficient is at or below 0.00219.
-#> - Interpretation: a significant result then corresponds to a Bayes factor of at least 3 in favor of the alternative under this prior.
+#> - Decision rule: Reject H0 if the two-sided p-value of the coefficient
+#>   is at or below 0.00219.
+#> - Interpretation: a significant result then corresponds to a Bayes
+#>   factor of at least 3 in favor of the alternative under this prior.
 #> 
 #> ## Please cite
 #> 
-#> - Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. Strategic Organization, 22(3), 550-581. doi:10.1177/14761270231214429
-#> - Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes factors for hypothesis tests. Psychonomic Bulletin & Review, 32, 1070-1094. doi:10.3758/s13423-024-02612-2
+#> - Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+#>   sample size: A Bayesian-frequentist compromise for significance
+#>   testing. Strategic Organization, 22(3), 550-581.
+#>   doi:10.1177/14761270231214429
+#> - Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes
+#>   factors for hypothesis tests. Psychonomic Bulletin & Review, 32,
+#>   1070-1094. doi:10.3758/s13423-024-02612-2
 ```

@@ -10,7 +10,9 @@
   behind a calibrated alpha (sample size, evidence target, method, prior
   settings), the resulting alpha, the decision rule, and the references
   to cite. It mirrors the downloadable report of the companion Shiny
-  application and can write straight to a file.
+  application, can write straight to a file, and hard-wraps its lines
+  (default 72 characters, see `width`) so the report reads well in
+  consoles, files, and rendered documents.
 
 - [`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md)
   called without a `covariate` now returns a named vector with the Bayes
