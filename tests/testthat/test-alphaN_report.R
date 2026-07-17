@@ -46,3 +46,13 @@ test_that("alphaN_report insists on a single design", {
   expect_error(alphaN_report(n = c(100, 200), BF = 3), "single number")
   expect_error(alphaN_report(n = 100, BF = c(1, 3)), "single number")
 })
+
+test_that("alphaN_report wraps every line to the requested width", {
+  rep <- capture.output(alphaN_report(n = 254654, BF = 3, method = "moment",
+                                      q = 2, p = 4, de = sqrt(0.15)))
+  expect_true(all(nchar(rep) <= 72))
+  rep60 <- capture.output(alphaN_report(n = 1000, BF = 3, method = "ES",
+                                        width = 60))
+  expect_true(all(nchar(rep60) <= 60))
+  expect_error(alphaN_report(1000, width = 20), "at least 40")
+})

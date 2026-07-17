@@ -15,6 +15,8 @@
 #' @param BF Target Bayes factor. A single positive number.
 #' @param file Optional path. If supplied, the report is also written to
 #'   this file.
+#' @param width Maximum line width of the report; longer lines are wrapped
+#'   with a hanging indent. Defaults to 72 characters.
 #' @return The report as a character vector of lines, invisibly. The report
 #'   is printed to the console.
 #' @export
@@ -27,7 +29,12 @@
 #' alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
 #' @seealso [alphaN()]
 alphaN_report <- function(n, BF = 1, method = "JAB", upper = 1, de = 0.5,
-                          nu = NULL, r = NULL, q = 1, p = 0, file = NULL) {
+                          nu = NULL, r = NULL, q = 1, p = 0, file = NULL,
+                          width = 72) {
+  if (!is.numeric(width) || length(width) != 1 || !is.finite(width) ||
+      width < 40) {
+    stop("`width` must be a single number of at least 40.", call. = FALSE)
+  }
   if (!is.numeric(n) || length(n) != 1) {
     stop("`n` must be a single number: one report describes one design.",
          call. = FALSE)
@@ -127,6 +134,14 @@ alphaN_report <- function(n, BF = 1, method = "JAB", upper = 1, de = 0.5,
     "## Please cite",
     "",
     cite_lines)
+
+  # Hard-wrap long lines (citations, the interpretation sentence) so the
+  # report reads well in consoles, files, and rendered documents; wrapped
+  # continuations of a bullet hang under its text.
+  lines <- unlist(lapply(lines, function(l) {
+    if (nchar(l) <= width) return(l)
+    strwrap(l, width = width, exdent = if (startsWith(l, "- ")) 2 else 0)
+  }))
 
   if (!is.null(file)) {
     writeLines(lines, file)

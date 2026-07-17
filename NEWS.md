@@ -6,8 +6,9 @@
   settings report: every input behind a calibrated alpha (sample size,
   evidence target, method, prior settings), the resulting alpha, the
   decision rule, and the references to cite. It mirrors the downloadable
-  report of the companion Shiny application and can write straight to a
-  file.
+  report of the companion Shiny application, can write straight to a file,
+  and hard-wraps its lines (default 72 characters, see `width`) so the
+  report reads well in consoles, files, and rendered documents.
 * `JAB()` called without a `covariate` now returns a named vector with the
   Bayes factor of every coefficient except the intercept (which remains
   available on explicit request).

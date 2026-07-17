@@ -14,7 +14,8 @@ alphaN_report(
   r = NULL,
   q = 1,
   p = 0,
-  file = NULL
+  file = NULL,
+  width = 72
 )
 }
 \arguments{
@@ -76,6 +77,9 @@ case.}
 
 \item{file}{Optional path. If supplied, the report is also written to
 this file.}
+
+\item{width}{Maximum line width of the report; longer lines are wrapped
+with a hanging indent. Defaults to 72 characters.}
 }
 \value{
 The report as a character vector of lines, invisibly. The report
