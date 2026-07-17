@@ -15,7 +15,8 @@
   Okabe-Ito palette, light grid lines, open axes, and horizontal axis
   labels. `alphaN_plot()` additionally gains a `log` argument ("x", "y",
   "xy") which helps when the fast-falling "moment" curve is drawn next to
-  the others.
+  the others, and its tick labels always use plain notation ("0.0001" and
+  "10,000", never "1e-04").
 
 * New function `klauerBF()` exports the effect-size and moment Bayes factors
   of Klauer, Meyer-Grant & Kellen (2025) that `alphaN()` inverts: from a

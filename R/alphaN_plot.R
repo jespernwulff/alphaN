@@ -81,8 +81,14 @@ alphaN_plot <- function(BF = 1, max = 10000, ylim = NULL,
   for (m in methods) {
     lines(seqN, curves[[m]], lty = ltys[m], lwd = 2.5, col = cols[m])
   }
-  axis(side = 1, at = xat, lwd = 0, lwd.ticks = 1, las = 1)
-  axis(side = 2, at = yat, lwd = 0, lwd.ticks = 1, las = 1)
+  # Plain-notation tick labels: "0.0001" and "10,000", never "1e-04"
+  axis(side = 1, at = xat,
+       labels = format(xat, scientific = FALSE, big.mark = ",", trim = TRUE),
+       lwd = 0, lwd.ticks = 1, las = 1)
+  axis(side = 2, at = yat,
+       labels = format(yat, scientific = FALSE, drop0trailing = TRUE,
+                       trim = TRUE),
+       lwd = 0, lwd.ticks = 1, las = 1)
 
   legend(if (logy) "bottomleft" else "topright",
          legend = methods,
