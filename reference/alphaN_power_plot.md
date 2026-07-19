@@ -28,8 +28,10 @@ alphaN_power_plot(
 
 - d:
 
-  Standardized effect sizes to draw, one panel per element (Cohen's d
-  scale). Defaults to c(0.1, 0.5).
+  Standardized effect sizes to draw, one panel per element, on the scale
+  of
+  [`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)'s
+  `d`. Defaults to c(0.1, 0.5).
 
 - BF:
 
