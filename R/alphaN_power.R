@@ -9,7 +9,12 @@
 #'
 #' @inheritParams alphaN
 #' @param d The standardized effect size at which power is evaluated, on the
-#'   same scale as `de`: Cohen's d for `q = 1`, Cohen's f for joint tests.
+#'   same scale as `de` (Cohen's d for `q = 1`, Cohen's f for joint tests):
+#'   what the coefficient's t statistic divided by the square root of the
+#'   sample size estimates. For a regression coefficient this partial
+#'   standardized effect already folds in the covariate's scale, its
+#'   correlation with the other covariates, and the residual or link-scale
+#'   dispersion; see Details for effects stated on a model-specific scale.
 #'   A non-negative numeric vector.
 #' @param BF Target Bayes factor for the calibration. Defaults to 3.
 #' @return A numeric vector with the power of the two-sided test (noncentral
@@ -23,8 +28,12 @@
 #' calibrated alpha is 1 (the evidence target is met vacuously), the power
 #' is 1 for every effect size.
 #'
-#' For effects parameterized on a model-specific scale (an odds ratio under
-#' a covariate design, a rate ratio, an R-squared increment), combine the
+#' Power against an effect stated on a model-specific scale (an odds ratio,
+#' a rate ratio, an R-squared increment) additionally depends on the design:
+#' the covariate's distribution, its correlation with the other covariates,
+#' and, in a logistic model, the baseline probability all enter the implied
+#' standardized effect. `alphaN_power()` takes `d` as given rather than
+#' deriving it from such design inputs. For those cases, combine the
 #' calibrated alpha with a model-specific power calculator instead: the
 #' functions of the \CRANpkg{pwrss} package accept the significance level as
 #' an argument, so `alpha = alphaN(n, BF = 3)` plugs the calibration
@@ -87,8 +96,8 @@ alphaN_power <- function(n, d, BF = 3, method = "JAB", upper = 1, de = 0.5,
 #' the same log-spaced spline interpolation as [alphaN_plot()].
 #'
 #' @inheritParams alphaN_plot
-#' @param d Standardized effect sizes to draw, one panel per element
-#'   (Cohen's d scale). Defaults to c(0.1, 0.5).
+#' @param d Standardized effect sizes to draw, one panel per element, on
+#'   the scale of [alphaN_power()]'s `d`. Defaults to c(0.1, 0.5).
 #' @param BF Target Bayes factor for the calibration. Defaults to 3.
 #' @param ref A fixed significance level drawn as a dashed reference curve,
 #'   or NULL to omit it. Defaults to 0.05.

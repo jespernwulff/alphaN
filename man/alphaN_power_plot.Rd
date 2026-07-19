@@ -14,8 +14,8 @@ alphaN_power_plot(
 )
 }
 \arguments{
-\item{d}{Standardized effect sizes to draw, one panel per element
-(Cohen's d scale). Defaults to c(0.1, 0.5).}
+\item{d}{Standardized effect sizes to draw, one panel per element, on
+the scale of \code{\link[=alphaN_power]{alphaN_power()}}'s \code{d}. Defaults to c(0.1, 0.5).}
 
 \item{BF}{Target Bayes factor for the calibration. Defaults to 3.}
 

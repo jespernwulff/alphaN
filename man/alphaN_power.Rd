@@ -21,7 +21,12 @@ alphaN_power(
 \item{n}{Sample size. A positive numeric vector.}
 
 \item{d}{The standardized effect size at which power is evaluated, on the
-same scale as \code{de}: Cohen's d for \code{q = 1}, Cohen's f for joint tests.
+same scale as \code{de} (Cohen's d for \code{q = 1}, Cohen's f for joint tests):
+what the coefficient's t statistic divided by the square root of the
+sample size estimates. For a regression coefficient this partial
+standardized effect already folds in the covariate's scale, its
+correlation with the other covariates, and the residual or link-scale
+dispersion; see Details for effects stated on a model-specific scale.
 A non-negative numeric vector.}
 
 \item{BF}{Target Bayes factor for the calibration. Defaults to 3.}
@@ -97,8 +102,12 @@ models, mirroring the scope of the calibration itself. When the
 calibrated alpha is 1 (the evidence target is met vacuously), the power
 is 1 for every effect size.
 
-For effects parameterized on a model-specific scale (an odds ratio under
-a covariate design, a rate ratio, an R-squared increment), combine the
+Power against an effect stated on a model-specific scale (an odds ratio,
+a rate ratio, an R-squared increment) additionally depends on the design:
+the covariate's distribution, its correlation with the other covariates,
+and, in a logistic model, the baseline probability all enter the implied
+standardized effect. \code{alphaN_power()} takes \code{d} as given rather than
+deriving it from such design inputs. For those cases, combine the
 calibrated alpha with a model-specific power calculator instead: the
 functions of the \CRANpkg{pwrss} package accept the significance level as
 an argument, so \code{alpha = alphaN(n, BF = 3)} plugs the calibration
