@@ -17,6 +17,10 @@
 #'   this file.
 #' @param width Maximum line width of the report; longer lines are wrapped
 #'   with a hanging indent. Defaults to 72 characters.
+#' @param power_at Optional numeric vector of standardized effect sizes. If
+#'   supplied, the report includes the power of the calibrated test against
+#'   each of them (computed with [alphaN_power()]), so the preregistered
+#'   alpha is documented together with what it costs.
 #' @return The report as a character vector of lines, invisibly. The report
 #'   is printed to the console.
 #' @export
@@ -24,13 +28,20 @@
 #' @examples
 #' alphaN_report(n = 1000, BF = 3, method = "JAB")
 #'
-#' # Effect-size calibration, written to a file
+#' # Effect-size calibration with a power section, written to a file
 #' f <- tempfile(fileext = ".md")
-#' alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
-#' @seealso [alphaN()]
+#' alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5,
+#'               power_at = c(0.1, 0.2, 0.5), file = f)
+#' @seealso [alphaN()], [alphaN_power()]
 alphaN_report <- function(n, BF = 1, method = "JAB", upper = 1, de = 0.5,
                           nu = NULL, r = NULL, q = 1, p = 0, file = NULL,
-                          width = 72) {
+                          width = 72, power_at = NULL) {
+  if (!is.null(power_at) &&
+      (!is.numeric(power_at) || length(power_at) == 0 ||
+         !all(is.finite(power_at)) || any(power_at <= 0))) {
+    stop("`power_at` must be a positive, finite numeric vector, or NULL.",
+         call. = FALSE)
+  }
   if (!is.numeric(width) || length(width) != 1 || !is.finite(width) ||
       width < 40) {
     stop("`width` must be a single number of at least 40.", call. = FALSE)
@@ -130,6 +141,16 @@ alphaN_report <- function(n, BF = 1, method = "JAB", upper = 1, de = 0.5,
     sprintf("- Decision rule: %s", stat_line),
     sprintf("- Interpretation: a significant result then corresponds to a Bayes factor of at least %s in favor of the alternative under this prior.",
             format(BF)),
+    if (!is.null(power_at)) c(
+      "",
+      "## Power at the calibrated alpha",
+      "",
+      sprintf("- Against a standardized effect of %s: %s",
+              format(power_at),
+              formatC(alphaN_power(n, power_at, BF = BF, method = method,
+                                   upper = upper, de = de, nu = nu, r = r,
+                                   q = q, p = p),
+                      format = "f", digits = 2))),
     "",
     "## Please cite",
     "",

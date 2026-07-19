@@ -2,6 +2,20 @@
 
 ## New features
 
+* New function `alphaN_power()` computes the power of the calibrated test
+  against a standardized effect of size `d`: the design-time companion of
+  `alphaN()` (noncentral t for single coefficients, noncentral F for joint
+  tests, at the residual degrees of freedom). For model-specific effect
+  parameterizations (odds ratios, rate ratios), the calibrated alpha plugs
+  directly into the calculators of the pwrss package via their `alpha`
+  argument; see `?alphaN_power`.
+* New function `alphaN_power_plot()` draws power against sample size, one
+  panel per effect size, with every calibration method evaluated at its own
+  alpha(n) and a fixed reference level as a dashed curve.
+* `alphaN_report()` gains a `power_at` argument: the settings report can now
+  document the power of the calibrated test against the effect sizes the
+  researcher cares about, alongside the alpha itself.
+
 * New function `alphaN_report()` writes a preregistration-ready Markdown
   settings report: every input behind a calibrated alpha (sample size,
   evidence target, method, prior settings), the resulting alpha, the
