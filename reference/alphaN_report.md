@@ -139,7 +139,7 @@ printed to the console.
 alphaN_report(n = 1000, BF = 3, method = "JAB")
 #> # alphaN settings report
 #> 
-#> Generated on 2026-07-17 with alphaN 0.2.0.9000.
+#> Generated on 2026-07-19 with alphaN 0.2.0.9000.
 #> 
 #> ## Inputs
 #> 
@@ -168,7 +168,7 @@ f <- tempfile(fileext = ".md")
 alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
 #> # alphaN settings report
 #> 
-#> Generated on 2026-07-17 with alphaN 0.2.0.9000.
+#> Generated on 2026-07-19 with alphaN 0.2.0.9000.
 #> 
 #> ## Inputs
 #> 
