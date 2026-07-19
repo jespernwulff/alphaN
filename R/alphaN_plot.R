@@ -78,7 +78,11 @@ alphaN_plot <- function(BF = 1, max = 10000, ylim = NULL,
   yat <- if (logy) axisTicks(log10(ylim), log = TRUE) else pretty(ylim)
   xlabs <- format(xat, scientific = FALSE, big.mark = ",", trim = TRUE)
   ylabs <- format(yat, scientific = FALSE, drop0trailing = TRUE, trim = TRUE)
-  left <- 3.6 + 0.6*base::max(0, base::max(nchar(ylabs)) - 4)
+  # Horizontal y labels occupy roughly 0.55 margin lines per character
+  # (starting at the mgp tick-label offset of 0.7), so the axis title sits
+  # beyond the widest label plus a cushion, and the margin beyond the title.
+  ylab_line <- 1.2 + 0.55*base::max(nchar(ylabs))
+  left <- ylab_line + 1.6
 
   op <- par(mgp = c(2.4, 0.7, 0), tcl = -0.3, mar = c(4.1, left, 3.1, 1.1))
   on.exit(par(op))
@@ -91,7 +95,7 @@ alphaN_plot <- function(BF = 1, max = 10000, ylim = NULL,
   }
   axis(side = 1, at = xat, labels = xlabs, lwd = 0, lwd.ticks = 1, las = 1)
   axis(side = 2, at = yat, labels = ylabs, lwd = 0, lwd.ticks = 1, las = 1)
-  title(ylab = expression(alpha), line = left - 1.5)
+  title(ylab = expression(alpha), line = ylab_line)
 
   legend(if (logy) "bottomleft" else "topright",
          legend = methods,
