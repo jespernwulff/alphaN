@@ -215,6 +215,10 @@ JAB_plot(n = 1000, BF = 3)
 - [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
   : Creates a plot of alpha as function of sample size for the chosen
   methods
+- [`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)
+  : Power at the calibrated alpha level
+- [`alphaN_power_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power_plot.md)
+  : Plot power across sample sizes at the calibrated alpha
 - [`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
   : Write a settings report for a calibrated alpha level
 - [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)

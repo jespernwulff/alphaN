@@ -74,7 +74,8 @@ application.</p>
 <span>  q <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  p <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">72</span></span>
+<span>  width <span class="op">=</span> <span class="fl">72</span>,</span>
+<span>  power_at <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -163,6 +164,13 @@ this file.</p></dd>
 <dd><p>Maximum line width of the report; longer lines are wrapped
 with a hanging indent. Defaults to 72 characters.</p></dd>
 
+
+<dt id="arg-power-at">power_at<a class="anchor" aria-label="anchor" href="#arg-power-at"></a></dt>
+<dd><p>Optional numeric vector of standardized effect sizes. If
+supplied, the report includes the power of the calibrated test against
+each of them (computed with <code><a href="alphaN_power.html">alphaN_power()</a></code>), so the preregistered
+alpha is documented together with what it costs.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -171,7 +179,7 @@ is printed to the console.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="alphaN.html">alphaN()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="alphaN.html">alphaN()</a></code>, <code><a href="alphaN_power.html">alphaN_power()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -203,9 +211,10 @@ is printed to the console.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   testing. Strategic Organization, 22(3), 550-581.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   doi:10.1177/14761270231214429</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Effect-size calibration, written to a file</span></span></span>
+<span class="r-in"><span><span class="co"># Effect-size calibration with a power section, written to a file</span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".md"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">alphaN_report</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, de <span class="op">=</span> <span class="fl">0.5</span>, file <span class="op">=</span> <span class="va">f</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">alphaN_report</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, de <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
+<span class="r-in"><span>              power_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span><span class="op">)</span>, file <span class="op">=</span> <span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # alphaN settings report</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Generated on 2026-07-19 with alphaN 0.2.0.9000.</span>
@@ -227,6 +236,12 @@ is printed to the console.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   is at or below 0.00219.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Interpretation: a significant result then corresponds to a Bayes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   factor of at least 3 in favor of the alternative under this prior.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ## Power at the calibrated alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Against a standardized effect of 0.1: 0.54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Against a standardized effect of 0.2: 1.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Against a standardized effect of 0.5: 1.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Please cite</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

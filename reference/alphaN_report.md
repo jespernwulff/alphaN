@@ -23,7 +23,8 @@ alphaN_report(
   q = 1,
   p = 0,
   file = NULL,
-  width = 72
+  width = 72,
+  power_at = NULL
 )
 ```
 
@@ -124,6 +125,14 @@ alphaN_report(
   Maximum line width of the report; longer lines are wrapped with a
   hanging indent. Defaults to 72 characters.
 
+- power_at:
+
+  Optional numeric vector of standardized effect sizes. If supplied, the
+  report includes the power of the calibrated test against each of them
+  (computed with
+  [`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)),
+  so the preregistered alpha is documented together with what it costs.
+
 ## Value
 
 The report as a character vector of lines, invisibly. The report is
@@ -131,7 +140,8 @@ printed to the console.
 
 ## See also
 
-[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md),
+[`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)
 
 ## Examples
 
@@ -163,9 +173,10 @@ alphaN_report(n = 1000, BF = 3, method = "JAB")
 #>   testing. Strategic Organization, 22(3), 550-581.
 #>   doi:10.1177/14761270231214429
 
-# Effect-size calibration, written to a file
+# Effect-size calibration with a power section, written to a file
 f <- tempfile(fileext = ".md")
-alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
+alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5,
+              power_at = c(0.1, 0.2, 0.5), file = f)
 #> # alphaN settings report
 #> 
 #> Generated on 2026-07-19 with alphaN 0.2.0.9000.
@@ -187,6 +198,12 @@ alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, file = f)
 #>   is at or below 0.00219.
 #> - Interpretation: a significant result then corresponds to a Bayes
 #>   factor of at least 3 in favor of the alternative under this prior.
+#> 
+#> ## Power at the calibrated alpha
+#> 
+#> - Against a standardized effect of 0.1: 0.54
+#> - Against a standardized effect of 0.2: 1.00
+#> - Against a standardized effect of 0.5: 1.00
 #> 
 #> ## Please cite
 #> 
