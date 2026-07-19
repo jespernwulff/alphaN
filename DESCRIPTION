@@ -22,6 +22,8 @@ BugReports: https://github.com/jespernwulff/alphaN/issues
 Depends:
     R (>= 4.0)
 Suggests:
+    BayesFactor,
+    JustifyAlpha,
     knitr,
     rmarkdown,
     spelling,

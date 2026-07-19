@@ -32,12 +32,14 @@ test_that("F form reproduces Table 8 of Klauer et al. (2025)", {
 })
 
 test_that("the q = 1 F form agrees with the t form", {
+  # Measured agreement is ~2e-11 relative; the 1e-10 tolerance backs the
+  # paper's statement of the q = 1 consistency check.
   for (m in c("ES", "moment")) {
     bt <- klauerBF(80, t = 2.24, method = m, de = 0.5)
     bF <- alphaN:::klauer_bf_F(2.24^2, 80, q = 1, p = 0, m, de = 0.5,
                                nu = if (m == "ES") 3 else 5,
                                r = if (m == "ES") sqrt(1/3)*0.5 else NULL)
-    expect_equal(bt, bF, tolerance = 1e-8)
+    expect_equal(bt, bF, tolerance = 1e-10)
   }
 })
 
