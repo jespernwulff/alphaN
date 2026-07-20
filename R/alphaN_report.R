@@ -104,7 +104,11 @@ alphaN_report <- function(n, BF = 1, method = "JAB", upper = 1, de = 0.5,
         sprintf("- Joint test of q = %d coefficients (F test)", q),
       if (p > 0)
         sprintf("- Retained model parameters (p): %d (effective sample size %s)",
-                p, format(n - p)))
+                p, format(n - p)),
+      if (p > 0)
+        "- Scope: exact for the normal linear model (evaluated at the effective sample size n - p); asymptotic for other generalized linear models."
+      else
+        "- Scope: conservative large-sample form; supply p for the calibration that is exact for the normal linear model. Asymptotic for other generalized linear models.")
   } else {
     character(0)
   }

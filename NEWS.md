@@ -15,6 +15,11 @@
 * `alphaN_report()` gains a `power_at` argument: the settings report can now
   document the power of the calibrated test against the effect sizes the
   researcher cares about, alongside the alpha itself.
+* `alphaN_report()` now also states the scope of the `"ES"` and `"moment"`
+  calibrations: exact for the normal linear model when `p` is supplied
+  (evaluated at the effective sample size `n - p`), the conservative
+  large-sample form otherwise, and asymptotic for other generalized linear
+  models.
 
 * New function `alphaN_report()` writes a preregistration-ready Markdown
   settings report: every input behind a calibrated alpha (sample size,
@@ -57,6 +62,15 @@
   factors in Table 8 of Klauer et al. (2025), in addition to the existing
   Table 7 anchors, and the q = 1 F form agrees with the validated t form to
   near machine precision.
+* The quadrature and inversion machinery is additionally stress-tested
+  against an independent oracle that integrates on the original effect
+  scale over an infinite range with a plain density ratio (none of the
+  package's substitution, windowing, or log-clamping choices); the
+  normal-limit switch at `n - p` = 50,000 is measured directly by running
+  both branches at the same effective sample size, and monotonicity of
+  alpha in `n` and `BF`, and of the Bayes factors in the test statistic,
+  is checked over grids that cross the switch, including joint tests and
+  small residual degrees of freedom.
 
 ## Documentation
 

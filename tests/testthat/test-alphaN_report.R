@@ -28,6 +28,16 @@ test_that("alphaN_report documents ES/moment prior settings and citations", {
   expect_true(any(grepl("joint F test", rep_q)))
 })
 
+test_that("alphaN_report states the scope of the ES/moment calibration", {
+  rep_p0 <- capture.output(alphaN_report(n = 1000, BF = 3, method = "ES"))
+  expect_true(any(grepl("conservative large-sample form", rep_p0)))
+  rep_p <- capture.output(alphaN_report(n = 1000, BF = 3, method = "moment",
+                                        p = 4))
+  expect_true(any(grepl("exact for the normal linear model", rep_p)))
+  rep_jab <- capture.output(alphaN_report(n = 1000, BF = 3, method = "JAB"))
+  expect_false(any(grepl("Scope:", rep_jab)))
+})
+
 test_that("alphaN_report documents the balanced range", {
   rep <- capture.output(alphaN_report(n = 500, BF = 3, method = "balanced",
                                       upper = 0.6))
