@@ -21,6 +21,17 @@ factors of [Klauer, Meyer-Grant & Kellen
 alternative hypothesis on an effect size of your choosing
 (`method = "ES"` and `method = "moment"`).
 
+The development version (0.3.0, GitHub install below) additionally
+covers joint F tests of several coefficients, converts reported
+statistics into the Klauer Bayes factors
+([`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)),
+computes the power of the calibrated test
+([`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md),
+[`alphaN_power_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power_plot.md)),
+and writes a preregistration-ready settings report
+([`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md));
+the examples below walk through all of it.
+
 If you’re not an R user, you may also be interested in the associated
 [Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
 
@@ -143,6 +154,21 @@ JABp(n = 200, p = 0.005)
 #> [1] 3.634824
 ```
 
+> The sections from here on showcase the development version (GitHub
+> install above); these features ship to CRAN as version 0.3.0.
+
+Called without a covariate,
+[`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md) now
+audits the whole model at once, returning the Bayes factor of every
+coefficient except the intercept:
+
+``` r
+
+JAB(m)
+#>           x           z 
+#> 22.50663920  0.07515544
+```
+
 ### Klauer Bayes factors, joint tests, and clustered data
 
 [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
@@ -168,6 +194,94 @@ alphaN(200, BF = 3, method = "ES", q = 2, p = 2, de = sqrt(0.15))
 
 n_effective(n = 237, se = 0.1, se_robust = 0.2)
 #> [1] 59.25
+```
+
+### Power at the calibrated alpha
+
+A calibrated alpha is still a significance level, and at design time it
+should be paired with a power assessment.
+[`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)
+returns the power of the calibrated coefficient test against a
+standardized effect of size `d`, and
+[`alphaN_power_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power_plot.md)
+draws the whole picture: power across sample sizes, with every method
+evaluated at its own calibrated alpha and a fixed 0.05 reference as the
+dashed curve.
+
+``` r
+
+# Power against a small effect at n = 1000, evidence target BF = 3
+alphaN_power(n = 1000, d = 0.1, BF = 3)                      # JAB
+#> [1] 0.5547323
+alphaN_power(n = 1000, d = 0.1, BF = 3, method = "balanced") # balanced
+#> [1] 0.817175
+```
+
+``` r
+
+alphaN_power_plot(d = c(0.1, 0.5), BF = 3,
+                  methods = c("JAB", "min", "robust", "balanced",
+                              "ES", "moment"))
+```
+
+![](reference/figures/README-power-plot-1.png)
+
+For effects stated on a model-specific scale (an odds ratio in a
+logistic regression, say), the calibrated alpha plugs directly into the
+power calculators of the
+[pwrss](https://cran.r-project.org/package=pwrss) package,
+e.g. `pwrss::power.z.logistic(..., alpha = alphaN(n, BF = 3))`.
+
+### A preregistration-ready settings report
+
+[`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
+records every input behind a calibrated alpha, the resulting level, the
+decision rule, the power against the effects you care about, and the
+references to cite, ready to attach to a preregistration protocol:
+
+``` r
+
+alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, p = 4,
+              power_at = c(0.1, 0.5))
+#> # alphaN settings report
+#> 
+#> Generated on 2026-07-23 with alphaN 0.2.0.9000.
+#> 
+#> ## Inputs
+#> 
+#> - Sample size (n): 1,000
+#> - Target Bayes factor: 3 (moderate evidence)
+#> - Calibration method: ES: effect-size Bayes factor of Klauer,
+#>   Meyer-Grant & Kellen (2025)
+#> - Targeted effect size (de): 0.5 (Cohen's d)
+#> - Prior degrees of freedom (nu): 3
+#> - Prior scale (r): 0.2887
+#> - Retained model parameters (p): 4 (effective sample size 996)
+#> - Scope: exact for the normal linear model (evaluated at the effective
+#>   sample size n - p); asymptotic for other generalized linear models.
+#> 
+#> ## Result
+#> 
+#> - Calibrated alpha level: 0.0022
+#> - Decision rule: Reject H0 if the two-sided p-value of the coefficient
+#>   is at or below 0.0022.
+#> - Interpretation: a significant result then corresponds to a Bayes
+#>   factor of at least 3 in favor of the alternative under this prior.
+#> 
+#> ## Power at the calibrated alpha
+#> 
+#> - Against a standardized effect of 0.1: 0.53
+#> - Against a standardized effect of 0.5: 1.00
+#> 
+#> ## Please cite
+#> 
+#> - Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+#>   sample size: A Bayesian-frequentist compromise for significance
+#>   testing. Strategic Organization, 22(3), 550-581.
+#>   doi:10.1177/14761270231214429
+#> - Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes
+#>   factors for hypothesis tests. Psychonomic Bulletin & Review, 32,
+#>   1070-1094. doi:10.3758/s13423-024-02612-2
 ```
 
 ### Visualizing the trade-offs

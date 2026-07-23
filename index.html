@@ -63,6 +63,7 @@
 <p>The goal of alphaN is to help the user set their significance level as a function of the sample size. The function <code>alphaN</code> allows users to set the significance level as function of the sample size based on the evidence and the prior features they desire. The function <code>JABt</code> and <code>JABp</code> converts test statistics and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values into sample size dependent Bayes factors. <code>JAB_plot</code> plots the Bayes factor as a function of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value, and <code>alphaN_plot</code> plots the alpha level as a function of sample size for a given Bayes factor.</p>
 <p>Calculations are based on <a href="https://doi.org/10.1177/14761270231214429" class="external-link">Wulff &amp; Taylor (2024)</a>. If you enjoy the package, please consider citing the paper (see <code>citation("alphaN")</code>).</p>
 <p>As of version 0.2.0, <code><a href="reference/alphaN.html">alphaN()</a></code> can also calibrate the alpha level to the effect-size and moment Bayes factors of <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">Klauer, Meyer-Grant &amp; Kellen (2025)</a>, which center the alternative hypothesis on an effect size of your choosing (<code>method = "ES"</code> and <code>method = "moment"</code>).</p>
+<p>The development version (0.3.0, GitHub install below) additionally covers joint F tests of several coefficients, converts reported statistics into the Klauer Bayes factors (<code><a href="reference/klauerBF.html">klauerBF()</a></code>), computes the power of the calibrated test (<code><a href="reference/alphaN_power.html">alphaN_power()</a></code>, <code><a href="reference/alphaN_power_plot.html">alphaN_power_plot()</a></code>), and writes a preregistration-ready settings report (<code><a href="reference/alphaN_report.html">alphaN_report()</a></code>); the examples below walk through all of it.</p>
 <p>If you’re not an R user, you may also be interested in the associated <a href="https://crossvalidated.shinyapps.io/alphaN/" class="external-link">Shiny app</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -142,12 +143,20 @@
 <span><span class="co">#&gt; [1] 3.56385</span></span>
 <span><span class="fu"><a href="reference/JABp.html">JABp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span>, p <span class="op">=</span> <span class="fl">0.005</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 3.634824</span></span></code></pre></div>
+<blockquote>
+<p>The sections from here on showcase the development version (GitHub install above); these features ship to CRAN as version 0.3.0.</p>
+</blockquote>
+<p>Called without a covariate, <code><a href="reference/JAB.html">JAB()</a></code> now audits the whole model at once, returning the Bayes factor of every coefficient except the intercept:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/JAB.html">JAB</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           x           z </span></span>
+<span><span class="co">#&gt; 22.50663920  0.07515544</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="klauer-bayes-factors-joint-tests-and-clustered-data">Klauer Bayes factors, joint tests, and clustered data<a class="anchor" aria-label="anchor" href="#klauer-bayes-factors-joint-tests-and-clustered-data"></a>
 </h3>
 <p><code><a href="reference/klauerBF.html">klauerBF()</a></code> returns the effect-size or moment Bayes factor itself, so a reported statistic can be converted into evidence under the same prior that set alpha. For joint F tests, <code><a href="reference/alphaN.html">alphaN()</a></code> and <code><a href="reference/klauerBF.html">klauerBF()</a></code> take <code>q</code> (coefficients tested) and <code>p</code> (retained parameters) and use the exact regression-case Bayes factors of Klauer et al. (2025). And <code><a href="reference/n_effective.html">n_effective()</a></code> implements the Wulff &amp; Taylor (2024) effective-sample-size check for clustered data:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/klauerBF.html">klauerBF</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">80</span>, t <span class="op">=</span> <span class="fl">2.24</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.567758</span></span>
 <span></span>
@@ -158,15 +167,79 @@
 <span><span class="co">#&gt; [1] 59.25</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="power-at-the-calibrated-alpha">Power at the calibrated alpha<a class="anchor" aria-label="anchor" href="#power-at-the-calibrated-alpha"></a>
+</h3>
+<p>A calibrated alpha is still a significance level, and at design time it should be paired with a power assessment. <code><a href="reference/alphaN_power.html">alphaN_power()</a></code> returns the power of the calibrated coefficient test against a standardized effect of size <code>d</code>, and <code><a href="reference/alphaN_power_plot.html">alphaN_power_plot()</a></code> draws the whole picture: power across sample sizes, with every method evaluated at its own calibrated alpha and a fixed 0.05 reference as the dashed curve.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Power against a small effect at n = 1000, evidence target BF = 3</span></span>
+<span><span class="fu"><a href="reference/alphaN_power.html">alphaN_power</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, d <span class="op">=</span> <span class="fl">0.1</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>                      <span class="co"># JAB</span></span>
+<span><span class="co">#&gt; [1] 0.5547323</span></span>
+<span><span class="fu"><a href="reference/alphaN_power.html">alphaN_power</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, d <span class="op">=</span> <span class="fl">0.1</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"balanced"</span><span class="op">)</span> <span class="co"># balanced</span></span>
+<span><span class="co">#&gt; [1] 0.817175</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_power_plot.html">alphaN_power_plot</a></span><span class="op">(</span>d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span>, BF <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                  methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JAB"</span>, <span class="st">"min"</span>, <span class="st">"robust"</span>, <span class="st">"balanced"</span>,</span>
+<span>                              <span class="st">"ES"</span>, <span class="st">"moment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-power-plot-1.png" alt="" width="100%"></p>
+<p>For effects stated on a model-specific scale (an odds ratio in a logistic regression, say), the calibrated alpha plugs directly into the power calculators of the <a href="https://cran.r-project.org/package=pwrss" class="external-link">pwrss</a> package, e.g. <code>pwrss::power.z.logistic(..., alpha = alphaN(n, BF = 3))</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="a-preregistration-ready-settings-report">A preregistration-ready settings report<a class="anchor" aria-label="anchor" href="#a-preregistration-ready-settings-report"></a>
+</h3>
+<p><code><a href="reference/alphaN_report.html">alphaN_report()</a></code> records every input behind a calibrated alpha, the resulting level, the decision rule, the power against the effects you care about, and the references to cite, ready to attach to a preregistration protocol:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_report.html">alphaN_report</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, de <span class="op">=</span> <span class="fl">0.5</span>, p <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>              power_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # alphaN settings report</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Generated on 2026-07-23 with alphaN 0.2.0.9000.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ## Inputs</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; - Sample size (n): 1,000</span></span>
+<span><span class="co">#&gt; - Target Bayes factor: 3 (moderate evidence)</span></span>
+<span><span class="co">#&gt; - Calibration method: ES: effect-size Bayes factor of Klauer,</span></span>
+<span><span class="co">#&gt;   Meyer-Grant &amp; Kellen (2025)</span></span>
+<span><span class="co">#&gt; - Targeted effect size (de): 0.5 (Cohen's d)</span></span>
+<span><span class="co">#&gt; - Prior degrees of freedom (nu): 3</span></span>
+<span><span class="co">#&gt; - Prior scale (r): 0.2887</span></span>
+<span><span class="co">#&gt; - Retained model parameters (p): 4 (effective sample size 996)</span></span>
+<span><span class="co">#&gt; - Scope: exact for the normal linear model (evaluated at the effective</span></span>
+<span><span class="co">#&gt;   sample size n - p); asymptotic for other generalized linear models.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ## Result</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; - Calibrated alpha level: 0.0022</span></span>
+<span><span class="co">#&gt; - Decision rule: Reject H0 if the two-sided p-value of the coefficient</span></span>
+<span><span class="co">#&gt;   is at or below 0.0022.</span></span>
+<span><span class="co">#&gt; - Interpretation: a significant result then corresponds to a Bayes</span></span>
+<span><span class="co">#&gt;   factor of at least 3 in favor of the alternative under this prior.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ## Power at the calibrated alpha</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; - Against a standardized effect of 0.1: 0.53</span></span>
+<span><span class="co">#&gt; - Against a standardized effect of 0.5: 1.00</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ## Please cite</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; - Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on</span></span>
+<span><span class="co">#&gt;   sample size: A Bayesian-frequentist compromise for significance</span></span>
+<span><span class="co">#&gt;   testing. Strategic Organization, 22(3), 550-581.</span></span>
+<span><span class="co">#&gt;   doi:10.1177/14761270231214429</span></span>
+<span><span class="co">#&gt; - Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2025). On Bayes</span></span>
+<span><span class="co">#&gt;   factors for hypothesis tests. Psychonomic Bulletin &amp; Review, 32,</span></span>
+<span><span class="co">#&gt;   1070-1094. doi:10.3758/s13423-024-02612-2</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="visualizing-the-trade-offs">Visualizing the trade-offs<a class="anchor" aria-label="anchor" href="#visualizing-the-trade-offs"></a>
 </h3>
 <p><code><a href="reference/alphaN_plot.html">alphaN_plot()</a></code> compares alpha as a function of sample size across any selection of the calibration methods (the four prior fractions by default):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_plot.html">alphaN_plot</a></span><span class="op">(</span>BF <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>            methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JAB"</span>, <span class="st">"min"</span>, <span class="st">"robust"</span>, <span class="st">"balanced"</span>, <span class="st">"ES"</span>, <span class="st">"moment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-alphaN-plot-1.png" alt="" width="100%"></p>
 <p><code><a href="reference/JAB_plot.html">JAB_plot()</a></code> shows how the Bayes factor maps onto the p-value for a given sample size, marking the alpha levels needed for evidence thresholds of 1, 3, and 10:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/JAB_plot.html">JAB_plot</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-JAB-plot-1.png" alt="" width="100%"></p>
 </div>
