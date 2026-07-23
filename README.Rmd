@@ -28,6 +28,8 @@ Calculations are based on [Wulff & Taylor (2024)](https://doi.org/10.1177/147612
 
 As of version 0.2.0, `alphaN()` can also calibrate the alpha level to the effect-size and moment Bayes factors of [Klauer, Meyer-Grant & Kellen (2025)](https://doi.org/10.3758/s13423-024-02612-2), which center the alternative hypothesis on an effect size of your choosing (`method = "ES"` and `method = "moment"`).
 
+The development version (0.3.0, GitHub install below) additionally covers joint F tests of several coefficients, converts reported statistics into the Klauer Bayes factors (`klauerBF()`), computes the power of the calibrated test (`alphaN_power()`, `alphaN_power_plot()`), and writes a preregistration-ready settings report (`alphaN_report()`); the examples below walk through all of it.
+
 
 If you’re not an R user, you may also be interested in the associated [Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
 
@@ -110,6 +112,15 @@ JABt(n = 200, t = 2.8)
 JABp(n = 200, p = 0.005)
 ```
 
+> The sections from here on showcase the development version (GitHub
+> install above); these features ship to CRAN as version 0.3.0.
+
+Called without a covariate, `JAB()` now audits the whole model at once, returning the Bayes factor of every coefficient except the intercept:
+
+```{r}
+JAB(m)
+```
+
 ### Klauer Bayes factors, joint tests, and clustered data
 
 `klauerBF()` returns the effect-size or moment Bayes factor itself, so a reported statistic can be converted into evidence under the same prior that set alpha. For joint F tests, `alphaN()` and `klauerBF()` take `q` (coefficients tested) and `p` (retained parameters) and use the exact regression-case Bayes factors of Klauer et al. (2025). And `n_effective()` implements the Wulff & Taylor (2024) effective-sample-size check for clustered data:
@@ -120,6 +131,33 @@ klauerBF(n = 80, t = 2.24, de = 0.5)
 alphaN(200, BF = 3, method = "ES", q = 2, p = 2, de = sqrt(0.15))
 
 n_effective(n = 237, se = 0.1, se_robust = 0.2)
+```
+
+### Power at the calibrated alpha
+
+A calibrated alpha is still a significance level, and at design time it should be paired with a power assessment. `alphaN_power()` returns the power of the calibrated coefficient test against a standardized effect of size `d`, and `alphaN_power_plot()` draws the whole picture: power across sample sizes, with every method evaluated at its own calibrated alpha and a fixed 0.05 reference as the dashed curve.
+
+```{r}
+# Power against a small effect at n = 1000, evidence target BF = 3
+alphaN_power(n = 1000, d = 0.1, BF = 3)                      # JAB
+alphaN_power(n = 1000, d = 0.1, BF = 3, method = "balanced") # balanced
+```
+
+```{r power-plot, fig.width = 7.5, fig.height = 3.4}
+alphaN_power_plot(d = c(0.1, 0.5), BF = 3,
+                  methods = c("JAB", "min", "robust", "balanced",
+                              "ES", "moment"))
+```
+
+For effects stated on a model-specific scale (an odds ratio in a logistic regression, say), the calibrated alpha plugs directly into the power calculators of the [pwrss](https://cran.r-project.org/package=pwrss) package, e.g. `pwrss::power.z.logistic(..., alpha = alphaN(n, BF = 3))`.
+
+### A preregistration-ready settings report
+
+`alphaN_report()` records every input behind a calibrated alpha, the resulting level, the decision rule, the power against the effects you care about, and the references to cite, ready to attach to a preregistration protocol:
+
+```{r}
+alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, p = 4,
+              power_at = c(0.1, 0.5))
 ```
 
 ### Visualizing the trade-offs
