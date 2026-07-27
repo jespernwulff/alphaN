@@ -148,11 +148,9 @@ JABp(n = 200, p = 0.005)
 #> [1] 3.634824
 ```
 
-> The sections from here on are new in version 0.3.0; if CRAN still
-> serves an older version, install from GitHub (above).
-
-Called without a covariate, `JAB()` now audits the whole model at once,
-returning the Bayes factor of every coefficient except the intercept:
+Called without a covariate, `JAB()` (since 0.3.0) audits the whole model
+at once, returning the Bayes factor of every coefficient except the
+intercept:
 
 ``` r
 JAB(m)
