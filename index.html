@@ -143,10 +143,7 @@
 <span><span class="co">#&gt; [1] 3.56385</span></span>
 <span><span class="fu"><a href="reference/JABp.html">JABp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span>, p <span class="op">=</span> <span class="fl">0.005</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 3.634824</span></span></code></pre></div>
-<blockquote>
-<p>The sections from here on are new in version 0.3.0; if CRAN still serves an older version, install from GitHub (above).</p>
-</blockquote>
-<p>Called without a covariate, <code><a href="reference/JAB.html">JAB()</a></code> now audits the whole model at once, returning the Bayes factor of every coefficient except the intercept:</p>
+<p>Called without a covariate, <code><a href="reference/JAB.html">JAB()</a></code> (since 0.3.0) audits the whole model at once, returning the Bayes factor of every coefficient except the intercept:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/JAB.html">JAB</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           x           z </span></span>
