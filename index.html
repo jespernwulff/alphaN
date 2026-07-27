@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">alphaN</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
 <p>The goal of alphaN is to help the user set their significance level as a function of the sample size. The function <code>alphaN</code> allows users to set the significance level as function of the sample size based on the evidence and the prior features they desire. The function <code>JABt</code> and <code>JABp</code> converts test statistics and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values into sample size dependent Bayes factors. <code>JAB_plot</code> plots the Bayes factor as a function of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value, and <code>alphaN_plot</code> plots the alpha level as a function of sample size for a given Bayes factor.</p>
 <p>Calculations are based on <a href="https://doi.org/10.1177/14761270231214429" class="external-link">Wulff &amp; Taylor (2024)</a>. If you enjoy the package, please consider citing the paper (see <code>citation("alphaN")</code>).</p>
 <p>As of version 0.2.0, <code><a href="reference/alphaN.html">alphaN()</a></code> can also calibrate the alpha level to the effect-size and moment Bayes factors of <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">Klauer, Meyer-Grant &amp; Kellen (2025)</a>, which center the alternative hypothesis on an effect size of your choosing (<code>method = "ES"</code> and <code>method = "moment"</code>).</p>
-<p>The development version (0.3.0, GitHub install below) additionally covers joint F tests of several coefficients, converts reported statistics into the Klauer Bayes factors (<code><a href="reference/klauerBF.html">klauerBF()</a></code>), computes the power of the calibrated test (<code><a href="reference/alphaN_power.html">alphaN_power()</a></code>, <code><a href="reference/alphaN_power_plot.html">alphaN_power_plot()</a></code>), and writes a preregistration-ready settings report (<code><a href="reference/alphaN_report.html">alphaN_report()</a></code>); the examples below walk through all of it.</p>
+<p>Version 0.3.0 additionally covers joint F tests of several coefficients, converts reported statistics into the Klauer Bayes factors (<code><a href="reference/klauerBF.html">klauerBF()</a></code>), computes the power of the calibrated test (<code><a href="reference/alphaN_power.html">alphaN_power()</a></code>, <code><a href="reference/alphaN_power_plot.html">alphaN_power_plot()</a></code>), and writes a preregistration-ready settings report (<code><a href="reference/alphaN_report.html">alphaN_report()</a></code>); the examples below walk through all of it.</p>
 <p>If you’re not an R user, you may also be interested in the associated <a href="https://crossvalidated.shinyapps.io/alphaN/" class="external-link">Shiny app</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -144,7 +144,7 @@
 <span><span class="fu"><a href="reference/JABp.html">JABp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span>, p <span class="op">=</span> <span class="fl">0.005</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 3.634824</span></span></code></pre></div>
 <blockquote>
-<p>The sections from here on showcase the development version (GitHub install above); these features ship to CRAN as version 0.3.0.</p>
+<p>The sections from here on are new in version 0.3.0; if CRAN still serves an older version, install from GitHub (above).</p>
 </blockquote>
 <p>Called without a covariate, <code><a href="reference/JAB.html">JAB()</a></code> now audits the whole model at once, returning the Bayes factor of every coefficient except the intercept:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -192,7 +192,7 @@
 <span>              power_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # alphaN settings report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Generated on 2026-07-23 with alphaN 0.2.0.9000.</span></span>
+<span><span class="co">#&gt; Generated on 2026-07-27 with alphaN 0.3.0.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Inputs</span></span>
 <span><span class="co">#&gt; </span></span>

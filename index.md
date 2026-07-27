@@ -21,9 +21,8 @@ factors of [Klauer, Meyer-Grant & Kellen
 alternative hypothesis on an effect size of your choosing
 (`method = "ES"` and `method = "moment"`).
 
-The development version (0.3.0, GitHub install below) additionally
-covers joint F tests of several coefficients, converts reported
-statistics into the Klauer Bayes factors
+Version 0.3.0 additionally covers joint F tests of several coefficients,
+converts reported statistics into the Klauer Bayes factors
 ([`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)),
 computes the power of the calibrated test
 ([`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md),
@@ -154,8 +153,8 @@ JABp(n = 200, p = 0.005)
 #> [1] 3.634824
 ```
 
-> The sections from here on showcase the development version (GitHub
-> install above); these features ship to CRAN as version 0.3.0.
+> The sections from here on are new in version 0.3.0; if CRAN still
+> serves an older version, install from GitHub (above).
 
 Called without a covariate,
 [`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md) now
@@ -245,7 +244,7 @@ alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, p = 4,
               power_at = c(0.1, 0.5))
 #> # alphaN settings report
 #> 
-#> Generated on 2026-07-23 with alphaN 0.2.0.9000.
+#> Generated on 2026-07-27 with alphaN 0.3.0.
 #> 
 #> ## Inputs
 #> 

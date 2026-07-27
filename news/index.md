@@ -1,6 +1,6 @@
 # Changelog
 
-## alphaN (development version)
+## alphaN 0.3.0
 
 ### New features
 
