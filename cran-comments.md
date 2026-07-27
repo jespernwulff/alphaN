@@ -32,9 +32,11 @@ models, adds power analysis and reporting tools, and extends validation:
 
 0 errors | 0 warnings | 0 notes
 
-The only local NOTE is "unable to verify current time" (checking for future
-file timestamps), an artifact of the check machine having no access to a
-time service; it does not appear on GitHub Actions.
+win-builder (R-devel, 2026-07-27): Status OK, no notes. GitHub Actions
+(Linux devel/release/oldrel-1, macOS, Windows): all passing. The only local
+NOTE is "unable to verify current time" (checking for future file
+timestamps), an artifact of the check machine having no access to a time
+service; it appears on no other platform.
 
 The README links Wulff and Taylor (2024) by DOI
 (<https://doi.org/10.1177/14761270231214429>); the publisher returns 403 to
