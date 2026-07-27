@@ -30,12 +30,12 @@ Kellen (2025)](https://doi.org/10.3758/s13423-024-02612-2), which center
 the alternative hypothesis on an effect size of your choosing
 (`method = "ES"` and `method = "moment"`).
 
-The development version (0.3.0, GitHub install below) additionally
-covers joint F tests of several coefficients, converts reported
-statistics into the Klauer Bayes factors (`klauerBF()`), computes the
-power of the calibrated test (`alphaN_power()`, `alphaN_power_plot()`),
-and writes a preregistration-ready settings report (`alphaN_report()`);
-the examples below walk through all of it.
+Version 0.3.0 additionally covers joint F tests of several coefficients,
+converts reported statistics into the Klauer Bayes factors
+(`klauerBF()`), computes the power of the calibrated test
+(`alphaN_power()`, `alphaN_power_plot()`), and writes a
+preregistration-ready settings report (`alphaN_report()`); the examples
+below walk through all of it.
 
 If you’re not an R user, you may also be interested in the associated
 [Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
@@ -148,8 +148,8 @@ JABp(n = 200, p = 0.005)
 #> [1] 3.634824
 ```
 
-> The sections from here on showcase the development version (GitHub
-> install above); these features ship to CRAN as version 0.3.0.
+> The sections from here on are new in version 0.3.0; if CRAN still
+> serves an older version, install from GitHub (above).
 
 Called without a covariate, `JAB()` now audits the whole model at once,
 returning the Bayes factor of every coefficient except the intercept:
@@ -224,7 +224,7 @@ alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, p = 4,
               power_at = c(0.1, 0.5))
 #> # alphaN settings report
 #> 
-#> Generated on 2026-07-23 with alphaN 0.2.0.9000.
+#> Generated on 2026-07-27 with alphaN 0.3.0.
 #> 
 #> ## Inputs
 #> 
