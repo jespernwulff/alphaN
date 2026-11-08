@@ -1,0 +1,27 @@
+---
+title: "Stata help file"
+description: >
+  The help file of the Stata command, as displayed by `help alphan`.
+---
+
+```{r helpers, include = FALSE}
+source(file.path(getOption("alphaN.precompute.dir"), "helpers.R"))
+```
+
+This is the help file that `help alphan` opens in Stata, converted to plain
+text. For a guided introduction see
+[Get started in Stata](stata.html); for the corresponding R functions see
+[R and Stata side by side](r-and-stata.html).
+
+```{r, echo = FALSE, results = "asis"}
+f <- file.path(.pc_dir(), "stata", "output", "alphan-help.txt")
+txt <- readLines(f, warn = FALSE, encoding = "UTF-8")
+
+# Drop the Stata logo above the title and the common left margin.
+txt <- txt[grep("^\\s*Title\\s*$", txt)[1]:length(txt)]
+txt <- sub("\\s+$", "", txt)
+margin <- min(nchar(sub("^( *).*$", "\\1", txt[nzchar(txt)])))
+txt <- substring(txt, margin + 1)
+
+cat("```{.stata-help}", txt, "```", sep = "\n")
+```

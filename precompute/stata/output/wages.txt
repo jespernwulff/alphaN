@@ -1,0 +1,383 @@
+
+. 
+end of do-file
+
+. 
+. * >>> data
+. webuse nlswork, clear
+(National Longitudinal Survey of Young Women, 14-24 years old in 1968)
+
+. global controls age ttl_exp tenure not_smsa south c_city i.race collgrad msp nev_mar union hours
+
+. * <<<
+. 
+. * >>> ols
+. regress ln_wage $controls
+
+      Source |       SS           df       MS      Number of obs   =    18,964
+-------------+----------------------------------   F(13, 18950)    =    841.00
+       Model |  1513.71169        13  116.439361   Prob > F        =    0.0000
+    Residual |  2623.69348    18,950  .138453482   R-squared       =    0.3659
+-------------+----------------------------------   Adj R-squared   =    0.3654
+       Total |  4137.40517    18,963   .21818305   Root MSE        =    .37209
+
+------------------------------------------------------------------------------
+     ln_wage | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         age |   -.011186   .0006385   -17.52   0.000    -.0124374   -.0099346
+     ttl_exp |   .0346187   .0010015    34.57   0.000     .0326557    .0365816
+      tenure |    .015735    .000868    18.13   0.000     .0140336    .0174365
+    not_smsa |  -.1957447   .0068881   -28.42   0.000    -.2092459   -.1822435
+       south |  -.1063478   .0059823   -17.78   0.000    -.1180736    -.094622
+      c_city |   .0057278   .0067248     0.85   0.394    -.0074535     .018909
+             |
+        race |
+      Black  |  -.1148343   .0067408   -17.04   0.000    -.1280468   -.1016218
+      Other  |   .0255307   .0259943     0.98   0.326    -.0254204    .0764818
+             |
+    collgrad |   .3343134   .0069955    47.79   0.000     .3206016    .3480252
+         msp |  -.0216217   .0073385    -2.95   0.003    -.0360057   -.0072376
+     nev_mar |  -.0659129   .0092315    -7.14   0.000    -.0840074   -.0478183
+       union |   .1373209   .0066207    20.74   0.000     .1243438     .150298
+       hours |   .0005011   .0002979     1.68   0.093    -.0000828     .001085
+       _cons |   1.816862   .0227791    79.76   0.000     1.772213    1.861511
+------------------------------------------------------------------------------
+
+. alphan jab
+
+Jeffreys' approximate Bayes factor after regress      method: JAB
+n = 18,964
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        t     P>|t| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+                 age |  -.01118603  .00063845   -17.52    0.0000    3.3007e+64
+             ttl_exp |   .03461866  .00100148    34.57    0.0000   2.1637e+257
+              tenure |   .01573503  .00086805    18.13    0.0000    1.6326e+69
+            not_smsa |   -.1957447  .00688806   -28.42    0.0000   1.6787e+173
+               south |  -.10634778  .00598228   -17.78    0.0000    3.0574e+66
+              c_city |   .00572775  .00672483     0.85    0.3944       .010437
+              2.race |  -.11483429  .00674077   -17.04    0.0000    7.6035e+60
+              3.race |   .02553071  .02599426     0.98    0.3260       .011763
+            collgrad |   .33431342  .00699551    47.79    0.0000   8.2184e+307
+                 msp |  -.02162166  .00733846    -2.95    0.0032        .55729
+             nev_mar |  -.06591286  .00923149    -7.14    0.0000     853354279
+               union |    .1373209  .00662069    20.74    0.0000    1.8927e+91
+               hours |   .00050107   .0002979     1.68    0.0926        .02988
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> level
+. alphan `=e(N)', bf(1 3 10)
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          1   .00169804
+      18,964 |          3  .000518613
+      18,964 |         10  .000143513
+
+. * <<<
+. 
+. * >>> joint
+. test 2.race 3.race
+
+ ( 1)  2.race = 0
+ ( 2)  3.race = 0
+
+       F(  2, 18950) =  146.76
+            Prob > F =    0.0000
+
+. alphan klauerbf, n(`=e(N)') fstat(`=r(F)') q(2) p(12) de(sqrt(.02))
+
+Klauer et al. (2025) Bayes factor                     method: ES
+prior: de = .1414, nu = 3, r = .05774, q = 2, p = 12
+
+           n |          F          BF
+-------------+------------------------
+      18,964 |   146.7599  4.4403e+60
+
+. alphan `=e(N)', bf(3) method(es) q(2) p(12) de(sqrt(.02))
+
+Significance level calibrated to a Bayes factor       method: ES
+prior: de = .1414, nu = 3, r = .05774, q = 2 (joint F test), p = 12
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3  .000374898
+
+. * <<<
+. 
+. quietly regress ln_wage $controls
+
+. local se_msp = _se[msp]
+
+. local se_nev = _se[nev_mar]
+
+. 
+. * >>> cluster
+. regress ln_wage $controls, vce(cluster idcode)
+
+Linear regression                               Number of obs     =     18,964
+                                                F(13, 4133)       =     285.64
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3659
+                                                Root MSE          =     .37209
+
+                             (Std. err. adjusted for 4,134 clusters in idcode)
+------------------------------------------------------------------------------
+             |               Robust
+     ln_wage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         age |   -.011186   .0010798   -10.36   0.000    -.0133031    -.009069
+     ttl_exp |   .0346187   .0019061    18.16   0.000     .0308817    .0383556
+      tenure |    .015735   .0016168     9.73   0.000     .0125652    .0189049
+    not_smsa |  -.1957447   .0125647   -15.58   0.000    -.2203782   -.1711112
+       south |  -.1063478   .0108932    -9.76   0.000    -.1277043   -.0849912
+      c_city |   .0057278    .011629     0.49   0.622    -.0170713    .0285268
+             |
+        race |
+      Black  |  -.1148343   .0121337    -9.46   0.000    -.1386229   -.0910457
+      Other  |   .0255307   .0598475     0.43   0.670    -.0918026     .142864
+             |
+    collgrad |   .3343134   .0139607    23.95   0.000      .306943    .3616839
+         msp |  -.0216217   .0113138    -1.91   0.056    -.0438028    .0005595
+     nev_mar |  -.0659129   .0171024    -3.85   0.000    -.0994427    -.032383
+       union |   .1373209   .0114534    11.99   0.000      .114866    .1597758
+       hours |   .0005011   .0006374     0.79   0.432    -.0007485    .0017506
+       _cons |   1.816862   .0408016    44.53   0.000     1.736868    1.896855
+------------------------------------------------------------------------------
+
+. alphan jab
+
+Jeffreys' approximate Bayes factor after regress      method: JAB
+n = 18,964
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        t     P>|t| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+                 age |  -.01118603  .00107983   -10.36    0.0000    1.4557e+21
+             ttl_exp |   .03461866   .0019061    18.16    0.0000    3.0836e+69
+              tenure |   .01573503  .00161681     9.73    0.0000    2.6794e+18
+            not_smsa |   -.1957447  .01256466   -15.58    0.0000    3.6620e+50
+               south |  -.10634778  .01089321    -9.76    0.0000    3.6113e+18
+              c_city |   .00572775  .01162895     0.49    0.6224      .0081981
+              2.race |  -.11483429   .0121337    -9.46    0.0000    2.0449e+17
+              3.race |   .02553071  .05984751     0.43    0.6697      .0079534
+            collgrad |   .33431342  .01396069    23.95    0.0000   2.4193e+122
+                 msp |  -.02162166   .0113138    -1.91    0.0561       .045093
+             nev_mar |  -.06591286  .01710235    -3.85    0.0001        12.202
+               union |    .1373209  .01145345    11.99    0.0000    1.1897e+29
+               hours |   .00050107  .00063735     0.79    0.4318      .0098911
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> neff
+. alphan n_effective, n(`=e(N)') se(`se_nev') se_robust(`=_se[nev_mar]')
+
+Effective sample size from cluster-robust standard errors
+
+           n |         se   se_robust n_effective
+-------------+------------------------------------
+      18,964 |    .009231       .0171     5,525.37
+
+. local ne = r(n_effective)
+
+. alphan `ne', bf(3)
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+ 5,525.37202 |          3   .00100717
+
+. alphan jab nev_mar, n(`ne')
+
+Jeffreys' approximate Bayes factor after regress      method: JAB
+n = 5,525.37202
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        t     P>|t| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+             nev_mar |  -.06591286  .01710235    -3.85    0.0001        22.606
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> methods
+. foreach m in jab min robust balanced {
+  2.     alphan `=e(N)', bf(3) method(`m')
+  3. }
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3  .000518613
+
+Significance level calibrated to a Bayes factor       method: min
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3  .000752704
+
+Significance level calibrated to a Bayes factor       method: robust
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3   .00761279
+
+Significance level calibrated to a Bayes factor       method: balanced
+realistic effects: uniform on [0, 1]
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3    .0104884
+
+. alphan `=e(N)', bf(3) method(es) de(.2) p(13)
+
+Significance level calibrated to a Bayes factor       method: ES
+prior: de = .2, nu = 3, r = .1155, p = 13
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3   .00112793
+
+. alphan `=e(N)', bf(3) method(moment) de(.2) p(13)
+
+Significance level calibrated to a Bayes factor       method: moment
+prior: de = .2, nu = 5, p = 13
+
+           n |         BF       alpha
+-------------+------------------------
+      18,964 |          3  .000107911
+
+. * <<<
+. 
+. * >>> logit
+. logit union age ttl_exp tenure not_smsa south c_city i.race collgrad msp nev_mar
+
+Iteration 0:  Log likelihood = -10360.082  
+Iteration 1:  Log likelihood = -9712.8826  
+Iteration 2:  Log likelihood = -9694.8972  
+Iteration 3:  Log likelihood = -9694.8713  
+Iteration 4:  Log likelihood = -9694.8713  
+
+Logistic regression                                    Number of obs =  18,997
+                                                       LR chi2(11)   = 1330.42
+                                                       Prob > chi2   =  0.0000
+Log likelihood = -9694.8713                            Pseudo R2     =  0.0642
+
+------------------------------------------------------------------------------
+       union | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         age |  -.0045575   .0042306    -1.08   0.281    -.0128494    .0037344
+     ttl_exp |  -.0285789   .0068734    -4.16   0.000    -.0420506   -.0151072
+      tenure |    .102121   .0056246    18.16   0.000     .0910969     .113145
+    not_smsa |  -.0929933   .0471302    -1.97   0.048    -.1853668   -.0006197
+       south |  -.8710804   .0412536   -21.12   0.000     -.951936   -.7902248
+      c_city |   .1271884   .0433234     2.94   0.003     .0422761    .2121007
+             |
+        race |
+      Black  |    .775809   .0433282    17.91   0.000     .6908872    .8607308
+      Other  |  -.1326003   .1742295    -0.76   0.447    -.4740838    .2088832
+             |
+    collgrad |   .4221663   .0434727     9.71   0.000     .3369613    .5073714
+         msp |  -.0945112   .0471299    -2.01   0.045    -.1868841   -.0021383
+     nev_mar |  -.1865813   .0589945    -3.16   0.002    -.3022083   -.0709542
+       _cons |  -1.184003   .1236324    -9.58   0.000    -1.426318   -.9416879
+------------------------------------------------------------------------------
+
+. alphan jab
+
+Jeffreys' approximate Bayes factor after logit        method: JAB
+n = 18,997
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        z     P>|z| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+                 age |  -.00455747  .00423064    -1.08    0.2814       .012961
+             ttl_exp |  -.02857892  .00687345    -4.16    0.0000        41.179
+              tenure |   .10212096  .00562462    18.16    0.0000    2.7644e+69
+            not_smsa |  -.09299326  .04713022    -1.97    0.0485       .050822
+               south |   -.8710804  .04125361   -21.12    0.0000    4.7490e+94
+              c_city |   .12718838  .04332339     2.94    0.0033        .53978
+              2.race |     .775809  .04332823    17.91    0.0000    3.0111e+67
+              3.race |  -.13260029  .17422949    -0.76    0.4466      .0096925
+            collgrad |   .42216633  .04347275     9.71    0.0000    2.1810e+18
+                 msp |   -.0945112   .0471299    -2.01    0.0449       .054186
+             nev_mar |  -.18658127  .05899447    -3.16    0.0016        1.0782
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> power
+. alphan power 18964, d(.02 .05 .1) bf(3)
+
+Power at the calibrated significance level            method: JAB
+
+           n |          d          BF       alpha       power
+-------------+------------------------------------------------
+      18,964 |        .02           3  .000518613      0.2366
+      18,964 |        .05           3  .000518613      0.9997
+      18,964 |         .1           3  .000518613      1.0000
+
+. alphan power 18964, d(.02 .05 .1) bf(3) method(balanced)
+
+Power at the calibrated significance level            method: balanced
+
+           n |          d          BF       alpha       power
+-------------+------------------------------------------------
+      18,964 |        .02           3    .0104884      0.5772
+      18,964 |        .05           3    .0104884      1.0000
+      18,964 |         .1           3    .0104884      1.0000
+
+. * <<<
+. 
+. * >>> report
+. alphan report 18964, bf(3) powerat(.02 .05)
+
+# alphaN settings report
+
+Generated on 2026-11-08 with alphaN for Stata 0.3.0.
+
+## Inputs
+
+- Sample size (n): 18,964
+- Target Bayes factor: 3 (moderate evidence)
+- Calibration method: JAB: Jeffreys' approximate Bayes factor
+  (unit-information prior, b = 1/n)
+
+## Result
+
+- Calibrated alpha level: 0.000519
+- Decision rule: Reject H0 if the two-sided p-value of the coefficient
+  is at or below 0.000519.
+- Interpretation: a significant result then corresponds to a Bayes
+  factor of at least 3 in favor of the alternative under this prior.
+
+## Power at the calibrated alpha
+
+- Against a standardized effect of 0.02: 0.24
+- Against a standardized effect of 0.05: 1.00
+
+## Please cite
+
+- Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+  sample size: A Bayesian-frequentist compromise for significance
+  testing. Strategic Organization, 22(3), 550-581.
+  doi:10.1177/14761270231214429
+
+. * <<<
+. 
+. * >>> figure
+. alphan jabplot 18964, bf(3)
+
+. * <<<
+. quietly graph export "$pc_out/wages-jabplot.svg", replace
+
+. 
+. log close pc

@@ -1,0 +1,205 @@
+---
+title: "Get started with alphaN in Stata"
+description: >
+  Install the command, calibrate a significance level, and turn regression
+  output into Bayes factors.
+---
+
+```{r helpers, include = FALSE}
+source(file.path(getOption("alphaN.precompute.dir"), "helpers.R"))
+```
+
+`alphan` is the Stata version of the R package `alphaN`. It sets the
+significance level of a regression coefficient as a decreasing function of the
+sample size, so that a significant result corresponds to at least a chosen
+Bayes factor in favor of the alternative hypothesis. This page goes through
+every subcommand. The same steps in R are in
+[Get started in R](intro-alphaN.html).
+
+## Installation
+
+<div class="wrap-code">
+
+```stata
+net install alphan, from("https://raw.githubusercontent.com/jespernwulff/alphaN-stata/main/")
+```
+
+</div>
+
+The command is written for Stata 14 or later and has been tested on StataNow
+19.5. Nothing else needs to be installed. To
+update an existing installation, add the `replace` option. After installation,
+`help alphan` opens the help file, which is also
+[on this site](stata-help.html).
+
+## Calibrating the significance level
+
+We are planning a regression with 1,000 observations. By default, `alphan`
+finds the level at which rejecting the null hypothesis means the null and the
+alternative are at least equally likely, a Bayes factor of 1, which rules out
+Lindley's paradox.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "first")
+```
+
+Raising the target asks for more evidence before you are allowed to reject,
+which lowers the level. A Bayes factor of 3 is conventionally called moderate
+evidence and 10 strong evidence. The `bf()` option takes a list.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "targets")
+```
+
+Sample sizes are also a list, and the level falls as they grow.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "grows")
+```
+
+The result is left in `r(alpha)`, and the whole table in `r(table)`, for use
+in the rest of a do-file.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "stored")
+```
+
+## Choosing the prior
+
+The `method()` option selects the prior behind the Bayes factor. `jab`, the
+default, `min`, `robust` and `balanced` invert Jeffreys' approximate Bayes
+factor with different choices of the prior. For instance, `balanced` balances
+the Type I and Type II errors, assuming realistic effects are uniform between
+0 and `upper()`.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "balanced")
+```
+
+The methods `es` and `moment` calibrate to the effect-size and moment Bayes
+factors of Klauer, Meyer-Grant and Kellen (2025), whose priors center the
+alternative on an effect size you choose with `de()`. Because the moment prior
+assigns zero density to the null value itself and little to effects near it,
+the level it implies falls much faster with the sample size.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "klauer")
+```
+
+For a regression, give `p()`, the number of other estimated coefficients
+including the intercept, to obtain the calibration that is exact for the
+normal linear model. [Choosing a calibration](choosing.html) discusses how to
+pick a method and a target.
+
+Joint *F* tests of several coefficients take `q()`, the number of coefficients
+tested. The targeted effect is then on Cohen's *f* scale, so `de(sqrt(.15))`
+targets a medium effect.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "joint")
+```
+
+## From regression output to Bayes factors
+
+`alphan jab`, typed after an estimation command, reports Jeffreys' approximate
+Bayes factor for every coefficient except the intercept.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "regress")
+```
+
+The last column is the Bayes factor in favor of the alternative. `mpg` is far
+from significant, and the Bayes factor of 0.12 says more: the data are about
+eight times as likely under the null hypothesis. Name a coefficient to report
+only that one, and choose another prior with `method()`.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "jab-one")
+```
+
+The command works after any estimator that stores `e(b)`, `e(V)` and `e(N)`.
+It uses the standard errors of the fitted model, so a `vce()` option carries
+over.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "logit")
+```
+
+If all you have is a result reported in a paper, convert the statistic or the
+*p*-value. With `df()`, `alphan jabp` reads the *p*-value as coming from a *t*
+test; without it, from a *z* test.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "reported")
+```
+
+`alphan klauerbf` does the same for the effect-size and moment Bayes factors.
+Here is a *t* statistic of 2.24 on 79 degrees of freedom, against an
+alternative centered on a medium effect.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "klauerbf")
+```
+
+## Power at the calibrated level
+
+A lower level costs power. `alphan power` gives the power of the coefficient
+test at the calibrated level against a standardized effect `d()`, the quantity
+that the *t* statistic divided by the square root of the sample size estimates.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "power")
+```
+
+## A report for your preregistration
+
+`alphan report` records every input, the resulting level, the decision rule,
+the power against the effects you care about and the references to cite. Add
+`saving(report.md, replace)` to write it to a file.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "report")
+```
+
+## Graphs
+
+`alphan plot` compares the level across sample sizes. Other `twoway` options
+are passed through, and the data in memory are left alone.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "plot", output = FALSE)
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.alt = "The significance level for a Bayes factor of 3 against the sample size, for six calibration methods."}
+knitr::include_graphics(stata_graph("gs-plot.svg"), error = FALSE)
+```
+
+`alphan powerplot` shows what each calibration costs in power, with every
+method at its own level and a fixed .05 as the dashed reference.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "powerplot", output = FALSE)
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.alt = "Power against the sample size for effects of 0.1 and 0.5, for six calibration methods and a fixed level of .05."}
+knitr::include_graphics(stata_graph("gs-powerplot.svg"), error = FALSE)
+```
+
+`alphan jabplot` shows how the Bayes factor maps onto the *p*-value at a given
+sample size. The triangle marks the level for your target; the dotted lines
+mark the levels for Bayes factors of 1, 3 and 10.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("getting-started", "jabplot", output = FALSE)
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.alt = "The Bayes factor against the p-value at a sample size of 1,000."}
+knitr::include_graphics(stata_graph("gs-jabplot.svg"), error = FALSE)
+```
+
+## Where to go next
+
+The [worked example](wages.html) takes a panel data set through a complete
+analysis, including clustered standard errors and the effective sample size.
+[R and Stata side by side](r-and-stata.html) matches every function and
+option.

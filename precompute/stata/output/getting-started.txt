@@ -1,0 +1,325 @@
+
+. 
+end of do-file
+
+. 
+. * >>> first
+. alphan 1000
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          1   .00858227
+
+. * <<<
+. 
+. * >>> home
+. alphan 1000, bf(3)
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          3   .00254915
+
+. * <<<
+. 
+. * >>> targets
+. alphan 1000, bf(1 3 10)
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          1   .00858227
+       1,000 |          3   .00254915
+       1,000 |         10  .000691139
+
+. * <<<
+. 
+. * >>> grows
+. alphan 100 1000 10000 100000, bf(3)
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+         100 |          3   .00910357
+       1,000 |          3   .00254915
+      10,000 |          3  .000731456
+     100,000 |          3  .000213299
+
+. * <<<
+. 
+. * >>> balanced
+. alphan 1000, bf(3) method(balanced)
+
+Significance level calibrated to a Bayes factor       method: balanced
+realistic effects: uniform on [0, 1]
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          3     .024221
+
+. * <<<
+. 
+. * >>> klauer
+. alphan 100 1000 10000, bf(3) method(es) de(.5)
+
+Significance level calibrated to a Bayes factor       method: ES
+prior: de = .5, nu = 3, r = .2887
+
+           n |         BF       alpha
+-------------+------------------------
+         100 |          3    .0118502
+       1,000 |          3   .00218956
+      10,000 |          3  .000580671
+
+. alphan 100 1000 10000, bf(3) method(moment) de(.5)
+
+Significance level calibrated to a Bayes factor       method: moment
+prior: de = .5, nu = 5
+
+           n |         BF       alpha
+-------------+------------------------
+         100 |          3   .00787684
+       1,000 |          3  .000491352
+      10,000 |          3  .000020322
+
+. * <<<
+. 
+. * >>> regress
+. sysuse auto, clear
+(1978 automobile data)
+
+. regress price mpg weight i.foreign
+
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(3, 70)        =     23.29
+       Model |   317252881         3   105750960   Prob > F        =    0.0000
+    Residual |   317812515        70  4540178.78   R-squared       =    0.4996
+-------------+----------------------------------   Adj R-squared   =    0.4781
+       Total |   635065396        73  8699525.97   Root MSE        =    2130.8
+
+------------------------------------------------------------------------------
+       price | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         mpg |    21.8536   74.22114     0.29   0.769    -126.1758     169.883
+      weight |   3.464706    .630749     5.49   0.000     2.206717    4.722695
+             |
+     foreign |
+    Foreign  |    3673.06   683.9783     5.37   0.000     2308.909    5037.212
+       _cons |  -5853.696   3376.987    -1.73   0.087    -12588.88    881.4934
+------------------------------------------------------------------------------
+
+. alphan jab
+
+Jeffreys' approximate Bayes factor after regress      method: JAB
+n = 74
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        t     P>|t| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+                 mpg |   21.853604  74.221139     0.29    0.7693         .1214
+              weight |   3.4647058  .63074896     5.49    0.0000        414367
+           1.foreign |   3673.0604  683.97827     5.37    0.0000        212603
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> jab-one
+. alphan jab weight, method(min)
+
+Jeffreys' approximate Bayes factor after regress      method: min
+n = 74
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        t     P>|t| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+              weight |   3.4647058  .63074896     5.49    0.0000        586004
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> logit
+. logit foreign mpg weight
+
+Iteration 0:  Log likelihood =  -45.03321  
+Iteration 1:  Log likelihood = -29.238536  
+Iteration 2:  Log likelihood = -27.244139  
+Iteration 3:  Log likelihood = -27.175277  
+Iteration 4:  Log likelihood = -27.175156  
+Iteration 5:  Log likelihood = -27.175156  
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(2)    =  35.72
+                                                        Prob > chi2   = 0.0000
+Log likelihood = -27.175156                             Pseudo R2     = 0.3966
+
+------------------------------------------------------------------------------
+     foreign | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         mpg |  -.1685869   .0919175    -1.83   0.067    -.3487418     .011568
+      weight |  -.0039067   .0010116    -3.86   0.000    -.0058894    -.001924
+       _cons |   13.70837   4.518709     3.03   0.002     4.851859    22.56487
+------------------------------------------------------------------------------
+
+. alphan jab
+
+Jeffreys' approximate Bayes factor after logit        method: JAB
+n = 74
+
+-------------------------------------------------------------------------------
+         Coefficient |           b  Std. err.        z     P>|z| BF (H1 vs H0)
+---------------------+---------------------------------------------------------
+                 mpg |   -.1685869  .09191747    -1.83    0.0666        .62497
+              weight |   -.0039067  .00101161    -3.86    0.0001        201.32
+-------------------------------------------------------------------------------
+
+. * <<<
+. 
+. * >>> reported
+. alphan jabt 2.695, n(200)
+
+Jeffreys' approximate Bayes factor                    method: JAB
+
+           n |          t          BF
+-------------+------------------------
+         200 |     2.6950      2.6707
+
+. alphan jabp .007038863, n(200) df(190)
+
+Jeffreys' approximate Bayes factor                    method: JAB
+p-value from a t test
+
+           n |          p          BF
+-------------+------------------------
+         200 |  .00703886      2.8938
+
+. * <<<
+. 
+. * >>> klauerbf
+. alphan klauerbf, n(80) t(2.24) de(.5)
+
+Klauer et al. (2025) Bayes factor                     method: ES
+prior: de = .5, nu = 3, r = .2887
+
+           n |          t          BF
+-------------+------------------------
+          80 |     2.2400      1.5678
+
+. * <<<
+. 
+. * >>> joint
+. alphan 200, bf(3) method(es) q(2) p(2) de(sqrt(.15))
+
+Significance level calibrated to a Bayes factor       method: ES
+prior: de = .3873, nu = 3, r = .1581, q = 2 (joint F test), p = 2
+
+           n |         BF       alpha
+-------------+------------------------
+         200 |          3   .00842742
+
+. * <<<
+. 
+. * >>> power
+. alphan power 1000, d(.1) bf(3)
+
+Power at the calibrated significance level            method: JAB
+
+           n |          d          BF       alpha       power
+-------------+------------------------------------------------
+       1,000 |         .1           3   .00254915      0.5547
+
+. alphan power 1000, d(.1) bf(3) method(balanced)
+
+Power at the calibrated significance level            method: balanced
+
+           n |          d          BF       alpha       power
+-------------+------------------------------------------------
+       1,000 |         .1           3     .024221      0.8172
+
+. * <<<
+. 
+. * >>> report
+. alphan report 1000, bf(3) method(es) de(.5) p(4) powerat(.1 .5)
+
+# alphaN settings report
+
+Generated on 2026-11-08 with alphaN for Stata 0.3.0.
+
+## Inputs
+
+- Sample size (n): 1,000
+- Target Bayes factor: 3 (moderate evidence)
+- Calibration method: ES: effect-size Bayes factor of Klauer,
+  Meyer-Grant & Kellen (2025)
+- Targeted effect size (de): 0.5 (Cohen's d)
+- Prior degrees of freedom (nu): 3
+- Prior scale (r): 0.2887
+- Retained model parameters (p): 4 (effective sample size 996)
+- Scope: exact for the normal linear model (evaluated at the effective
+  sample size n - p); asymptotic for other generalized linear models.
+
+## Result
+
+- Calibrated alpha level: 0.0022
+- Decision rule: Reject H0 if the two-sided p-value of the coefficient
+  is at or below 0.0022.
+- Interpretation: a significant result then corresponds to a Bayes
+  factor of at least 3 in favor of the alternative under this prior.
+
+## Power at the calibrated alpha
+
+- Against a standardized effect of 0.1: 0.53
+- Against a standardized effect of 0.5: 1.00
+
+## Please cite
+
+- Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+  sample size: A Bayesian-frequentist compromise for significance
+  testing. Strategic Organization, 22(3), 550-581.
+  doi:10.1177/14761270231214429
+- Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes
+  factors for hypothesis tests. Psychonomic Bulletin & Review, 32,
+  1070-1094. doi:10.3758/s13423-024-02612-2
+
+. * <<<
+. 
+. * >>> stored
+. alphan 1000, bf(3)
+
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          3   .00254915
+
+. display r(alpha)
+.00254915
+
+. * <<<
+. 
+. * >>> plot
+. alphan plot, bf(3) methods(jab min robust balanced es moment)
+
+. * <<<
+. quietly graph export "$pc_out/gs-plot.svg", replace
+
+. 
+. * >>> jabplot
+. alphan jabplot 1000, bf(3)
+
+. * <<<
+. quietly graph export "$pc_out/gs-jabplot.svg", replace
+
+. 
+. * >>> powerplot
+. alphan powerplot, d(.1 .5) bf(3) methods(jab min robust balanced es moment)
+
+. * <<<
+. quietly graph export "$pc_out/gs-powerplot.svg", replace
+
+. 
+. log close pc
