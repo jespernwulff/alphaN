@@ -1,0 +1,12 @@
+
+. 
+end of do-file
+
+. 
+. alphan plot, bf(3) methods(jab min robust balanced es moment) log(xy) ///
+>     xsize(7.2) ysize(4.2) title("")
+
+. quietly graph export "../../pkgdown/assets/home-alpha.svg", replace
+
+. 
+. log close pc

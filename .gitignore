@@ -6,3 +6,6 @@
 inst/doc
 /doc/
 /Meta/
+precompute/stata/*.log
+precompute/cache/
+vignettes/articles/figures/

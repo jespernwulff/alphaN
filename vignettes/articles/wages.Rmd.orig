@@ -1,0 +1,302 @@
+---
+title: "Worked example: wages in the NLSW panel"
+description: >
+  A wage regression on 18,964 observations, from the calibrated level to
+  clustered standard errors, a joint test, power and a report, in R and Stata.
+---
+
+```{r helpers, include = FALSE}
+source(file.path(getOption("alphaN.precompute.dir"), "helpers.R"))
+```
+
+The National Longitudinal Survey of Young Women followed a cohort of women
+from 1968 on. Stata Press distributes an extract, so the code below runs as it
+stands in either language. We regress log wages on age, experience, tenure,
+where the respondent lives, race, education, marital status, union membership
+and hours worked. With nearly 19,000 observations, *p*-values come cheap, and
+this is exactly where a fixed level of .05 stops being informative.
+
+## The data and the model
+
+`r tabs_r("data")`
+
+```{r data, message = FALSE}
+library(alphaN)
+library(haven)
+
+nls <- read_dta("https://www.stata-press.com/data/r19/nlswork.dta")
+nls$race <- factor(nls$race, labels = c("white", "black", "other"))
+
+f <- ln_wage ~ age + ttl_exp + tenure + not_smsa + south + c_city + race +
+  collgrad + msp + nev_mar + union + hours
+```
+
+`r tabs_stata("data")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "data")
+```
+
+`r tabs_end()`
+
+## A *p*-value of .003 that favors the null
+
+We start with the conventional standard errors. `JAB()` and `alphan jab`
+report the Bayes factor of every coefficient.
+
+`r tabs_r("ols")`
+
+```{r ols}
+m <- lm(f, data = nls)
+n <- nobs(m)
+n
+round(summary(m)$coefficients[-1, ], 4)
+signif(JAB(m), 3)
+```
+
+`r tabs_stata("ols")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "ols")
+```
+
+`r tabs_end()`
+
+```{r ols-numbers, include = FALSE}
+ct <- summary(m)$coefficients
+bf <- JAB(m)
+```
+
+Look at `msp`, whether the respondent is married with the spouse present. Its
+*p*-value is `r num(ct["msp", 4], 3, FALSE)`, which would earn two stars in most
+tables. The Bayes factor is `r num(bf[["msp"]])`: the data are somewhat more
+likely under the null hypothesis than under the alternative. This is Lindley's
+paradox in an ordinary regression. (Bayes factors too large to store are `Inf` in R and about 8e+307 in Stata.)
+
+The level that would have prevented this follows from the sample size alone,
+so it can be set before the regression is run.
+
+`r tabs_r("level")`
+
+```{r level}
+alphaN(n, BF = c(1, 3, 10))
+```
+
+`r tabs_stata("level")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "level")
+```
+
+`r tabs_end()`
+
+For moderate evidence the coefficient has to clear a level of
+`r num(alphaN(n, BF = 3), 5, FALSE)`, about
+`r round(0.05/alphaN(n, BF = 3))` times stricter than .05.
+
+## Clustered standard errors
+
+Each woman appears in several survey years, so observations are not
+independent. With cluster-robust standard errors the picture changes: `msp` is
+no longer significant even at .05, and its Bayes factor drops to
+`r local({ V <- sandwich::vcovCL(m, cluster = ~ idcode); num(JABt(n, ct["msp", 1]/sqrt(V["msp", "msp"])), 3) })`.
+
+`r tabs_r("cluster")`
+
+```{r cluster, message = FALSE}
+library(sandwich)
+library(lmtest)
+
+V <- vcovCL(m, cluster = ~ idcode)
+tc <- coeftest(m, vcov. = V)[-1, "t value"]
+signif(JABt(n, tc), 3)
+```
+
+`r tabs_stata("cluster")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "cluster")
+```
+
+`r tabs_end()`
+
+Wulff and Taylor (2024) recommend calibrating with the total number of
+observations, the conservative choice, and then checking whether a conclusion
+survives at the effective sample size, which deflates the total by the squared
+ratio of the classical to the cluster-robust standard error. Take `nev_mar`,
+never married.
+
+`r tabs_r("neff")`
+
+```{r neff}
+se  <- sqrt(diag(vcov(m)))[["nev_mar"]]
+rob <- sqrt(diag(V))[["nev_mar"]]
+ne  <- n_effective(n, se, rob)
+ne
+
+alphaN(ne, BF = 3)
+JABt(ne, tc[["nev_mar"]])
+```
+
+`r tabs_stata("neff")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "neff")
+```
+
+`r tabs_end()`
+
+The effective sample size is less than a third of the total. The calibrated
+level roughly doubles, and the Bayes factor rises to
+`r num(JABt(ne, tc[["nev_mar"]]), 1)`. The coefficient clears the bar under
+either sample size, so the conclusion does not hinge on the choice.
+
+## A joint test
+
+Is race related to wages at all? The test has two restrictions, so `q` is 2,
+and `p` is the 12 parameters that remain in the model, the intercept included.
+For joint tests the targeted effect is on Cohen's *f* scale, and
+`sqrt(0.02)` is what Cohen (1988) calls a small effect.
+
+`r tabs_r("joint")`
+
+```{r joint}
+m0 <- update(m, . ~ . - race)
+Fs <- anova(m0, m)$F[2]
+Fs
+
+klauerBF(n, Fstat = Fs, q = 2, p = 12, de = sqrt(0.02))
+alphaN(n, BF = 3, method = "ES", q = 2, p = 12, de = sqrt(0.02))
+```
+
+`r tabs_stata("joint")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "joint")
+```
+
+`r tabs_end()`
+
+## How much does the method matter?
+
+Here are all six calibrations at this sample size, for a target of 3. For the
+two Klauer calibrations we target a standardized effect of 0.2 and give `p`,
+the 13 other coefficients including the intercept.
+
+`r tabs_r("methods")`
+
+```{r methods}
+c(sapply(c("JAB", "min", "robust", "balanced"),
+         function(mm) alphaN(n, BF = 3, method = mm)),
+  ES     = alphaN(n, BF = 3, method = "ES", de = 0.2, p = 13),
+  moment = alphaN(n, BF = 3, method = "moment", de = 0.2, p = 13))
+```
+
+`r tabs_stata("methods")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "methods")
+```
+
+`r tabs_end()`
+
+The levels span two orders of magnitude, from about .0001 under the moment
+prior to about .01 under the balanced prior, so the method is a substantive
+choice to be made and reported in advance. [Choosing a
+calibration](choosing.html) goes through the options.
+
+## Other models
+
+Nothing here is specific to linear regression. `JAB()` accepts `glm()` fits and
+`alphan jab` runs after any Stata estimator that stores `e(b)`, `e(V)` and
+`e(N)`.
+
+`r tabs_r("logit")`
+
+```{r logit}
+g <- glm(union ~ age + ttl_exp + tenure + not_smsa + south + c_city + race +
+           collgrad + msp + nev_mar, data = nls, family = binomial)
+signif(JAB(g), 3)
+```
+
+`r tabs_stata("logit")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "logit")
+```
+
+`r tabs_end()`
+
+In this model `nev_mar` has a *p*-value of
+`r num(summary(g)$coefficients["nev_mar", 4], 3, FALSE)` and a Bayes factor of
+`r num(JAB(g)[["nev_mar"]])`. It would pass a conventional test while the data
+do not distinguish the two hypotheses.
+
+## What the level costs
+
+A lower level means less power, and at design time the two should be chosen
+together. The standardized effect `d` is what the *t* statistic divided by the
+square root of the sample size estimates.
+
+`r tabs_r("power")`
+
+```{r power}
+alphaN_power(n, d = c(0.02, 0.05, 0.1), BF = 3)
+alphaN_power(n, d = c(0.02, 0.05, 0.1), BF = 3, method = "balanced")
+```
+
+`r tabs_stata("power")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "power")
+```
+
+`r tabs_end()`
+
+With this sample the JAB calibration detects effects of 0.05 almost with
+certainty and an effect of 0.02 only about a quarter of the time.
+
+## Reporting
+
+The report records the settings and the decision rule, ready to attach to a
+preregistration.
+
+`r tabs_r("report")`
+
+```{r report}
+alphaN_report(n, BF = 3, power_at = c(0.02, 0.05))
+```
+
+`r tabs_stata("report")`
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "report")
+```
+
+`r tabs_end()`
+
+The mapping from *p*-values to Bayes factors at this sample size shows why a
+.05 threshold would mislead: the whole range of *p*-values just below .05
+corresponds to Bayes factors well below 1.
+
+```{r, echo = FALSE, results = "asis"}
+stata_show("wages", "figure", output = FALSE)
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.alt = "The Bayes factor against the p-value at a sample size of 18,964, with the levels for Bayes factors of 1, 3 and 10 marked."}
+knitr::include_graphics(stata_graph("wages-jabplot.svg"), error = FALSE)
+```
+
+## References
+
+Cohen, J. (1988). *Statistical power analysis for the behavioral sciences*
+(2nd ed.). Lawrence Erlbaum.
+
+Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes factors for
+hypothesis tests. *Psychonomic Bulletin & Review*, 32, 1070--1094.
+<https://doi.org/10.3758/s13423-024-02612-2>
+
+Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on sample
+size: A Bayesian-frequentist compromise for significance testing. *Strategic
+Organization*, 22(3), 550--581.
+<https://doi.org/10.1177/14761270231214429>

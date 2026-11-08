@@ -1,0 +1,196 @@
+<!-- Generated from index.Rmd.orig by precompute/precompile.R. Edit the .orig file, not this one. -->
+
+
+
+# alphaN
+
+<p class="home-formula">&alpha; = f(n)</p>
+
+<p class="lead">Set the significance level of a regression coefficient as a function of the sample size, so that a significant result is also evidence for your hypothesis. An R package and a Stata command.</p>
+
+<p class="home-actions">
+<a class="btn btn-primary" href="articles/intro-alphaN.html">Get started in R</a>
+<a class="btn btn-primary" href="articles/stata.html">Get started in Stata</a>
+<a class="btn btn-outline-primary" href="articles/wages.html">Worked example</a>
+<a class="btn btn-outline-primary" href="https://crossvalidated.shinyapps.io/alphaN/">Shiny app</a>
+</p>
+
+## What it does
+
+Tell `alphaN` your sample size and how much evidence a significant result
+should carry, expressed as a Bayes factor, and it returns the significance
+level to use. It works for the coefficients of linear and generalized linear
+models, and it converts regression output, *t* statistics and *p*-values into
+Bayes factors under the same prior. The calculations are those of
+[Wulff and Taylor (2024)](https://doi.org/10.1177/14761270231214429).
+
+If you would rather not write code, the
+[Shiny app](https://crossvalidated.shinyapps.io/alphaN/) does the main
+calculation in the browser.
+
+## Why it exists
+
+A fixed level of .05 means something different in a sample of 100 and in a
+sample of 100,000. Hold the *p*-value at .04 and let the sample grow, and
+Jeffreys' approximate Bayes factor for the alternative hypothesis goes down:
+
+<div class="home-table">
+
+| Sample size | Bayes factor at *p* = .04 | Level for BF = 1 | Level for BF = 3 |
+|---:|---:|---:|---:|
+| 100 | 0.82 | .0319 | .0091 |
+| 1,000 | 0.26 | .0086 | .0025 |
+| 10,000 | 0.08 | .0024 | .0007 |
+| 100,000 | 0.03 | .00069 | .00021 |
+
+</div>
+
+Below a Bayes factor of 1, the data favor the null hypothesis even though the
+test rejects it. This is Lindley's paradox. Letting the level fall with the
+sample size removes it: the last two columns give the level at which a
+significant result is at least as likely under the alternative (BF = 1) or
+three times as likely (BF = 3).
+
+## Install
+
+<div class="lang-tabs">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><button class="nav-link active" id="install-r-tab" data-bs-toggle="tab" data-bs-target="#install-r" type="button" role="tab" aria-controls="install-r" aria-selected="true" data-lang="r">R</button></li>
+<li class="nav-item" role="presentation"><button class="nav-link" id="install-stata-tab" data-bs-toggle="tab" data-bs-target="#install-stata" type="button" role="tab" aria-controls="install-stata" aria-selected="false" data-lang="stata">Stata</button></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="install-r" role="tabpanel" aria-labelledby="install-r-tab">
+
+```r
+install.packages("alphaN")
+```
+
+</div>
+<div class="tab-pane" id="install-stata" role="tabpanel" aria-labelledby="install-stata-tab">
+
+```stata
+net install alphan, from("https://raw.githubusercontent.com/jespernwulff/alphaN-stata/main/")
+```
+
+</div>
+</div>
+</div>
+
+## One call
+
+We are planning a regression on 1,000 observations and want a significant
+result to be at least moderate evidence for the alternative, a Bayes factor
+of 3.
+
+<div class="lang-tabs">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><button class="nav-link active" id="call-r-tab" data-bs-toggle="tab" data-bs-target="#call-r" type="button" role="tab" aria-controls="call-r" aria-selected="true" data-lang="r">R</button></li>
+<li class="nav-item" role="presentation"><button class="nav-link" id="call-stata-tab" data-bs-toggle="tab" data-bs-target="#call-stata" type="button" role="tab" aria-controls="call-stata" aria-selected="false" data-lang="stata">Stata</button></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="call-r" role="tabpanel" aria-labelledby="call-r-tab">
+
+
+``` r
+library(alphaN)
+alphaN(n = 1000, BF = 3)
+#> [1] 0.002549145
+```
+
+</div>
+<div class="tab-pane" id="call-stata" role="tabpanel" aria-labelledby="call-stata-tab">
+
+```stata
+alphan 1000, bf(3)
+```
+
+```{.stata-output}
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          3   .00254915
+```
+
+</div>
+</div>
+</div>
+
+After fitting a model, one more call gives the Bayes factor for each
+coefficient.
+
+<div class="lang-tabs">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><button class="nav-link active" id="model-r-tab" data-bs-toggle="tab" data-bs-target="#model-r" type="button" role="tab" aria-controls="model-r" aria-selected="true" data-lang="r">R</button></li>
+<li class="nav-item" role="presentation"><button class="nav-link" id="model-stata-tab" data-bs-toggle="tab" data-bs-target="#model-stata" type="button" role="tab" aria-controls="model-stata" aria-selected="false" data-lang="stata">Stata</button></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="model-r" role="tabpanel" aria-labelledby="model-r-tab">
+
+
+``` r
+m <- lm(y ~ x + z, data = d)
+JAB(m)
+```
+
+</div>
+<div class="tab-pane" id="model-stata" role="tabpanel" aria-labelledby="model-stata-tab">
+
+```stata
+regress y x z
+alphan jab
+```
+
+</div>
+</div>
+</div>
+
+## What you get
+
+<div class="home-features">
+
+**Six calibrations.** Four priors for Jeffreys' approximate Bayes factor, and
+the effect-size and moment Bayes factors of Klauer, Meyer-Grant and Kellen
+(2025), which target the effect you care about.
+
+**Bayes factors from what you already have.** A fitted model, a *t*
+statistic, a *p*-value or an *F* statistic for a joint test.
+
+**The cost in power.** Power at the calibrated level, for one design or
+across sample sizes, so the evidence target and its price are chosen
+together.
+
+**A trace for your preregistration.** A short report that records every
+input, the level, the decision rule and the references to cite.
+
+</div>
+
+<figure class="home-figure">
+<img src="home-alpha.svg" alt="On logarithmic axes, the significance level needed for a Bayes factor of 3 falls as the sample size grows from 50 to 10,000, for each of the six calibration methods; the moment calibration falls fastest." />
+<figcaption>The level needed for a Bayes factor of 3, from 50 to 10,000 observations, under the six calibrations. Drawn by <code>alphan plot</code>; <code>alphaN_plot()</code> draws the same curves in R.</figcaption>
+</figure>
+
+## Where to go from here
+
+<div class="home-cards">
+<a class="home-card" href="articles/intro-alphaN.html"><span class="home-card-title">Get started in R</span><span class="home-card-text">Install the package and calibrate a first level.</span></a>
+<a class="home-card" href="articles/stata.html"><span class="home-card-title">Get started in Stata</span><span class="home-card-text">Every subcommand of <code>alphan</code>, with output.</span></a>
+<a class="home-card" href="articles/wages.html"><span class="home-card-title">Worked example</span><span class="home-card-text">A panel of 18,964 wage observations, in both languages.</span></a>
+<a class="home-card" href="articles/choosing.html"><span class="home-card-title">Choosing a calibration</span><span class="home-card-text">Which evidence target, which prior, which sample size.</span></a>
+<a class="home-card" href="articles/r-and-stata.html"><span class="home-card-title">R and Stata side by side</span><span class="home-card-text">Every function and option, matched, and how closely the two agree.</span></a>
+<a class="home-card" href="https://crossvalidated.shinyapps.io/alphaN/"><span class="home-card-title">Shiny app</span><span class="home-card-text">The main calculation in the browser, without code.</span></a>
+</div>
+
+## Citation
+
+If you use `alphaN`, please cite the paper it accompanies.
+
+Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on sample
+size: A Bayesian-frequentist compromise for significance testing. *Strategic
+Organization*, 22(3), 550--581.
+<https://doi.org/10.1177/14761270231214429>
+
+For the effect-size and moment calibrations, please also cite Klauer, K. C.,
+Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes factors for hypothesis
+tests. *Psychonomic Bulletin & Review*, 32, 1070--1094.
+<https://doi.org/10.3758/s13423-024-02612-2>

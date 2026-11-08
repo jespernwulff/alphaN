@@ -1,3 +1,121 @@
 url: https://jespernwulff.github.io/alphaN/
+
 template:
   bootstrap: 5
+  bslib:
+    bg: "#fbfaf5"
+    fg: "#1c2433"
+    primary: "#1f4e9c"
+    link-color: "#1f4e9c"
+    base_font: {google: "Source Sans 3"}
+    heading_font: {google: "Source Serif 4"}
+    code_font: {google: "JetBrains Mono"}
+    headings-font-weight: 600
+    border-radius: 0.5rem
+    code-color: "#a8430b"
+
+home:
+  title: alphaN
+  description: >
+    Set the significance level of a regression coefficient as a function of
+    the sample size, using Bayes factors. An R package and a Stata command.
+  links:
+  - text: Shiny app (no code needed)
+    href: https://crossvalidated.shinyapps.io/alphaN/
+  - text: Stata command on GitHub
+    href: https://github.com/jespernwulff/alphaN-stata
+  - text: Report a bug (Stata)
+    href: https://github.com/jespernwulff/alphaN-stata/issues
+  sidebar:
+    structure: [links, license, citation, authors]
+
+navbar:
+  bg: light
+  type: light
+  structure:
+    left: [start, example, guides, reference, news]
+    right: [search, app, source]
+  components:
+    start:
+      text: Get started
+      menu:
+      - text: In R
+        href: articles/intro-alphaN.html
+      - text: In Stata
+        href: articles/stata.html
+    example:
+      text: Worked example
+      href: articles/wages.html
+    guides:
+      text: Guides
+      menu:
+      - text: Choosing a calibration
+        href: articles/choosing.html
+      - text: R and Stata side by side
+        href: articles/r-and-stata.html
+    reference:
+      text: Reference
+      menu:
+      - text: R functions
+        href: reference/index.html
+      - text: Stata help file
+        href: articles/stata-help.html
+    news:
+      text: News
+      href: news/index.html
+    app:
+      text: Shiny app
+      href: https://crossvalidated.shinyapps.io/alphaN/
+    source:
+      icon: fab fa-github fa-lg
+      aria-label: Source code on GitHub
+      menu:
+      - text: R package
+        href: https://github.com/jespernwulff/alphaN
+      - text: Stata command
+        href: https://github.com/jespernwulff/alphaN-stata
+
+articles:
+- title: Get started
+  desc: Install alphaN and calibrate a first significance level.
+  contents:
+  - intro-alphaN
+  - articles/stata
+- title: Worked example
+  desc: A published panel data set taken through a complete analysis, in both languages.
+  contents:
+  - articles/wages
+- title: Guides
+  desc: Which calibration to use, and how the R package and the Stata command correspond.
+  contents:
+  - articles/choosing
+  - articles/r-and-stata
+- title: Stata reference
+  contents:
+  - articles/stata-help
+
+reference:
+- title: Calibrate the significance level
+  contents:
+  - alphaN
+  - alphaN_power
+  - alphaN_report
+- title: Convert results into Bayes factors
+  contents:
+  - JAB
+  - JABt
+  - JABp
+  - klauerBF
+- title: Graphs
+  contents:
+  - alphaN_plot
+  - alphaN_power_plot
+  - JAB_plot
+- title: Clustered data
+  contents:
+  - n_effective
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with
