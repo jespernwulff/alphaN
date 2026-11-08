@@ -2,8 +2,13 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  articles/choosing: choosing.html
   intro-alphaN: intro-alphaN.html
-last_built: 2026-07-27T15:55Z
+  articles/r-and-stata: r-and-stata.html
+  articles/stata-help: stata-help.html
+  articles/stata: stata.html
+  articles/wages: wages.html
+last_built: 2026-11-08T16:19Z
 urls:
   reference: https://jespernwulff.github.io/alphaN/reference
   article: https://jespernwulff.github.io/alphaN/articles

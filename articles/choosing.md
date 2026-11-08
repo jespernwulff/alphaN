@@ -1,0 +1,138 @@
+# Choosing a calibration
+
+A calibrated significance level rests on three choices: how much
+evidence a significant result should carry, which prior defines that
+evidence, and which sample size enters the calculation. All three can
+and should be made before the data are analyzed.
+
+## How much evidence
+
+The target is a Bayes factor in favor of the alternative hypothesis.
+
+| Target | Reading |
+|----|----|
+| `BF = 1` | The minimum: rejecting the null never means the data favor it. Rules out Lindley’s paradox. |
+| `BF = 3` | Moderate evidence for the alternative. |
+| `BF = 10` | Strong evidence for the alternative. |
+
+These are the conventional grades of Jeffreys, as relabeled by Lee and
+Wagenmakers. A target is a decision about what a claim should require;
+if a field or a journal sets a threshold, use it.
+
+## Which prior
+
+The six methods fall into two families.
+
+**The four prior-fraction methods** invert Jeffreys’ approximate Bayes
+factor, which needs only a test statistic and the sample size. They
+differ in *b*, the fraction of the data used to specify the prior. They
+apply to any model whose coefficient tests are Wald tests, which
+includes generalized linear models.
+
+| R | Stata | Prior fraction *b* | When |
+|----|----|----|----|
+| `"JAB"` | `jab` | 1/*n* | You want to be conservative against small effects. |
+| `"min"` | `min` | 2/*n* | The maximum likelihood estimate may be misspecified. |
+| `"robust"` | `robust` | max(2/*n*, 1/√*n*) | It may be misspecified and the sample is small. |
+| `"balanced"` | `balanced` | balances the Type I and Type II errors | Type II errors are costly. |
+
+**The two Klauer calibrations** center the alternative on an effect size
+you name, and answer a sharper question: which level makes a significant
+result evidence against an alternative centered on the effect I care
+about?
+
+| R | Stata | Prior |
+|----|----|----|
+| `"ES"` | `es` | A mixture concentrated around plus and minus the targeted effect `de`. |
+| `"moment"` | `moment` | Zero density at the null value itself and little near it, so the level falls fastest with *n*. |
+
+Klauer, Meyer-Grant and Kellen (2025) derive these under the normal
+linear model. For other generalized linear models they hold in the same
+asymptotic sense as the prior-fraction methods; for a non-Gaussian model
+with a modest sample, prefer the prior-fraction methods.
+
+If you can only name a plausible range of effects, the balanced method
+with a matching `upper` expresses that. If you can name the effect size
+you care about, `ES` or `moment` with `de` is the sharper statement. The
+defaults for the prior’s other parameters are those Klauer et
+al. recommend.
+
+Here is what the choice does at 1,000 observations with a target of 3,
+and what it costs against an effect of 0.1.
+
+| Method   | Level for BF = 3 | Power at d = 0.1 |
+|:---------|-----------------:|-----------------:|
+| JAB      |         0.002550 |             0.55 |
+| min      |         0.003730 |             0.60 |
+| robust   |         0.017400 |             0.78 |
+| balanced |         0.024200 |             0.82 |
+| ES       |         0.002190 |             0.54 |
+| moment   |         0.000491 |             0.37 |
+
+## The test and the parameters that remain
+
+[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+and `alphan` are calibrated for the test of a regression coefficient.
+For the two Klauer calibrations, two further settings describe that
+test.
+
+`q` is the number of coefficients tested jointly. The default of 1 is
+the *t* test of one coefficient; with a larger value the level applies
+to the *F* test of the joint null, and the targeted effect `de` is on
+Cohen’s *f* scale. Cohen (1988, chapter 9) labels *f*² of .02, .15 and
+.35 as small, medium and large.
+
+`p` is the number of parameters retained under the null, including any
+intercept. For the test of one coefficient, it is the number of other
+coefficients. The default of 0 is a conservative large-sample form;
+giving `p` produces the calibration that is exact for the normal linear
+model.
+
+## Which sample size
+
+Use the number of observations in the estimation sample. With clustered
+or panel data the observations are not independent and that number
+overstates the information in the data. Wulff and Taylor (2024)
+recommend calibrating with the total number of observations, which is
+conservative, and then checking whether conclusions survive at the
+effective sample size:
+
+- R
+- Stata
+
+``` r
+
+# The cluster-robust standard error is twice the classical one
+n_effective(n = 237, se = 0.1, se_robust = 0.2)
+#> [1] 59.25
+```
+
+``` stata
+alphan n_effective, n(237) se(.1) se_robust(.2)
+```
+
+The [worked
+example](https://jespernwulff.github.io/alphaN/articles/wages.md) does
+this on a real panel.
+
+## Report what you chose
+
+The settings report records the target, the method, its prior settings,
+the resulting level and the decision rule:
+[`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
+in R and `alphan report` in Stata. Write it down before you see the
+results, and attach it to the preregistration.
+
+## References
+
+Cohen, J. (1988). *Statistical power analysis for the behavioral
+sciences* (2nd ed.). Lawrence Erlbaum.
+
+Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes factors
+for hypothesis tests. *Psychonomic Bulletin & Review*, 32, 1070–1094.
+<https://doi.org/10.3758/s13423-024-02612-2>
+
+Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+sample size: A Bayesian-frequentist compromise for significance testing.
+*Strategic Organization*, 22(3), 550–581.
+<https://doi.org/10.1177/14761270231214429>

@@ -5,14 +5,25 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Set Alpha Based on Sample Size Using Bayes Factors • alphaN</title>
+<title>alphaN • alphaN</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
+<link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Source_Serif_4-0.4.10/font.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Set Alpha Based on Sample Size Using Bayes Factors">
-<meta name="description" content="Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Jeffreys Approximate Bayes factor. You tell alphaN() your sample size, and it tells you to which value you must lower alpha to avoid Lindleys Paradox. For details, see Wulff and Taylor (2024) &lt;doi:10.1177/14761270231214429&gt;. Alpha can also be calibrated to the effect-size and moment Bayes factors of Klauer, Meyer-Grant, and Kellen (2025) &lt;doi:10.3758/s13423-024-02612-2&gt;, which center the alternative hypothesis on an effect size of your choosing.">
-<meta property="og:description" content="Sets the alpha level for coefficients in a regression model as a decreasing function of the sample size through the use of Jeffreys Approximate Bayes factor. You tell alphaN() your sample size, and it tells you to which value you must lower alpha to avoid Lindleys Paradox. For details, see Wulff and Taylor (2024) &lt;doi:10.1177/14761270231214429&gt;. Alpha can also be calibrated to the effect-size and moment Bayes factors of Klauer, Meyer-Grant, and Kellen (2025) &lt;doi:10.3758/s13423-024-02612-2&gt;, which center the alternative hypothesis on an effect size of your choosing.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<script src="extra.js"></script><meta property="og:title" content="alphaN">
+<meta name="description" content="Set the significance level of a regression coefficient as a function of the sample size, using Bayes factors. An R package and a Stata command.
+">
+<meta property="og:description" content="Set the significance level of a regression coefficient as a function of the sample size, using Bayes factors. An R package and a Stata command.
+">
 <meta property="og:image" content="https://jespernwulff.github.io/alphaN/logo.png">
 </head>
 <body>
@@ -32,20 +43,42 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/intro-alphaN.html">Intro to alphaN</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-get-started" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Get started</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-get-started">
+<li><a class="dropdown-item" href="articles/intro-alphaN.html">In R</a></li>
+    <li><a class="dropdown-item" href="articles/stata.html">In Stata</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/wages.html">Worked example</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
+<li><a class="dropdown-item" href="articles/choosing.html">Choosing a calibration</a></li>
+    <li><a class="dropdown-item" href="articles/r-and-stata.html">R and Stata side by side</a></li>
+  </ul>
+</li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-reference" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Reference</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-reference">
+<li><a class="dropdown-item" href="reference/index.html">R functions</a></li>
+    <li><a class="dropdown-item" href="articles/stata-help.html">Stata help file</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jespernwulff/alphaN/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://crossvalidated.shinyapps.io/alphaN/">Shiny app</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Source code on GitHub"><span class="fa fab fa-github fa-lg"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-">
+<li><a class="external-link dropdown-item" href="https://github.com/jespernwulff/alphaN">R package</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jespernwulff/alphaN-stata">Stata command</a></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -55,191 +88,186 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="alphan-">alphaN <a class="anchor" aria-label="anchor" href="#alphan-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="alphan">alphaN<a class="anchor" aria-label="anchor" href="#alphan"></a>
 </h1>
 </div>
-<!-- badges: start -->
-
-<p>The goal of alphaN is to help the user set their significance level as a function of the sample size. The function <code>alphaN</code> allows users to set the significance level as function of the sample size based on the evidence and the prior features they desire. The function <code>JABt</code> and <code>JABp</code> converts test statistics and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values into sample size dependent Bayes factors. <code>JAB_plot</code> plots the Bayes factor as a function of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value, and <code>alphaN_plot</code> plots the alpha level as a function of sample size for a given Bayes factor.</p>
-<p>Calculations are based on <a href="https://doi.org/10.1177/14761270231214429" class="external-link">Wulff &amp; Taylor (2024)</a>. If you enjoy the package, please consider citing the paper (see <code>citation("alphaN")</code>).</p>
-<p>As of version 0.2.0, <code><a href="reference/alphaN.html">alphaN()</a></code> can also calibrate the alpha level to the effect-size and moment Bayes factors of <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link">Klauer, Meyer-Grant &amp; Kellen (2025)</a>, which center the alternative hypothesis on an effect size of your choosing (<code>method = "ES"</code> and <code>method = "moment"</code>).</p>
-<p>Version 0.3.0 additionally covers joint F tests of several coefficients, converts reported statistics into the Klauer Bayes factors (<code><a href="reference/klauerBF.html">klauerBF()</a></code>), computes the power of the calibrated test (<code><a href="reference/alphaN_power.html">alphaN_power()</a></code>, <code><a href="reference/alphaN_power_plot.html">alphaN_power_plot()</a></code>), and writes a preregistration-ready settings report (<code><a href="reference/alphaN_report.html">alphaN_report()</a></code>); the examples below walk through all of it.</p>
-<p>If you’re not an R user, you may also be interested in the associated <a href="https://crossvalidated.shinyapps.io/alphaN/" class="external-link">Shiny app</a>.</p>
+<p class="home-formula">
+α = f(n)
+</p>
+<p class="lead">
+Set the significance level of a regression coefficient as a function of the sample size, so that a significant result is also evidence for your hypothesis. An R package and a Stata command.
+</p>
+<p class="home-actions">
+<a class="btn btn-primary" href="articles/intro-alphaN.html">Get started in R</a> <a class="btn btn-primary" href="articles/stata.html">Get started in Stata</a> <a class="btn btn-outline-primary" href="articles/wages.html">Worked example</a> <a class="external-link btn btn-outline-primary" href="https://crossvalidated.shinyapps.io/alphaN/">Shiny app</a>
+</p>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="what-it-does">What it does<a class="anchor" aria-label="anchor" href="#what-it-does"></a>
 </h2>
-<p>To install the latest release version from CRAN use:</p>
+<p>Tell <code>alphaN</code> your sample size and how much evidence a significant result should carry, expressed as a Bayes factor, and it returns the significance level to use. It works for the coefficients of linear and generalized linear models, and it converts regression output, <em>t</em> statistics and <em>p</em>-values into Bayes factors under the same prior. The calculations are those of <a href="https://doi.org/10.1177/14761270231214429" class="external-link">Wulff and Taylor (2024)</a>.</p>
+<p>If you would rather not write code, the <a href="https://crossvalidated.shinyapps.io/alphaN/" class="external-link">Shiny app</a> does the main calculation in the browser.</p>
+</div>
+<div class="section level2">
+<h2 id="why-it-exists">Why it exists<a class="anchor" aria-label="anchor" href="#why-it-exists"></a>
+</h2>
+<p>A fixed level of .05 means something different in a sample of 100 and in a sample of 100,000. Hold the <em>p</em>-value at .04 and let the sample grow, and Jeffreys’ approximate Bayes factor for the alternative hypothesis goes down:</p>
+<div class="home-table">
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+</colgroup>
+<thead><tr>
+<th align="right">Sample size</th>
+<th align="right">Bayes factor at <em>p</em> = .04</th>
+<th align="right">Level for BF = 1</th>
+<th align="right">Level for BF = 3</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="right">100</td>
+<td align="right">0.82</td>
+<td align="right">.0319</td>
+<td align="right">.0091</td>
+</tr>
+<tr>
+<td align="right">1,000</td>
+<td align="right">0.26</td>
+<td align="right">.0086</td>
+<td align="right">.0025</td>
+</tr>
+<tr>
+<td align="right">10,000</td>
+<td align="right">0.08</td>
+<td align="right">.0024</td>
+<td align="right">.0007</td>
+</tr>
+<tr>
+<td align="right">100,000</td>
+<td align="right">0.03</td>
+<td align="right">.00069</td>
+<td align="right">.00021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Below a Bayes factor of 1, the data favor the null hypothesis even though the test rejects it. This is Lindley’s paradox. Letting the level fall with the sample size removes it: the last two columns give the level at which a significant result is at least as likely under the alternative (BF = 1) or three times as likely (BF = 3).</p>
+</div>
+<div class="section level2">
+<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
+</h2>
+<div class="lang-tabs">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" id="install-r-tab" data-bs-toggle="tab" data-bs-target="#install-r" type="button" role="tab" aria-controls="install-r" aria-selected="true" data-lang="r">
+R
+</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="install-stata-tab" data-bs-toggle="tab" data-bs-target="#install-stata" type="button" role="tab" aria-controls="install-stata" aria-selected="false" data-lang="stata">
+Stata
+</button>
+</li>
+</ul>
+<div class="tab-content">
+<div id="install-r" class="tab-pane active" role="tabpanel" aria-labelledby="install-r-tab">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"alphaN"</span><span class="op">)</span></span></code></pre></div>
-<p>You can install the development version of alphaN from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jespernwulff/alphaN"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="install-stata" class="tab-pane" role="tabpanel" aria-labelledby="install-stata-tab">
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>net install alphan, from(<span class="st">"https://raw.githubusercontent.com/jespernwulff/alphaN-stata/main/"</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+<h2 id="one-call">One call<a class="anchor" aria-label="anchor" href="#one-call"></a>
 </h2>
-<p>Here is an example: We are planning to run a linear regression model with 1000 observations. We thus set <code>n = 1000</code>. The default <code>BF</code> is 1 meaning that we want to avoid Lindley’s paradox, i.e., we just want the null and the alternative to be at least equally likely when we reject the null.</p>
+<p>We are planning a regression on 1,000 observations and want a significant result to be at least moderate evidence for the alternative, a Bayes factor of 3.</p>
+<div class="lang-tabs">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" id="call-r-tab" data-bs-toggle="tab" data-bs-target="#call-r" type="button" role="tab" aria-controls="call-r" aria-selected="true" data-lang="r">
+R
+</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="call-stata-tab" data-bs-toggle="tab" data-bs-target="#call-stata" type="button" role="tab" aria-controls="call-stata" aria-selected="false" data-lang="stata">
+Stata
+</button>
+</li>
+</ul>
+<div class="tab-content">
+<div id="call-r" class="tab-pane active" role="tabpanel" aria-labelledby="call-r-tab">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jespernwulff/alphaN" class="external-link">alphaN</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">alpha</span></span>
-<span><span class="co">#&gt; [1] 0.008582267</span></span></code></pre></div>
-<p>Therefore, to obtain evidence of at least 1, we should set our alpha to 0.0086.</p>
-<div class="section level3">
-<h3 id="targeting-stronger-evidence-and-choosing-the-prior">Targeting stronger evidence, and choosing the prior<a class="anchor" aria-label="anchor" href="#targeting-stronger-evidence-and-choosing-the-prior"></a>
-</h3>
-<p>Raising <code>BF</code> asks for more evidence before you are allowed to reject, which lowers alpha. The <code>method</code> argument selects the prior behind Jeffreys’ approximate Bayes factor:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Moderate (BF = 3) and strong (BF = 10) evidence at n = 1000</span></span>
 <span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.002549145</span></span>
-<span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.0006911392</span></span>
-<span></span>
-<span><span class="co"># Balancing Type I and Type II error rates instead of the default prior</span></span>
-<span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"balanced"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.024221</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.002549145</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="calibrating-alpha-to-effect-size-and-moment-bayes-factors">Calibrating alpha to effect-size and moment Bayes factors<a class="anchor" aria-label="anchor" href="#calibrating-alpha-to-effect-size-and-moment-bayes-factors"></a>
-</h3>
-<p>The methods <code>"ES"</code> and <code>"moment"</code> (new in 0.2.0) answer the question: which alpha do I need so that a significant result corresponds to a Bayes factor of at least <code>BF</code> against an alternative centered on the effect size <code>de</code> I actually care about?</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Moderate evidence, targeting a medium-sized effect (Cohen's d = 0.5)</span></span>
-<span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.002189564</span></span>
-<span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"moment"</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.0004913521</span></span></code></pre></div>
-<p>Because the moment prior treats effects near zero as a priori implausible, the alpha it implies falls much faster with the sample size than under JAB:</p>
+<div id="call-stata" class="tab-pane" role="tabpanel" aria-labelledby="call-stata-tab">
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>alphan 1000, bf(3)</span></code></pre></div>
+<pre class="stata-output"><code>Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          3   .00254915</code></pre>
+</div>
+</div>
+</div>
+<p>After fitting a model, one more call gives the Bayes factor for each coefficient.</p>
+<div class="lang-tabs">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" id="model-r-tab" data-bs-toggle="tab" data-bs-target="#model-r" type="button" role="tab" aria-controls="model-r" aria-selected="true" data-lang="r">
+R
+</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="model-stata-tab" data-bs-toggle="tab" data-bs-target="#model-stata" type="button" role="tab" aria-controls="model-stata" aria-selected="false" data-lang="stata">
+Stata
+</button>
+</li>
+</ul>
+<div class="tab-content">
+<div id="model-r" class="tab-pane active" role="tabpanel" aria-labelledby="model-r-tab">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">10000</span><span class="op">)</span></span>
-<span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>JAB    <span class="op">=</span> <span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="va">ns</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
-<span>             ES     <span class="op">=</span> <span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="va">ns</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span><span class="op">)</span>,</span>
-<span>             moment <span class="op">=</span> <span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="va">ns</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"moment"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"n = "</span>, <span class="va">ns</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">tab</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        n = 100 n = 1000 n = 10000</span></span>
-<span><span class="co">#&gt; JAB    0.00910  0.00255   0.00073</span></span>
-<span><span class="co">#&gt; ES     0.01185  0.00219   0.00058</span></span>
-<span><span class="co">#&gt; moment 0.00788  0.00049   0.00002</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/JAB.html">JAB</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="turning-regression-output-into-bayes-factors">Turning regression output into Bayes factors<a class="anchor" aria-label="anchor" href="#turning-regression-output-into-bayes-factors"></a>
-</h3>
-<p><code><a href="reference/JAB.html">JAB()</a></code> computes Jeffreys’ approximate Bayes factor for a coefficient directly from a fitted <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> or <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> object; <code><a href="reference/JABt.html">JABt()</a></code> and <code><a href="reference/JABp.html">JABp()</a></code> do the same from a t-statistic or a p-value if that is all you have (e.g., from a published paper):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">d</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">d</span><span class="op">$</span><span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/JAB.html">JAB</a></span><span class="op">(</span><span class="va">m</span>, covariate <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 22.50664</span></span>
-<span></span>
-<span><span class="co"># From summary statistics alone</span></span>
-<span><span class="fu"><a href="reference/JABt.html">JABt</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span>, t <span class="op">=</span> <span class="fl">2.8</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3.56385</span></span>
-<span><span class="fu"><a href="reference/JABp.html">JABp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span>, p <span class="op">=</span> <span class="fl">0.005</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3.634824</span></span></code></pre></div>
-<p>Called without a covariate, <code><a href="reference/JAB.html">JAB()</a></code> (since 0.3.0) audits the whole model at once, returning the Bayes factor of every coefficient except the intercept:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/JAB.html">JAB</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span><span class="co">#&gt;           x           z </span></span>
-<span><span class="co">#&gt; 22.50663920  0.07515544</span></span></code></pre></div>
+<div id="model-stata" class="tab-pane" role="tabpanel" aria-labelledby="model-stata-tab">
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="kw">regress</span> <span class="fu">y</span> x z</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>alphan jab</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="klauer-bayes-factors-joint-tests-and-clustered-data">Klauer Bayes factors, joint tests, and clustered data<a class="anchor" aria-label="anchor" href="#klauer-bayes-factors-joint-tests-and-clustered-data"></a>
-</h3>
-<p><code><a href="reference/klauerBF.html">klauerBF()</a></code> returns the effect-size or moment Bayes factor itself, so a reported statistic can be converted into evidence under the same prior that set alpha. For joint F tests, <code><a href="reference/alphaN.html">alphaN()</a></code> and <code><a href="reference/klauerBF.html">klauerBF()</a></code> take <code>q</code> (coefficients tested) and <code>p</code> (retained parameters) and use the exact regression-case Bayes factors of Klauer et al. (2025). And <code><a href="reference/n_effective.html">n_effective()</a></code> implements the Wulff &amp; Taylor (2024) effective-sample-size check for clustered data:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/klauerBF.html">klauerBF</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">80</span>, t <span class="op">=</span> <span class="fl">2.24</span>, de <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.567758</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/alphaN.html">alphaN</a></span><span class="op">(</span><span class="fl">200</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, q <span class="op">=</span> <span class="fl">2</span>, p <span class="op">=</span> <span class="fl">2</span>, de <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.008427417</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/n_effective.html">n_effective</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">237</span>, se <span class="op">=</span> <span class="fl">0.1</span>, se_robust <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 59.25</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="power-at-the-calibrated-alpha">Power at the calibrated alpha<a class="anchor" aria-label="anchor" href="#power-at-the-calibrated-alpha"></a>
-</h3>
-<p>A calibrated alpha is still a significance level, and at design time it should be paired with a power assessment. <code><a href="reference/alphaN_power.html">alphaN_power()</a></code> returns the power of the calibrated coefficient test against a standardized effect of size <code>d</code>, and <code><a href="reference/alphaN_power_plot.html">alphaN_power_plot()</a></code> draws the whole picture: power across sample sizes, with every method evaluated at its own calibrated alpha and a fixed 0.05 reference as the dashed curve.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Power against a small effect at n = 1000, evidence target BF = 3</span></span>
-<span><span class="fu"><a href="reference/alphaN_power.html">alphaN_power</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, d <span class="op">=</span> <span class="fl">0.1</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>                      <span class="co"># JAB</span></span>
-<span><span class="co">#&gt; [1] 0.5547323</span></span>
-<span><span class="fu"><a href="reference/alphaN_power.html">alphaN_power</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, d <span class="op">=</span> <span class="fl">0.1</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"balanced"</span><span class="op">)</span> <span class="co"># balanced</span></span>
-<span><span class="co">#&gt; [1] 0.817175</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_power_plot.html">alphaN_power_plot</a></span><span class="op">(</span>d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span>, BF <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>                  methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JAB"</span>, <span class="st">"min"</span>, <span class="st">"robust"</span>, <span class="st">"balanced"</span>,</span>
-<span>                              <span class="st">"ES"</span>, <span class="st">"moment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-power-plot-1.png" alt="" width="100%"></p>
-<p>For effects stated on a model-specific scale (an odds ratio in a logistic regression, say), the calibrated alpha plugs directly into the power calculators of the <a href="https://cran.r-project.org/package=pwrss" class="external-link">pwrss</a> package, e.g. <code>pwrss::power.z.logistic(..., alpha = alphaN(n, BF = 3))</code>.</p>
 </div>
-<div class="section level3">
-<h3 id="a-preregistration-ready-settings-report">A preregistration-ready settings report<a class="anchor" aria-label="anchor" href="#a-preregistration-ready-settings-report"></a>
-</h3>
-<p><code><a href="reference/alphaN_report.html">alphaN_report()</a></code> records every input behind a calibrated alpha, the resulting level, the decision rule, the power against the effects you care about, and the references to cite, ready to attach to a preregistration protocol:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_report.html">alphaN_report</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span>, method <span class="op">=</span> <span class="st">"ES"</span>, de <span class="op">=</span> <span class="fl">0.5</span>, p <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>              power_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # alphaN settings report</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Generated on 2026-07-27 with alphaN 0.3.0.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ## Inputs</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Sample size (n): 1,000</span></span>
-<span><span class="co">#&gt; - Target Bayes factor: 3 (moderate evidence)</span></span>
-<span><span class="co">#&gt; - Calibration method: ES: effect-size Bayes factor of Klauer,</span></span>
-<span><span class="co">#&gt;   Meyer-Grant &amp; Kellen (2025)</span></span>
-<span><span class="co">#&gt; - Targeted effect size (de): 0.5 (Cohen's d)</span></span>
-<span><span class="co">#&gt; - Prior degrees of freedom (nu): 3</span></span>
-<span><span class="co">#&gt; - Prior scale (r): 0.2887</span></span>
-<span><span class="co">#&gt; - Retained model parameters (p): 4 (effective sample size 996)</span></span>
-<span><span class="co">#&gt; - Scope: exact for the normal linear model (evaluated at the effective</span></span>
-<span><span class="co">#&gt;   sample size n - p); asymptotic for other generalized linear models.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ## Result</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Calibrated alpha level: 0.0022</span></span>
-<span><span class="co">#&gt; - Decision rule: Reject H0 if the two-sided p-value of the coefficient</span></span>
-<span><span class="co">#&gt;   is at or below 0.0022.</span></span>
-<span><span class="co">#&gt; - Interpretation: a significant result then corresponds to a Bayes</span></span>
-<span><span class="co">#&gt;   factor of at least 3 in favor of the alternative under this prior.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ## Power at the calibrated alpha</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Against a standardized effect of 0.1: 0.53</span></span>
-<span><span class="co">#&gt; - Against a standardized effect of 0.5: 1.00</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ## Please cite</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on</span></span>
-<span><span class="co">#&gt;   sample size: A Bayesian-frequentist compromise for significance</span></span>
-<span><span class="co">#&gt;   testing. Strategic Organization, 22(3), 550-581.</span></span>
-<span><span class="co">#&gt;   doi:10.1177/14761270231214429</span></span>
-<span><span class="co">#&gt; - Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2025). On Bayes</span></span>
-<span><span class="co">#&gt;   factors for hypothesis tests. Psychonomic Bulletin &amp; Review, 32,</span></span>
-<span><span class="co">#&gt;   1070-1094. doi:10.3758/s13423-024-02612-2</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="visualizing-the-trade-offs">Visualizing the trade-offs<a class="anchor" aria-label="anchor" href="#visualizing-the-trade-offs"></a>
-</h3>
-<p><code><a href="reference/alphaN_plot.html">alphaN_plot()</a></code> compares alpha as a function of sample size across any selection of the calibration methods (the four prior fractions by default):</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/alphaN_plot.html">alphaN_plot</a></span><span class="op">(</span>BF <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>            methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JAB"</span>, <span class="st">"min"</span>, <span class="st">"robust"</span>, <span class="st">"balanced"</span>, <span class="st">"ES"</span>, <span class="st">"moment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-alphaN-plot-1.png" alt="" width="100%"></p>
-<p><code><a href="reference/JAB_plot.html">JAB_plot()</a></code> shows how the Bayes factor maps onto the p-value for a given sample size, marking the alpha levels needed for evidence thresholds of 1, 3, and 10:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/JAB_plot.html">JAB_plot</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, BF <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-JAB-plot-1.png" alt="" width="100%"></p>
+<div class="section level2">
+<h2 id="what-you-get">What you get<a class="anchor" aria-label="anchor" href="#what-you-get"></a>
+</h2>
+<div class="home-features">
+<p><strong>Six calibrations.</strong> Four priors for Jeffreys’ approximate Bayes factor, and the effect-size and moment Bayes factors of Klauer, Meyer-Grant and Kellen (2025), which target the effect you care about.</p>
+<p><strong>Bayes factors from what you already have.</strong> A fitted model, a <em>t</em> statistic, a <em>p</em>-value or an <em>F</em> statistic for a joint test.</p>
+<p><strong>The cost in power.</strong> Power at the calibrated level, for one design or across sample sizes, so the evidence target and its price are chosen together.</p>
+<p><strong>A trace for your preregistration.</strong> A short report that records every input, the level, the decision rule and the references to cite.</p>
 </div>
+<figure class="home-figure"><img src="home-alpha.svg" alt="On logarithmic axes, the significance level needed for a Bayes factor of 3 falls as the sample size grows from 50 to 10,000, for each of the six calibration methods; the moment calibration falls fastest."><figcaption>
+The level needed for a Bayes factor of 3, from 50 to 10,000 observations, under the six calibrations. Drawn by <code>alphan plot</code>; <code><a href="reference/alphaN_plot.html">alphaN_plot()</a></code> draws the same curves in R.
+</figcaption></figure>
+</div>
+<div class="section level2">
+<h2 id="where-to-go-from-here">Where to go from here<a class="anchor" aria-label="anchor" href="#where-to-go-from-here"></a>
+</h2>
+<div class="home-cards">
+<p><a class="home-card" href="articles/intro-alphaN.html"><span class="home-card-title">Get started in R</span><span class="home-card-text">Install the package and calibrate a first level.</span></a> <a class="home-card" href="articles/stata.html"><span class="home-card-title">Get started in Stata</span><span class="home-card-text">Every subcommand of <code>alphan</code>, with output.</span></a> <a class="home-card" href="articles/wages.html"><span class="home-card-title">Worked example</span><span class="home-card-text">A panel of 18,964 wage observations, in both languages.</span></a> <a class="home-card" href="articles/choosing.html"><span class="home-card-title">Choosing a calibration</span><span class="home-card-text">Which evidence target, which prior, which sample size.</span></a> <a class="home-card" href="articles/r-and-stata.html"><span class="home-card-title">R and Stata side by side</span><span class="home-card-text">Every function and option, matched, and how closely the two agree.</span></a> <a class="external-link home-card" href="https://crossvalidated.shinyapps.io/alphaN/"><span class="home-card-title">Shiny app</span><span class="home-card-text">The main calculation in the browser, without code.</span></a></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you use <code>alphaN</code>, please cite the paper it accompanies.</p>
+<p>Wulff, J. N., &amp; Taylor, L. (2024). How and why alpha should depend on sample size: A Bayesian-frequentist compromise for significance testing. <em>Strategic Organization</em>, 22(3), 550–581. <a href="https://doi.org/10.1177/14761270231214429" class="external-link uri">https://doi.org/10.1177/14761270231214429</a></p>
+<p>For the effect-size and moment calibrations, please also cite Klauer, K. C., Meyer-Grant, C. G., &amp; Kellen, D. (2025). On Bayes factors for hypothesis tests. <em>Psychonomic Bulletin &amp; Review</em>, 32, 1070–1094. <a href="https://doi.org/10.3758/s13423-024-02612-2" class="external-link uri">https://doi.org/10.3758/s13423-024-02612-2</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -248,6 +276,9 @@
 <li><a href="https://cloud.r-project.org/package=alphaN" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/jespernwulff/alphaN/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/jespernwulff/alphaN/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://crossvalidated.shinyapps.io/alphaN/" class="external-link">Shiny app (no code needed)</a></li>
+<li><a href="https://github.com/jespernwulff/alphaN-stata" class="external-link">Stata command on GitHub</a></li>
+<li><a href="https://github.com/jespernwulff/alphaN-stata/issues" class="external-link">Report a bug (Stata)</a></li>
 </ul>
 </div>
 
@@ -258,7 +289,6 @@
 <li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
-
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
@@ -272,15 +302,6 @@
 <ul class="list-unstyled">
 <li>Jesper Wulff <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7976-0939" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Luke Taylor <br><small class="roles"> Author </small>   </li>
-</ul>
-</div>
-
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=alphaN" class="external-link"><img src="https://www.r-pkg.org/badges/version/alphaN" alt="CRAN Version"></a></li>
-<li><a href="https://CRAN.R-project.org/package=alphaN" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/alphaN?color=brightgreen" alt="Downloads"></a></li>
-<li><a href="https://github.com/jespernwulff/alphaN/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jespernwulff/alphaN/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 

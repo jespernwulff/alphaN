@@ -1,344 +1,252 @@
 # alphaN
 
-The goal of alphaN is to help the user set their significance level as a
-function of the sample size. The function `alphaN` allows users to set
-the significance level as function of the sample size based on the
-evidence and the prior features they desire. The function `JABt` and
-`JABp` converts test statistics and $`p`$-values into sample size
-dependent Bayes factors. `JAB_plot` plots the Bayes factor as a function
-of the $`p`$-value, and `alphaN_plot` plots the alpha level as a
-function of sample size for a given Bayes factor.
+α = f(n)
 
-Calculations are based on [Wulff & Taylor
-(2024)](https://doi.org/10.1177/14761270231214429). If you enjoy the
-package, please consider citing the paper (see `citation("alphaN")`).
+Set the significance level of a regression coefficient as a function of
+the sample size, so that a significant result is also evidence for your
+hypothesis. An R package and a Stata command.
 
-As of version 0.2.0,
-[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
-can also calibrate the alpha level to the effect-size and moment Bayes
-factors of [Klauer, Meyer-Grant & Kellen
-(2025)](https://doi.org/10.3758/s13423-024-02612-2), which center the
-alternative hypothesis on an effect size of your choosing
-(`method = "ES"` and `method = "moment"`).
+[Get started in
+R](https://jespernwulff.github.io/alphaN/articles/intro-alphaN.md) [Get
+started in
+Stata](https://jespernwulff.github.io/alphaN/articles/stata.md) [Worked
+example](https://jespernwulff.github.io/alphaN/articles/wages.md) [Shiny
+app](https://crossvalidated.shinyapps.io/alphaN/)
 
-Version 0.3.0 additionally covers joint F tests of several coefficients,
-converts reported statistics into the Klauer Bayes factors
-([`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)),
-computes the power of the calibrated test
-([`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md),
-[`alphaN_power_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power_plot.md)),
-and writes a preregistration-ready settings report
-([`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md));
-the examples below walk through all of it.
+## What it does
 
-If you’re not an R user, you may also be interested in the associated
-[Shiny app](https://crossvalidated.shinyapps.io/alphaN/).
+Tell `alphaN` your sample size and how much evidence a significant
+result should carry, expressed as a Bayes factor, and it returns the
+significance level to use. It works for the coefficients of linear and
+generalized linear models, and it converts regression output, *t*
+statistics and *p*-values into Bayes factors under the same prior. The
+calculations are those of [Wulff and Taylor
+(2024)](https://doi.org/10.1177/14761270231214429).
 
-## Installation
+If you would rather not write code, the [Shiny
+app](https://crossvalidated.shinyapps.io/alphaN/) does the main
+calculation in the browser.
 
-To install the latest release version from CRAN use:
+## Why it exists
+
+A fixed level of .05 means something different in a sample of 100 and in
+a sample of 100,000. Hold the *p*-value at .04 and let the sample grow,
+and Jeffreys’ approximate Bayes factor for the alternative hypothesis
+goes down:
+
+| Sample size | Bayes factor at *p* = .04 | Level for BF = 1 | Level for BF = 3 |
+|------------:|--------------------------:|-----------------:|-----------------:|
+|         100 |                      0.82 |            .0319 |            .0091 |
+|       1,000 |                      0.26 |            .0086 |            .0025 |
+|      10,000 |                      0.08 |            .0024 |            .0007 |
+|     100,000 |                      0.03 |           .00069 |           .00021 |
+
+Below a Bayes factor of 1, the data favor the null hypothesis even
+though the test rejects it. This is Lindley’s paradox. Letting the level
+fall with the sample size removes it: the last two columns give the
+level at which a significant result is at least as likely under the
+alternative (BF = 1) or three times as likely (BF = 3).
+
+## Install
+
+- R
+- Stata
 
 ``` r
 
 install.packages("alphaN")
 ```
 
-You can install the development version of alphaN from
-[GitHub](https://github.com/) with:
-
-``` r
-
-# install.packages("devtools")
-devtools::install_github("jespernwulff/alphaN")
+``` stata
+net install alphan, from("https://raw.githubusercontent.com/jespernwulff/alphaN-stata/main/")
 ```
 
-## Examples
+## One call
 
-Here is an example: We are planning to run a linear regression model
-with 1000 observations. We thus set `n = 1000`. The default `BF` is 1
-meaning that we want to avoid Lindley’s paradox, i.e., we just want the
-null and the alternative to be at least equally likely when we reject
-the null.
+We are planning a regression on 1,000 observations and want a
+significant result to be at least moderate evidence for the alternative,
+a Bayes factor of 3.
+
+- R
+- Stata
 
 ``` r
 
 library(alphaN)
-
-alpha <- alphaN(n = 1000, BF = 1)
-alpha
-#> [1] 0.008582267
-```
-
-Therefore, to obtain evidence of at least 1, we should set our alpha to
-0.0086.
-
-### Targeting stronger evidence, and choosing the prior
-
-Raising `BF` asks for more evidence before you are allowed to reject,
-which lowers alpha. The `method` argument selects the prior behind
-Jeffreys’ approximate Bayes factor:
-
-``` r
-
-# Moderate (BF = 3) and strong (BF = 10) evidence at n = 1000
 alphaN(n = 1000, BF = 3)
 #> [1] 0.002549145
-alphaN(n = 1000, BF = 10)
-#> [1] 0.0006911392
-
-# Balancing Type I and Type II error rates instead of the default prior
-alphaN(n = 1000, BF = 3, method = "balanced")
-#> [1] 0.024221
 ```
 
-### Calibrating alpha to effect-size and moment Bayes factors
+``` stata
+alphan 1000, bf(3)
+```
 
-The methods `"ES"` and `"moment"` (new in 0.2.0) answer the question:
-which alpha do I need so that a significant result corresponds to a
-Bayes factor of at least `BF` against an alternative centered on the
-effect size `de` I actually care about?
+``` stata-output
+Significance level calibrated to a Bayes factor       method: JAB
+
+           n |         BF       alpha
+-------------+------------------------
+       1,000 |          3   .00254915
+```
+
+After fitting a model, one more call gives the Bayes factor for each
+coefficient.
+
+- R
+- Stata
 
 ``` r
 
-# Moderate evidence, targeting a medium-sized effect (Cohen's d = 0.5)
-alphaN(1000, BF = 3, method = "ES", de = 0.5)
-#> [1] 0.002189564
-alphaN(1000, BF = 3, method = "moment", de = 0.5)
-#> [1] 0.0004913521
-```
-
-Because the moment prior treats effects near zero as a priori
-implausible, the alpha it implies falls much faster with the sample size
-than under JAB:
-
-``` r
-
-ns <- c(100, 1000, 10000)
-tab <- rbind(JAB    = alphaN(ns, BF = 3),
-             ES     = alphaN(ns, BF = 3, method = "ES"),
-             moment = alphaN(ns, BF = 3, method = "moment"))
-colnames(tab) <- paste0("n = ", ns)
-round(tab, 5)
-#>        n = 100 n = 1000 n = 10000
-#> JAB    0.00910  0.00255   0.00073
-#> ES     0.01185  0.00219   0.00058
-#> moment 0.00788  0.00049   0.00002
-```
-
-### Turning regression output into Bayes factors
-
-[`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md)
-computes Jeffreys’ approximate Bayes factor for a coefficient directly
-from a fitted [`lm()`](https://rdrr.io/r/stats/lm.html) or
-[`glm()`](https://rdrr.io/r/stats/glm.html) object;
-[`JABt()`](https://jespernwulff.github.io/alphaN/reference/JABt.md) and
-[`JABp()`](https://jespernwulff.github.io/alphaN/reference/JABp.md) do
-the same from a t-statistic or a p-value if that is all you have (e.g.,
-from a published paper):
-
-``` r
-
-set.seed(1)
-d <- data.frame(x = rnorm(200), z = rnorm(200))
-d$y <- 0.2 * d$x + rnorm(200)
 m <- lm(y ~ x + z, data = d)
-
-JAB(m, covariate = "x")
-#> [1] 22.50664
-
-# From summary statistics alone
-JABt(n = 200, t = 2.8)
-#> [1] 3.56385
-JABp(n = 200, p = 0.005)
-#> [1] 3.634824
-```
-
-Called without a covariate,
-[`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md) (since
-0.3.0) audits the whole model at once, returning the Bayes factor of
-every coefficient except the intercept:
-
-``` r
-
 JAB(m)
-#>           x           z 
-#> 22.50663920  0.07515544
 ```
 
-### Klauer Bayes factors, joint tests, and clustered data
-
-[`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
-returns the effect-size or moment Bayes factor itself, so a reported
-statistic can be converted into evidence under the same prior that set
-alpha. For joint F tests,
-[`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
-and
-[`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
-take `q` (coefficients tested) and `p` (retained parameters) and use the
-exact regression-case Bayes factors of Klauer et al. (2025). And
-[`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)
-implements the Wulff & Taylor (2024) effective-sample-size check for
-clustered data:
-
-``` r
-
-klauerBF(n = 80, t = 2.24, de = 0.5)
-#> [1] 1.567758
-
-alphaN(200, BF = 3, method = "ES", q = 2, p = 2, de = sqrt(0.15))
-#> [1] 0.008427417
-
-n_effective(n = 237, se = 0.1, se_robust = 0.2)
-#> [1] 59.25
+``` stata
+regress y x z
+alphan jab
 ```
 
-### Power at the calibrated alpha
+## What you get
 
-A calibrated alpha is still a significance level, and at design time it
-should be paired with a power assessment.
-[`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)
-returns the power of the calibrated coefficient test against a
-standardized effect of size `d`, and
-[`alphaN_power_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power_plot.md)
-draws the whole picture: power across sample sizes, with every method
-evaluated at its own calibrated alpha and a fixed 0.05 reference as the
-dashed curve.
+**Six calibrations.** Four priors for Jeffreys’ approximate Bayes
+factor, and the effect-size and moment Bayes factors of Klauer,
+Meyer-Grant and Kellen (2025), which target the effect you care about.
 
-``` r
+**Bayes factors from what you already have.** A fitted model, a *t*
+statistic, a *p*-value or an *F* statistic for a joint test.
 
-# Power against a small effect at n = 1000, evidence target BF = 3
-alphaN_power(n = 1000, d = 0.1, BF = 3)                      # JAB
-#> [1] 0.5547323
-alphaN_power(n = 1000, d = 0.1, BF = 3, method = "balanced") # balanced
-#> [1] 0.817175
-```
+**The cost in power.** Power at the calibrated level, for one design or
+across sample sizes, so the evidence target and its price are chosen
+together.
 
-``` r
+**A trace for your preregistration.** A short report that records every
+input, the level, the decision rule and the references to cite.
 
-alphaN_power_plot(d = c(0.1, 0.5), BF = 3,
-                  methods = c("JAB", "min", "robust", "balanced",
-                              "ES", "moment"))
-```
+![On logarithmic axes, the significance level needed for a Bayes factor
+of 3 falls as the sample size grows from 50 to 10,000, for each of the
+six calibration methods; the moment calibration falls
+fastest.](home-alpha.svg)
 
-![](reference/figures/README-power-plot-1.png)
-
-For effects stated on a model-specific scale (an odds ratio in a
-logistic regression, say), the calibrated alpha plugs directly into the
-power calculators of the
-[pwrss](https://cran.r-project.org/package=pwrss) package,
-e.g. `pwrss::power.z.logistic(..., alpha = alphaN(n, BF = 3))`.
-
-### A preregistration-ready settings report
-
-[`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
-records every input behind a calibrated alpha, the resulting level, the
-decision rule, the power against the effects you care about, and the
-references to cite, ready to attach to a preregistration protocol:
-
-``` r
-
-alphaN_report(n = 1000, BF = 3, method = "ES", de = 0.5, p = 4,
-              power_at = c(0.1, 0.5))
-#> # alphaN settings report
-#> 
-#> Generated on 2026-07-27 with alphaN 0.3.0.
-#> 
-#> ## Inputs
-#> 
-#> - Sample size (n): 1,000
-#> - Target Bayes factor: 3 (moderate evidence)
-#> - Calibration method: ES: effect-size Bayes factor of Klauer,
-#>   Meyer-Grant & Kellen (2025)
-#> - Targeted effect size (de): 0.5 (Cohen's d)
-#> - Prior degrees of freedom (nu): 3
-#> - Prior scale (r): 0.2887
-#> - Retained model parameters (p): 4 (effective sample size 996)
-#> - Scope: exact for the normal linear model (evaluated at the effective
-#>   sample size n - p); asymptotic for other generalized linear models.
-#> 
-#> ## Result
-#> 
-#> - Calibrated alpha level: 0.0022
-#> - Decision rule: Reject H0 if the two-sided p-value of the coefficient
-#>   is at or below 0.0022.
-#> - Interpretation: a significant result then corresponds to a Bayes
-#>   factor of at least 3 in favor of the alternative under this prior.
-#> 
-#> ## Power at the calibrated alpha
-#> 
-#> - Against a standardized effect of 0.1: 0.53
-#> - Against a standardized effect of 0.5: 1.00
-#> 
-#> ## Please cite
-#> 
-#> - Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
-#>   sample size: A Bayesian-frequentist compromise for significance
-#>   testing. Strategic Organization, 22(3), 550-581.
-#>   doi:10.1177/14761270231214429
-#> - Klauer, K. C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes
-#>   factors for hypothesis tests. Psychonomic Bulletin & Review, 32,
-#>   1070-1094. doi:10.3758/s13423-024-02612-2
-```
-
-### Visualizing the trade-offs
-
+The level needed for a Bayes factor of 3, from 50 to 10,000
+observations, under the six calibrations. Drawn by `alphan plot`;
 [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
-compares alpha as a function of sample size across any selection of the
-calibration methods (the four prior fractions by default):
+draws the same curves in R.
 
-``` r
+## Where to go from here
 
-alphaN_plot(BF = 3,
-            methods = c("JAB", "min", "robust", "balanced", "ES", "moment"))
-```
+[Get started in RInstall the package and calibrate a first
+level.](https://jespernwulff.github.io/alphaN/articles/intro-alphaN.md)
+[Get started in StataEvery subcommand of `alphan`, with
+output.](https://jespernwulff.github.io/alphaN/articles/stata.md)
+[Worked exampleA panel of 18,964 wage observations, in both
+languages.](https://jespernwulff.github.io/alphaN/articles/wages.md)
+[Choosing a calibrationWhich evidence target, which prior, which sample
+size.](https://jespernwulff.github.io/alphaN/articles/choosing.md) [R
+and Stata side by sideEvery function and option, matched, and how
+closely the two
+agree.](https://jespernwulff.github.io/alphaN/articles/r-and-stata.md)
+[Shiny appThe main calculation in the browser, without
+code.](https://crossvalidated.shinyapps.io/alphaN/)
 
-![](reference/figures/README-alphaN-plot-1.png)
+## Citation
 
-[`JAB_plot()`](https://jespernwulff.github.io/alphaN/reference/JAB_plot.md)
-shows how the Bayes factor maps onto the p-value for a given sample
-size, marking the alpha levels needed for evidence thresholds of 1, 3,
-and 10:
+If you use `alphaN`, please cite the paper it accompanies.
 
-``` r
+Wulff, J. N., & Taylor, L. (2024). How and why alpha should depend on
+sample size: A Bayesian-frequentist compromise for significance testing.
+*Strategic Organization*, 22(3), 550–581.
+<https://doi.org/10.1177/14761270231214429>
 
-JAB_plot(n = 1000, BF = 3)
-```
-
-![](reference/figures/README-JAB-plot-1.png)
+For the effect-size and moment calibrations, please also cite Klauer, K.
+C., Meyer-Grant, C. G., & Kellen, D. (2025). On Bayes factors for
+hypothesis tests. *Psychonomic Bulletin & Review*, 32, 1070–1094.
+<https://doi.org/10.3758/s13423-024-02612-2>
 
 # Package index
 
-## All functions
+## Calibrate the significance level
+
+- [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
+  : Set the alpha level based on sample size for coefficients in a
+  regression model
+- [`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)
+  : Power at the calibrated alpha level
+- [`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
+  : Write a settings report for a calibrated alpha level
+
+## Convert results into Bayes factors
 
 - [`JAB()`](https://jespernwulff.github.io/alphaN/reference/JAB.md) :
   Transforms t-statistics from a glm or lm object into Jeffreys'
   approximate Bayes factors
-- [`JAB_plot()`](https://jespernwulff.github.io/alphaN/reference/JAB_plot.md)
-  : Plots JAB as a function of the p-value
-- [`JABp()`](https://jespernwulff.github.io/alphaN/reference/JABp.md) :
-  Transforms a p-value into Jeffreys' approximate Bayes factor
 - [`JABt()`](https://jespernwulff.github.io/alphaN/reference/JABt.md) :
   Transforms a t-statistic into Jeffreys' approximate Bayes factor
-- [`alphaN()`](https://jespernwulff.github.io/alphaN/reference/alphaN.md)
-  : Set the alpha level based on sample size for coefficients in a
-  regression model
+- [`JABp()`](https://jespernwulff.github.io/alphaN/reference/JABp.md) :
+  Transforms a p-value into Jeffreys' approximate Bayes factor
+- [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
+  : Effect-size or moment Bayes factor from a t or F statistic
+
+## Graphs
+
 - [`alphaN_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_plot.md)
   : Creates a plot of alpha as function of sample size for the chosen
   methods
-- [`alphaN_power()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power.md)
-  : Power at the calibrated alpha level
 - [`alphaN_power_plot()`](https://jespernwulff.github.io/alphaN/reference/alphaN_power_plot.md)
   : Plot power across sample sizes at the calibrated alpha
-- [`alphaN_report()`](https://jespernwulff.github.io/alphaN/reference/alphaN_report.md)
-  : Write a settings report for a calibrated alpha level
-- [`klauerBF()`](https://jespernwulff.github.io/alphaN/reference/klauerBF.md)
-  : Effect-size or moment Bayes factor from a t or F statistic
+- [`JAB_plot()`](https://jespernwulff.github.io/alphaN/reference/JAB_plot.md)
+  : Plots JAB as a function of the p-value
+
+## Clustered data
+
 - [`n_effective()`](https://jespernwulff.github.io/alphaN/reference/n_effective.md)
   : Effective sample size from cluster-robust standard errors
 
 # Articles
 
-### All vignettes
+### Get started
+
+Install alphaN and calibrate a first significance level.
 
 - [Intro to
   alphaN](https://jespernwulff.github.io/alphaN/articles/intro-alphaN.md):
+
+- [Get started with alphaN in
+  Stata](https://jespernwulff.github.io/alphaN/articles/stata.md):
+
+  Install the command, calibrate a significance level, and turn
+  regression output into Bayes factors.
+
+### Worked example
+
+A published panel data set taken through a complete analysis, in both
+languages.
+
+- [Worked example: wages in the NLSW
+  panel](https://jespernwulff.github.io/alphaN/articles/wages.md):
+
+  A wage regression on 18,964 observations, from the calibrated level to
+  clustered standard errors, a joint test, power and a report, in R and
+  Stata.
+
+### Guides
+
+Which calibration to use, and how the R package and the Stata command
+correspond.
+
+- [Choosing a
+  calibration](https://jespernwulff.github.io/alphaN/articles/choosing.md):
+
+  Which evidence target, which prior, and which sample size.
+
+- [R and Stata side by
+  side](https://jespernwulff.github.io/alphaN/articles/r-and-stata.md):
+
+  Every R function matched to its Stata subcommand, and how closely the
+  two agree.
+
+### Stata reference
+
+- [Stata help
+  file](https://jespernwulff.github.io/alphaN/articles/stata-help.md):
+
+  The help file of the Stata command, as displayed by `help alphan`.

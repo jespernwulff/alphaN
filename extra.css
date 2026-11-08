@@ -1,0 +1,401 @@
+/* alphaN site: additions to the pkgdown Bootstrap 5 template.
+   Warm paper, the blue of the hex logo, and the amber and vermillion of the
+   package's Okabe-Ito figures. */
+
+:root {
+  --an-blue: #1f4e9c;
+  --an-blue-deep: #16386f;
+  --an-amber: #e69f00;
+  --an-vermillion: #d55e00;
+  --an-ink: #1c2433;
+  --an-muted: #5c6474;
+  --an-paper: #fbfaf5;
+  --an-card: #ffffff;
+  --an-tint: #f3f0e6;
+  --an-border: #e4dfd1;
+}
+
+body {
+  color: var(--an-ink);
+  background: var(--an-paper);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.012em;
+}
+
+a {
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+}
+
+/* ---- Navigation bar ------------------------------------------------------ */
+
+/* The falling curve of alpha(n), as a rule under the navigation bar. */
+.navbar {
+  background: var(--an-paper) !important;
+  border-bottom: 1px solid var(--an-border);
+  box-shadow: none;
+}
+
+.navbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--an-vermillion) 0%, var(--an-amber) 22%, var(--an-blue) 62%, var(--an-blue-deep) 100%);
+}
+
+.navbar .navbar-brand {
+  font-family: var(--bs-font-monospace);
+  font-weight: 700;
+  color: var(--an-blue-deep);
+  letter-spacing: -0.02em;
+}
+
+.navbar .nav-link {
+  color: var(--an-ink);
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .nav-item.active > .nav-link,
+.navbar .nav-link.active {
+  color: var(--an-vermillion);
+}
+
+.navbar small,
+.navbar .text-muted,
+.navbar .nav-text {
+  color: var(--an-muted) !important;
+}
+
+/* Running text keeps a readable measure; code and tables may run wider. */
+main p,
+main li,
+main figcaption {
+  max-width: 43rem;
+}
+
+main h2 {
+  margin-top: 2.6rem;
+}
+
+main h3 {
+  margin-top: 1.8rem;
+}
+
+.page-header {
+  border-bottom: 1px solid var(--an-border);
+}
+
+/* ---- Code and output ---------------------------------------------------- */
+
+pre {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  background: var(--an-tint);
+  border: 0;
+  border-radius: 0.5rem;
+}
+
+code {
+  font-size: 0.875em;
+  background: none;
+}
+
+/* One-line commands that are meant to be pasted (installation): wrap on
+   narrow screens instead of scrolling. Copying still gives a single line. */
+.wrap-code pre,
+.wrap-code pre code,
+#install-r pre,
+#install-r pre code,
+#install-stata pre,
+#install-stata pre code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* What Stata printed: set apart from the commands above it. */
+pre.stata-output,
+pre.stata-help {
+  background: var(--an-card);
+  border: 1px solid var(--an-border);
+  border-left: 3px solid var(--an-vermillion);
+  border-radius: 0 0.5rem 0.5rem 0;
+  color: var(--an-ink);
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+pre.stata-help {
+  border-left-color: var(--an-blue);
+}
+
+pre.stata-output code,
+pre.stata-help code {
+  white-space: pre;
+}
+
+/* ---- R | Stata tabs ------------------------------------------------------- */
+
+.lang-tabs {
+  margin: 1.25rem 0 1.75rem;
+}
+
+.lang-tabs .nav-tabs {
+  border-bottom: 0;
+  gap: 0.25rem;
+}
+
+.lang-tabs .nav-link {
+  font-family: var(--bs-font-monospace);
+  font-size: 0.8125rem;
+  padding: 0.3rem 1rem;
+  color: var(--an-muted);
+  border: 1px solid var(--an-border);
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: transparent;
+}
+
+.lang-tabs .nav-link:hover {
+  color: var(--an-vermillion);
+}
+
+.lang-tabs .nav-link.active {
+  color: var(--an-card);
+  font-weight: 600;
+  background: var(--an-blue);
+  border-color: var(--an-blue);
+}
+
+.lang-tabs .tab-content {
+  background: var(--an-card);
+  border: 1px solid var(--an-border);
+  border-top: 2px solid var(--an-blue);
+  border-radius: 0 0.5rem 0.5rem 0.5rem;
+  padding: 1rem 1rem 0.25rem;
+}
+
+.lang-tabs .tab-pane > :last-child {
+  margin-bottom: 0.75rem;
+}
+
+/* The template lays panes side by side and hides the inactive one, which keeps
+   the height of the taller pane. Here each pane takes only the room it needs. */
+.lang-tabs .tab-content {
+  display: block;
+}
+
+.lang-tabs .tab-content > .tab-pane:not(.active) {
+  display: none;
+}
+
+.lang-tabs figure {
+  margin: 0.5rem 0 1rem;
+}
+
+/* ---- Figures ---------------------------------------------------------------- */
+
+main figure img,
+main p > img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Figures in the articles: <div class="float"><img><div class="figcaption"> */
+main .float {
+  margin: 1.25rem 0 1.5rem;
+}
+
+main .float img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+main figcaption,
+main .figcaption,
+main .caption {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--an-muted);
+  margin-top: 0.5rem;
+  max-width: 43rem;
+}
+
+/* ---- Home page ------------------------------------------------------------ */
+
+.template-home .page-header {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.template-home .page-header h1,
+.template-home main > h1,
+.template-home main h1 {
+  font-size: 3.4rem;
+  font-weight: 600;
+  color: var(--an-blue-deep);
+  margin-bottom: 0.5rem;
+}
+
+.home-formula {
+  font-family: var(--bs-font-monospace);
+  font-size: 0.95rem;
+  color: var(--an-vermillion);
+  margin-bottom: 0.4rem;
+}
+
+.template-home .lead {
+  font-family: var(--bs-heading-font-family, "Source Serif 4"), Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: 38rem;
+  margin-bottom: 1.25rem;
+}
+
+.home-actions {
+  margin-bottom: 0.5rem;
+}
+
+.home-actions .btn {
+  margin: 0 0.5rem 0.5rem 0;
+}
+
+.home-actions .btn-outline-primary:hover {
+  color: #fff;
+}
+
+.home-table {
+  max-width: 34rem;
+  margin: 1rem 0;
+}
+
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 2rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.home-features p {
+  margin: 0;
+  max-width: none;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--an-amber);
+}
+
+.home-figure {
+  margin: 2rem 0 0.5rem;
+  max-width: 43rem;
+}
+
+.home-figure img {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border: 1px solid var(--an-border);
+  border-radius: 0.5rem;
+}
+
+.home-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+}
+
+/* pandoc wraps the links in a paragraph; let them be the grid items. */
+.home-cards > p {
+  display: contents;
+}
+
+.home-card {
+  display: block;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--an-border);
+  border-radius: 0.5rem;
+  background: var(--an-card);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.home-card:hover,
+.home-card:focus-visible {
+  border-color: var(--an-vermillion);
+  transform: translateY(-2px);
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-card-title {
+  display: block;
+  font-family: var(--bs-heading-font-family, "Source Serif 4"), Georgia, serif;
+  font-weight: 600;
+  color: var(--an-blue-deep);
+  margin-bottom: 0.15rem;
+}
+
+.home-card-text {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--an-muted);
+}
+
+@media (max-width: 767.98px) {
+  .template-home main h1 {
+    font-size: 2.5rem;
+  }
+
+  .template-home .lead {
+    font-size: 1.2rem;
+  }
+
+  .home-features,
+  .home-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .home-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card {
+    transition: none;
+  }
+}
+
+/* ---- Tables in the guides ----------------------------------------------- */
+
+main table {
+  font-size: 0.95rem;
+}
+
+main table code {
+  white-space: nowrap;
+}
+
+/* ---- Sidebar -------------------------------------------------------------- */
+
+#pkgdown-sidebar h2,
+aside h2 {
+  font-size: 1rem;
+  font-family: var(--bs-font-monospace);
+  color: var(--an-muted);
+}
