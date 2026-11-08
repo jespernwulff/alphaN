@@ -312,6 +312,8 @@
           Jesper N. Wulff, Aarhus University, jwulff@econ.au.dk
           Luke Taylor, Aarhus University
       
+          Written for Stata 14 or later; tested on StataNow 19.5.
+      
           Documentation for the Stata command and the R package:  
           https://jespernwulff.github.io/alphaN/
           Report a bug: https://github.com/jespernwulff/alphaN-stata/issues

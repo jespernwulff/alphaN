@@ -84,10 +84,11 @@ et al. (2025) and compare the text of the settings report line by line.
 The largest gaps come from the R side. In R, the balanced method integrates
 numerically where the Stata command uses the closed form of the integral. For
 very small Bayes factors at a sample size of 60,000, a 40-digit evaluation
-agrees with Stata and not with R, whose integration tolerance is coarser. The
+agrees with Stata and not with R, whose integration tolerance is coarser. Over
+the range tested (sample sizes up to 2.5 million, `upper` of at most 1) the
 gaps are far too small to matter for any decision about a significance level.
 
 ## Version
 
-This page describes R package 0.3.0 and Stata command 0.3.0. Stata 14 or later
-is required by the command; it has been tested on StataNow 19.5.
+This page describes R package 0.3.0 and Stata command 0.3.0. The command is
+written for Stata 14 or later and has been tested on StataNow 19.5.

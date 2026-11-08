@@ -26,7 +26,8 @@ net install alphan, from("https://raw.githubusercontent.com/jespernwulff/alphaN-
 
 </div>
 
-Stata 14 or later is required, and nothing else needs to be installed. To
+The command is written for Stata 14 or later and has been tested on StataNow
+19.5. Nothing else needs to be installed. To
 update an existing installation, add the `replace` option. After installation,
 `help alphan` opens the help file, which is also
 [on this site](stata-help.html).
