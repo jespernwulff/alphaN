@@ -81,9 +81,10 @@ enforce these tolerances:
 The tests also reproduce the Bayes factors printed in Tables 7 and 8 of Klauer
 et al. (2025) and compare the text of the settings report line by line.
 
-The largest gaps come from the R side. In R, the balanced method integrates
-numerically where the Stata command uses the closed form of the integral. For
-very small Bayes factors at a sample size of 60,000, a 40-digit evaluation
+The largest gaps come from the R side. R package 0.3.0 integrates the balanced
+method numerically where the Stata command uses the closed form of the
+integral; the next R release uses the closed form too. For very small Bayes
+factors at a sample size of 60,000, a 40-digit evaluation
 agrees with Stata and not with R, whose integration tolerance is coarser. Over
 the range tested (sample sizes up to 2.5 million, `upper` of at most 1) the
 gaps are far too small to matter for any decision about a significance level.
