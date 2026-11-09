@@ -62,11 +62,11 @@ and what it costs against an effect of 0.1.
 
 | Method   | Level for BF = 3 | Power at d = 0.1 |
 |:---------|-----------------:|-----------------:|
-| JAB      |         0.002550 |             0.55 |
-| min      |         0.003730 |             0.60 |
-| robust   |         0.017400 |             0.78 |
-| balanced |         0.024200 |             0.82 |
-| ES       |         0.002190 |             0.54 |
+| JAB      |          0.00255 |             0.55 |
+| min      |          0.00373 |             0.60 |
+| robust   |           0.0174 |             0.78 |
+| balanced |           0.0242 |             0.82 |
+| ES       |          0.00219 |             0.54 |
 | moment   |         0.000491 |             0.37 |
 
 ## The test and the parameters that remain
