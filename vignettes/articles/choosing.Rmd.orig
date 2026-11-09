@@ -70,7 +70,10 @@ what it costs against an effect of 0.1.
 ms <- c("JAB", "min", "robust", "balanced", "ES", "moment")
 a <- sapply(ms, function(m) alphaN(1000, BF = 3, method = m))
 pw <- sapply(ms, function(m) alphaN_power(1000, d = 0.1, BF = 3, method = m))
-knitr::kable(data.frame(Method = ms, Level = signif(a, 3), Power = round(pw, 2)),
+# Three significant digits each; kable() would otherwise pad the rounded
+# numbers to a common number of decimals.
+lev <- formatC(a, digits = 3, format = "fg", flag = "#")
+knitr::kable(data.frame(Method = ms, Level = lev, Power = round(pw, 2)),
              row.names = FALSE, align = "lrr",
              col.names = c("Method", "Level for BF = 3", "Power at d = 0.1"))
 ```
