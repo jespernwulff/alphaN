@@ -16,8 +16,8 @@ text. For a guided introduction see
 ```{.stata-help}
 Title
 
-    alphan -- Set the significance level as a function of the sample size, using Bayes
-                factors
+    alphan -- Set the significance level as a function of the sample size,
+                using Bayes factors
 
 
 Syntax
@@ -32,8 +32,8 @@ Syntax
 
     Settings report for a preregistration
 
-        alphan report # [, calibration_options saving(filename [, replace]) width(#)
-                powerat(numlist)]
+        alphan report # [, calibration_options saving(filename [, replace])
+                width(#) powerat(numlist)]
 
     Convert test results into Bayes factors
 
@@ -43,16 +43,16 @@ Syntax
 
         alphan jabp numlist, n(numlist) [df(numlist) method(name) upper(#)]
 
-        alphan klauerbf, n(numlist) {t(numlist) | fstat(numlist)} [q(#) p(#) method(name)
-                de(#) nu(#) r(#)]
+        alphan klauerbf, n(numlist) {t(numlist) | fstat(numlist)} [q(#) p(#)
+                method(name) de(#) nu(#) r(#)]
 
     Graphs
 
-        alphan plot [, bf(#) max(#) ylim(# #) methods(namelist) de(#) log(x|y|xy)
-                twoway_options]
+        alphan plot [, bf(#) max(#) ylim(# #) methods(namelist) de(#)
+                log(x|y|xy) twoway_options]
 
-        alphan powerplot [, d(numlist) bf(#) max(#) methods(namelist) de(#) ref(#) noref
-                twoway_options]
+        alphan powerplot [, d(numlist) bf(#) max(#) methods(namelist) de(#)
+                ref(#) noref twoway_options]
 
         alphan jabplot # [, bf(#) method(name) upper(#) twoway_options]
 
@@ -65,152 +65,172 @@ Syntax
         alphan version
 
     calibration_options     Description
-    --------------------------------------------------------------------------------------
-      bf(numlist)           target Bayes factor; default is bf(1) (bf(3) for alphan power)
-      method(name)          jab (the default), min, robust, balanced, es, or moment
-      upper(#)              upper limit of the realistic effect sizes; method balanced
-                              only; default is upper(1)
-      de(#)                 targeted effect size; methods es and moment; default is de(.5)
-      nu(#)                 degrees of freedom of the prior; methods es and moment;
-                              default is 3 for es, q+4 for moment
-      r(#)                  scale of the prior; method es; default is sqrt((nu-2)/(nu
-                              q))*de
-      q(#)                  number of coefficients tested jointly; methods es and moment;
-                              default is q(1)
-      p(#)                  number of parameters retained under the null, including any
-                              intercept; methods es and moment; default is p(0)
-    --------------------------------------------------------------------------------------
-    upper(), de(), nu(), r(), q(), and p() accept numeric expressions, for example
-      de(sqrt(.15)). Numeric lists are recycled to the length of the longest one.
+    --------------------------------------------------------------------------
+      bf(numlist)           target Bayes factor; default is bf(1) (bf(3) for
+                              alphan power)
+      method(name)          jab (the default), min, robust, balanced, es, or
+                              moment
+      upper(#)              upper limit of the realistic effect sizes; method
+                              balanced only; default is upper(1)
+      de(#)                 targeted effect size; methods es and moment;
+                              default is de(.5)
+      nu(#)                 degrees of freedom of the prior; methods es and
+                              moment; default is 3 for es, q+4 for moment
+      r(#)                  scale of the prior; method es; default is
+                              sqrt((nu-2)/(nu q))*de
+      q(#)                  number of coefficients tested jointly; methods es
+                              and moment; default is q(1)
+      p(#)                  number of parameters retained under the null,
+                              including any intercept; methods es and moment;
+                              default is p(0)
+    --------------------------------------------------------------------------
+    upper(), de(), nu(), r(), q(), and p() accept numeric expressions, for
+      example de(sqrt(.15)). Numeric lists are recycled to the length of the
+      longest one.
 
 
 Description
 
-    With a fixed significance level such as .05, a large enough sample turns almost any
-    p-value below .05 into evidence for the null hypothesis (Lindley's paradox). alphan
-    sets the significance level as a decreasing function of the sample size, so that a
-    significant result corresponds to a Bayes factor of at least bf() in favor of the
-    alternative hypothesis (Wulff and Taylor 2024). It is a port of the R package alphaN:
-    it implements the same calculations and agrees with the R package to the tolerances
-    documented in the package's test suite.
+    With a fixed significance level such as .05, a large enough sample turns
+    almost any p-value below .05 into evidence for the null hypothesis
+    (Lindley's paradox). alphan sets the significance level as a decreasing
+    function of the sample size, so that a significant result corresponds to a
+    Bayes factor of at least bf() in favor of the alternative hypothesis
+    (Wulff and Taylor 2024). It is a port of the R package alphaN: it
+    implements the same calculations and agrees with the R package to the
+    tolerances documented in the package's test suite.
 
-    alphan numlist returns the calibrated significance level for each sample size. alphan
-    power adds the power of the test at that level against a standardized effect. alphan
-    report writes the settings behind a calibrated level as a short text to attach to a
-    preregistration.
+    alphan numlist returns the calibrated significance level for each sample
+    size. alphan power adds the power of the test at that level against a
+    standardized effect. alphan report writes the settings behind a calibrated
+    level as a short text to attach to a preregistration.
 
-    alphan jab, used after an estimation command, returns Jeffreys' approximate Bayes
-    factor for the coefficients of the model (all except the intercept, unless you name
-    others). It works after any command that stores e(b), e(V), and e(N). A Bayes factor
-    too large for a double (R returns Inf) is reported as about 8e+307. alphan jabt and
-    alphan jabp do the same from a reported t statistic or p-value. alphan klauerbf
-    returns the effect-size or moment Bayes factor of Klauer, Meyer-Grant, and Kellen
+    alphan jab, used after an estimation command, returns Jeffreys'
+    approximate Bayes factor for the coefficients of the model (all except the
+    intercept, unless you name others). It works after any command that stores
+    e(b), e(V), and e(N). A Bayes factor too large for a double (R returns
+    Inf) is reported as about 8e+307. alphan jabt and alphan jabp do the same
+    from a reported t statistic or p-value. alphan klauerbf returns the
+    effect-size or moment Bayes factor of Klauer, Meyer-Grant, and Kellen
     (2025) from a t or F statistic.
 
-    alphan plot draws the level against the sample size, alphan powerplot draws power
-    against the sample size with every method at its own calibrated level, and alphan
-    jabplot draws the Bayes factor against the p-value at a given sample size. alphan
-    n_effective computes the effective sample size recommended by Wulff and Taylor (2024)
-    for clustered data.
+    alphan plot draws the level against the sample size, alphan powerplot
+    draws power against the sample size with every method at its own
+    calibrated level, and alphan jabplot draws the Bayes factor against the
+    p-value at a given sample size. alphan n_effective computes the effective
+    sample size recommended by Wulff and Taylor (2024) for clustered data.
 
 
 Calibration options
 
-    bf(numlist) is the Bayes factor to match: 1 to avoid Lindley's paradox, 3 for moderate
-        evidence, 10 for strong evidence.
+    bf(numlist) is the Bayes factor to match: 1 to avoid Lindley's paradox, 3
+        for moderate evidence, 10 for strong evidence.
 
-    method(name) selects the Bayes factor to calibrate to. The first four methods invert
-        Jeffreys' approximate Bayes factor and differ in b, the fraction of the data used
-        to specify the prior. The last two invert the exact test-statistic Bayes factors
-        of Klauer et al. (2025), whose priors center the alternative on an effect size you
-        choose.
+    method(name) selects the Bayes factor to calibrate to. The first four
+        methods invert Jeffreys' approximate Bayes factor and differ in b, the
+        fraction of the data used to specify the prior. The last two invert
+        the exact test-statistic Bayes factors of Klauer et al. (2025), whose
+        priors center the alternative on an effect size you choose.
 
-        jab          b = 1/n: Jeffreys' approximate Bayes factor (Wagenmakers 2022)
+        jab          b = 1/n: Jeffreys' approximate Bayes factor (Wagenmakers
+                       2022)
         min          b = 2/n: the minimal training sample (Gu et al. 2018)
-        robust       b = max(2/n, 1/sqrt(n)): prevents too small a b (O'Hagan 1995)
+        robust       b = max(2/n, 1/sqrt(n)): prevents too small a b (O'Hagan
+                       1995)
         balanced     b balances the Type I and Type II errors (Gu et al. 2016)
         es           the effect-size Bayes factor (Klauer et al. 2025)
-        moment       the moment Bayes factor (Klauer et al. 2025), which assigns zero
-                       density to the null value itself and little to effects near it
+        moment       the moment Bayes factor (Klauer et al. 2025), which
+                       assigns zero density to the null value itself and
+                       little to effects near it
 
-        Method names are not case sensitive, and any unique abbreviation will do.
+        Method names are not case sensitive, and any unique abbreviation will
+        do.
 
-    upper(#) is the upper limit of the range of realistic effect sizes for method
-        balanced, which treats them as uniform on [0, upper].
+    upper(#) is the upper limit of the range of realistic effect sizes for
+        method balanced, which treats them as uniform on [0, upper].
 
-    de(#) is the targeted effect size: Cohen's d for q(1) and Cohen's f for joint tests.
-        For joint tests, Cohen (1988, chap. 9) labels f^2 of .02, .15, and .35 as small,
-        medium, and large, so de(sqrt(.15)) targets a medium effect.
+    de(#) is the targeted effect size: Cohen's d for q(1) and Cohen's f for
+        joint tests. For joint tests, Cohen (1988, chap. 9) labels f^2 of .02,
+        .15, and .35 as small, medium, and large, so de(sqrt(.15)) targets a
+        medium effect.
 
-    nu(#) and r(#) set the degrees of freedom and scale of the prior. The defaults are the
-        recommendations of Klauer et al. (2025). The special case method(es) nu(1) de(0)
-        r(1) gives the default (Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al.
-        (2009).
+    nu(#) and r(#) set the degrees of freedom and scale of the prior. The
+        defaults are the recommendations of Klauer et al. (2025). The special
+        case method(es) nu(1) de(0) r(1) gives the default
+        (Jeffreys-Zellner-Siow type) Bayes factor of Rouder et al. (2009).
 
-    q(#) is the number of coefficients tested jointly. For q(1) the level applies to the
-        two-sided t test of one coefficient; for larger values it applies to the F test of
-        the joint null.
+    q(#) is the number of coefficients tested jointly. For q(1) the level
+        applies to the two-sided t test of one coefficient; for larger values
+        it applies to the F test of the joint null.
 
-    p(#) is the number of parameters retained in the model under the null, including any
-        intercept. The effective sample size of Klauer et al.  (2025) is n - p. The
-        default, 0, is the conservative large-sample form. For the test of one regression
-        coefficient, set p() to the number of other estimated coefficients, including the
-        intercept, to obtain the calibration that is exact for the normal linear model.
+    p(#) is the number of parameters retained in the model under the null,
+        including any intercept. The effective sample size of Klauer et al.
+        (2025) is n - p. The default, 0, is the conservative large-sample
+        form. For the test of one regression coefficient, set p() to the
+        number of other estimated coefficients, including the intercept, to
+        obtain the calibration that is exact for the normal linear model.
 
 
 Other options
 
-    d(numlist) (alphan power, alphan powerplot) is the standardized effect at which power
-        is evaluated, on the same scale as de(): what the coefficient's t statistic
-        divided by the square root of the sample size estimates. alphan powerplot draws
-        one panel per value; the default is d(.1 .5).
+    d(numlist) (alphan power, alphan powerplot) is the standardized effect at
+        which power is evaluated, on the same scale as de(): what the
+        coefficient's t statistic divided by the square root of the sample
+        size estimates. alphan powerplot draws one panel per value; the
+        default is d(.1 .5).
 
-    n() (alphan jab) replaces e(N) as the sample size, for example with an effective
-        sample size. n(numlist) (other subcommands) is the sample size.
+    n() (alphan jab) replaces e(N) as the sample size, for example with an
+        effective sample size. n(numlist) (other subcommands) is the sample
+        size.
 
-    df(numlist) (alphan jabp) says that the p-value comes from a t test with these degrees
-        of freedom. Without it, the p-value is treated as coming from a z test.
+    df(numlist) (alphan jabp) says that the p-value comes from a t test with
+        these degrees of freedom. Without it, the p-value is treated as coming
+        from a z test.
 
-    t(numlist) and fstat(numlist) (alphan klauerbf) are the test statistic. With q(1) give
-        exactly one of them (fstat() is read as the squared t statistic); with q() above 1
-        give fstat().
+    t(numlist) and fstat(numlist) (alphan klauerbf) are the test statistic.
+        With q(1) give exactly one of them (fstat() is read as the squared t
+        statistic); with q() above 1 give fstat().
 
-    saving(filename [, replace]) (alphan report) also writes the report to a file.
-        width(#) sets the maximum line width (default 72; at least 40). powerat(numlist)
-        adds the power against each of these standardized effects.
+    saving(filename [, replace]) (alphan report) also writes the report to a
+        file. width(#) sets the maximum line width (default 72; at least 40).
+        powerat(numlist) adds the power against each of these standardized
+        effects.
 
-    max(#) (graphs) is the largest sample size drawn; default 10,000.  ylim(# #) sets the
-        range of the vertical axis. methods(namelist) lists the methods to draw; the
-        default is jab min robust balanced.  log() requests logarithmic axes. ref(#) is
-        the fixed level drawn as a dashed reference curve (default .05); noref omits it.
-        Other options are passed to twoway, so name(), saving(), and title() work as
-        usual. The data in memory are left alone.
+    max(#) (graphs) is the largest sample size drawn; default 10,000.  ylim(#
+        #) sets the range of the vertical axis. methods(namelist) lists the
+        methods to draw; the default is jab min robust balanced.  log()
+        requests logarithmic axes. ref(#) is the fixed level drawn as a dashed
+        reference curve (default .05); noref omits it. Other options are
+        passed to twoway, so name(), saving(), and title() work as usual. The
+        data in memory are left alone.
 
 
 Choosing a calibration
 
-    jab is a good choice when you want to be conservative against small effects; min when
-    the maximum likelihood estimate may be misspecified; robust when it may be
-    misspecified and the sample is small; and balanced when Type II errors are costly. es
-    and moment answer a sharper question: which level makes a significant result evidence
-    against an alternative centered on the effect size you care about?
+    jab is a good choice when you want to be conservative against small
+    effects; min when the maximum likelihood estimate may be misspecified;
+    robust when it may be misspecified and the sample is small; and balanced
+    when Type II errors are costly. es and moment answer a sharper question:
+    which level makes a significant result evidence against an alternative
+    centered on the effect size you care about?
 
-    Klauer et al. (2025) derive the es and moment Bayes factors under the normal linear
-    model (t tests, linear regression, ANOVA). For other generalized linear models they
-    hold in the same asymptotic sense as the prior-fraction methods, whose derivation
-    covers any such model directly; for non-Gaussian models with a modest sample, prefer
-    the prior-fraction methods.
+    Klauer et al. (2025) derive the es and moment Bayes factors under the
+    normal linear model (t tests, linear regression, ANOVA). For other
+    generalized linear models they hold in the same asymptotic sense as the
+    prior-fraction methods, whose derivation covers any such model directly;
+    for non-Gaussian models with a modest sample, prefer the prior-fraction
+    methods.
 
-    With clustered data, Wulff and Taylor (2024) recommend calibrating with the total
-    number of observations, which is conservative, and then checking whether conclusions
-    survive when alpha and the Bayes factor are recomputed with the effective sample size
-    from alphan n_effective.
+    With clustered data, Wulff and Taylor (2024) recommend calibrating with
+    the total number of observations, which is conservative, and then checking
+    whether conclusions survive when alpha and the Bayes factor are recomputed
+    with the effective sample size from alphan n_effective.
 
 
 Stored results
 
-    Every subcommand except alphan version stores r(table), a matrix with one row per
-    case, and r(method) where a method applies. In addition:
+    Every subcommand except alphan version stores r(table), a matrix with one
+    row per case, and r(method) where a method applies. In addition:
 
     alphan numlist
       r(alpha)              calibrated level (last row)
@@ -232,7 +252,8 @@ Stored results
                               coefficients
 
     alphan jabt, alphan jabp, alphan klauerbf
-      r(BF)                 Bayes factor in favor of the alternative (last row)
+      r(BF)                 Bayes factor in favor of the alternative (last
+                              row)
 
     alphan n_effective
       r(n_effective)        effective sample size (last row)
@@ -275,10 +296,12 @@ Examples
     Graphs
         . alphan plot, bf(3)
         . alphan plot, bf(3) methods(jab es moment) log(xy)
-        . alphan powerplot, d(.1 .5) bf(3) methods(jab balanced moment) max(2000)
+        . alphan powerplot, d(.1 .5) bf(3) methods(jab balanced moment)
+            max(2000)
         . alphan jabplot 1000, bf(3)
 
-    Clustered data: classical and cluster-robust standard errors of one coefficient
+    Clustered data: classical and cluster-robust standard errors of one
+    coefficient
         . webuse nlswork
         . regress ln_wage ttl_exp tenure south
         . local se = _se[south]
@@ -289,32 +312,34 @@ Examples
 
 References
 
-    Cohen, J. 1988. Statistical Power Analysis for the Behavioral Sciences. 2nd ed.
-        Hillsdale, NJ: Lawrence Erlbaum.
+    Cohen, J. 1988. Statistical Power Analysis for the Behavioral Sciences.
+        2nd ed. Hillsdale, NJ: Lawrence Erlbaum.
 
-    Gu, X., H. Hoijtink, and J. Mulder. 2016. Error probabilities in default Bayesian
-        hypothesis testing. Journal of Mathematical Psychology 72: 130-143.
+    Gu, X., H. Hoijtink, and J. Mulder. 2016. Error probabilities in default
+        Bayesian hypothesis testing. Journal of Mathematical Psychology 72:
+        130-143.
 
-    Gu, X., J. Mulder, and H. Hoijtink. 2018. Approximated adjusted fractional Bayes
-        factors: A general method for testing informative hypotheses. British Journal of
-        Mathematical and Statistical Psychology 71: 229-261.
+    Gu, X., J. Mulder, and H. Hoijtink. 2018. Approximated adjusted fractional
+        Bayes factors: A general method for testing informative hypotheses.
+        British Journal of Mathematical and Statistical Psychology 71:
+        229-261.
 
-    Klauer, K. C., C. G. Meyer-Grant, and D. Kellen. 2025. On Bayes factors for hypothesis
-        tests. Psychonomic Bulletin & Review 32: 1070-1094.
+    Klauer, K. C., C. G. Meyer-Grant, and D. Kellen. 2025. On Bayes factors
+        for hypothesis tests. Psychonomic Bulletin & Review 32: 1070-1094.
 
-    O'Hagan, A. 1995. Fractional Bayes factors for model comparison. Journal of the Royal
-        Statistical Society, Series B 57: 99-138.
+    O'Hagan, A. 1995. Fractional Bayes factors for model comparison. Journal
+        of the Royal Statistical Society, Series B 57: 99-138.
 
-    Rouder, J. N., P. L. Speckman, D. Sun, R. D. Morey, and G. Iverson. 2009. Bayesian t
-        tests for accepting and rejecting the null hypothesis. Psychonomic Bulletin &
-        Review 16: 225-237.
+    Rouder, J. N., P. L. Speckman, D. Sun, R. D. Morey, and G. Iverson. 2009.
+        Bayesian t tests for accepting and rejecting the null hypothesis.
+        Psychonomic Bulletin & Review 16: 225-237.
 
-    Wagenmakers, E.-J. 2022. Approximate objective Bayes factors from p-values and sample
-        size: The 3p(sqrt(n)) rule. PsyArXiv.
+    Wagenmakers, E.-J. 2022. Approximate objective Bayes factors from p-values
+        and sample size: The 3p(sqrt(n)) rule. PsyArXiv.
 
-    Wulff, J. N., and L. Taylor. 2024. How and why alpha should depend on sample size: A
-        Bayesian-frequentist compromise for significance testing. Strategic Organization
-        22: 550-581.
+    Wulff, J. N., and L. Taylor. 2024. How and why alpha should depend on
+        sample size: A Bayesian-frequentist compromise for significance
+        testing. Strategic Organization 22: 550-581.
 
 
 Authors

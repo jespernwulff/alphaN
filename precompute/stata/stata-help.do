@@ -9,7 +9,7 @@ if "`adodir'" == "" {
     exit 198
 }
 capture mkdir "output"
-translator set smcl2txt linesize 92
+translator set smcl2txt linesize 80
 quietly translate "`adodir'/alphan.sthlp" "output/alphan-help.txt", ///
     translator(smcl2txt) replace
 exit, clear
