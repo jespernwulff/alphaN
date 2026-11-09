@@ -342,7 +342,7 @@ Power at the calibrated significance level            method: balanced
 
 # alphaN settings report
 
-Generated on 2026-11-08 with alphaN for Stata 0.3.0.
+Generated on 2026-11-09 with alphaN for Stata 0.3.0.
 
 ## Inputs
 
