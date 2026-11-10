@@ -210,15 +210,25 @@ main p > img {
   height: auto;
 }
 
-/* Figures in the articles: <div class="float"><img><div class="figcaption"> */
-main .float {
-  margin: 1.25rem 0 1.5rem;
-}
-
-main .float img {
+/* Figures in the articles. knitr writes <p><img>: the R plots with the class
+   r-plt, the Stata graphs as an embedded SVG. Both have a white background,
+   so they get the same card as the figure on the home page. */
+.template-article main p > img.r-plt,
+.template-article main p > img[src^="data:image/"] {
   display: block;
   max-width: 100%;
   height: auto;
+  margin: 1.25rem 0 1.5rem;
+  background: #fff;
+  border: 1px solid var(--an-border);
+  border-radius: 0.5rem;
+}
+
+/* Inside the R | Stata tabs the pane is already a white card. */
+.template-article main .lang-tabs p > img {
+  margin: 0.5rem 0 1rem;
+  border: 0;
+  border-radius: 0;
 }
 
 main figcaption,
@@ -389,6 +399,20 @@ main table {
 
 main table code {
   white-space: nowrap;
+}
+
+/* On a phone the R | Stata tables do not fit at full width: let the code
+   wrap at spaces and set the type a little smaller, so that the Stata column
+   starts on the screen rather than in the scrolled-off part of the table. */
+@media (max-width: 767.98px) {
+  main table {
+    font-size: 0.85rem;
+  }
+
+  main table code {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* ---- Sidebar -------------------------------------------------------------- */

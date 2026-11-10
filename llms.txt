@@ -210,7 +210,7 @@ Install alphaN and calibrate a first significance level.
 - [Intro to
   alphaN](https://jespernwulff.github.io/alphaN/articles/intro-alphaN.md):
 
-- [Get started with alphaN in
+- [Intro to alphaN in
   Stata](https://jespernwulff.github.io/alphaN/articles/stata.md):
 
   Install the command, calibrate a significance level, and turn
