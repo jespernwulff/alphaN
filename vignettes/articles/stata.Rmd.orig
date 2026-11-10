@@ -1,5 +1,5 @@
 ---
-title: "Get started with alphaN in Stata"
+title: "Intro to alphaN in Stata"
 description: >
   Install the command, calibrate a significance level, and turn regression
   output into Bayes factors.

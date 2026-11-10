@@ -81,6 +81,9 @@ quietly graph export "$pc_out/gs-jabplot.svg", replace
 * >>> powerplot
 alphan powerplot, d(.1 .5) bf(3) methods(jab min robust balanced es moment)
 * <<<
+* Two panels share the width of the page, so the text is enlarged for the
+* website (10px instead of 7px in the article column). Nothing else changes.
+quietly graph display, scale(1.4)
 quietly graph export "$pc_out/gs-powerplot.svg", replace
 
 log close pc

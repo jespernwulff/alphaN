@@ -247,7 +247,7 @@ Power at the calibrated significance level            method: balanced
 
 # alphaN settings report
 
-Generated on 2026-11-08 with alphaN for Stata 0.3.0.
+Generated on 2026-11-09 with alphaN for Stata 0.3.0.
 
 ## Inputs
 
@@ -319,6 +319,10 @@ Significance level calibrated to a Bayes factor       method: JAB
 . alphan powerplot, d(.1 .5) bf(3) methods(jab min robust balanced es moment)
 
 . * <<<
+. * Two panels share the width of the page, so the text is enlarged for the
+. * website (10px instead of 7px in the article column). Nothing else changes.
+. quietly graph display, scale(1.4)
+
 . quietly graph export "$pc_out/gs-powerplot.svg", replace
 
 . 
